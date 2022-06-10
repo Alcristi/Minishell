@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include"../../include/libft.h"
 #include <stdio.h>
 typedef struct s_file
 {
@@ -8,8 +8,6 @@ typedef struct s_file
 
 typedef struct s_simple_comand
 {
-	int		numbers_of_available_arguments;
-	int		numbers_of_arguments;
 	char	**arguments;
 	char	*comand;
 }t_simple_comand;
@@ -21,8 +19,8 @@ typedef struct s_comand
 	t_file				input_file;
 	t_file				out_file;
 	t_file				err_file;
+	int					pipe;
 }t_comand;
-
 
 int check_if_comand_exist(char **path, char *comand)
 {
@@ -69,15 +67,41 @@ void	free_double_point(char **str)
 	free(str);
 }
 
-int	main(int argc, char **argv,char ** env)
+void replace_into_quotes(char *str)
 {
 	int	i;
-	char**path;
 
 	i = 0;
-	path = get_path(env);
-	if(check_if_comand_exist(path,argv[1]))
-		printf("1\n");
-	free_double_point(path);
+	while(str[i])
+	{
+
+	}
 }
+
+char* clear_quotes(char **str)
+{
+	if(str[0][0] == '\"')
+		return ft_strtrim(str[0],"m");
+	else if(str[0][0] == 'a')
+		return ft_strtrim(str[0],"'");
+	return ft_strdup("");
+
+}
+
+int	main(int argc, char *argv[],char ** env)
+{
+	char **tmp;
+	char *test = ft_strdup(argv[1]);
+	printf("%s\n",test);
+	printf("%s\n",clear_quotes(&test));
+}
+
+// int	i;
+	// char**path;
+
+	// i = 0;
+	// path = get_path(env);
+	// if(check_if_comand_exist(path,argv[1]))
+	// 	printf("1\n");
+	// free_double_point(path);
 

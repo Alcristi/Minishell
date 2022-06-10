@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue May 31 10:44:42 2022
+# Make data base, printed on Fri Jun 10 17:52:01 2022
 
 # Variables
 
@@ -32,6 +32,8 @@ XDG_SESSION_TYPE = x11
 VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
@@ -45,13 +47,11 @@ CURDIR := /home/alcristi/Desktop/My_Project/minishell/Minishell
 # makefile
 SHELL = /bin/sh
 # environment
-SNAP_DATA = /var/snap/code/97
-# environment
-VTE_VERSION = 6003
+SNAP_DATA = /var/snap/code/98
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:58017
+JOURNAL_STREAM = 8:56892
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # environment
@@ -63,7 +63,7 @@ MAKEFILE_LIST :=  Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-IM_CONFIG_PHASE = 1
+GIO_LAUNCHED_DESKTOP_FILE = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
 USERNAME = alcristi
 # environment
@@ -75,35 +75,37 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
+_ = /snap/code/98/usr/share/code/code
+# environment
 LC_CTYPE = pt_BR.UTF-8
 # environment
-MANAGERPID = 2276
+MANAGERPID = 2313
 # environment
-LESSOPEN = | /usr/bin/lesspipe %s
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-471f02ef-9453-407e-bab3-4a60aba86a33.sock
 # environment
 LC_NAME = pt_BR.UTF-8
 # environment
 VSCODE_CWD = /home/alcristi
 # environment
-GSETTINGS_SCHEMA_DIR = /snap/code/97/usr/share/glib-2.0/schemas
+GSETTINGS_SCHEMA_DIR = /snap/code/98/usr/share/glib-2.0/schemas
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/alcristi/.asdf/shims:/home/alcristi/.asdf/bin:/home/alcristi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/alcristi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-SESSION_MANAGER = local/alcristi42:@/tmp/.ICE-unix/2536,unix/alcristi42:/tmp/.ICE-unix/2536
+SESSION_MANAGER = local/alcristi42:@/tmp/.ICE-unix/2781,unix/alcristi42:/tmp/.ICE-unix/2781
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/alcristi/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-SNAP = /snap/code/97
+SNAP = /snap/code/98
 # environment
-SNAP_VERSION = c3511e6c
+SNAP_VERSION = 4af164ea
 # environment
 XDG_MENU_PREFIX = gnome-
 # environment
@@ -113,19 +115,21 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 59d811e439fa4027b5b2ccca9ebf427a
+INVOCATION_ID = 8d2de29eb2b14e4ea99675d24c6be7ea
 # environment
-GDK_PIXBUF_MODULEDIR = /snap/code/97/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+GDK_PIXBUF_MODULEDIR = /snap/code/98/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
-LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+LS_COLORS = 
 # environment
 XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 62173
 # automatic
 %F = $(notdir $%)
 # environment
@@ -139,7 +143,7 @@ PWD = /home/alcristi/Desktop/My_Project/minishell/Minishell
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2502
+SSH_AGENT_PID = 2748
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -149,11 +153,9 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/alcristi
 # environment
-LESSCLOSE = /usr/bin/lesspipe %s %s
-# environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/alcristi/.config/Code/CachedData/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5
+VSCODE_CODE_CACHE_PATH = /home/alcristi/.config/Code/CachedData/4af164ea3a06f701fe3e89a2bcbb421d2026b68f
 # environment
 LOGNAME = alcristi
 # environment
@@ -178,8 +180,6 @@ GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 LC_TIME = pt_BR.UTF-8
 # environment
 SNAP_REAL_HOME = /home/alcristi
-# environment
-COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -189,19 +189,17 @@ QT_IM_MODULE = ibus
 # environment
 QT_DEVICE_PIXEL_RATIO = auto
 # environment
-SNAP_USER_DATA = /home/alcristi/snap/code/97
+SNAP_USER_DATA = /home/alcristi/snap/code/98
 # environment
-SHLVL = 2
+SHLVL = 0
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-d64798d9-0585-453c-8610-052001e3670d.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
 USER = alcristi
 # environment
-SNAP_REVISION = 97
+SNAP_REVISION = 98
 # environment
 LC_MONETARY = pt_BR.UTF-8
 # makefile
@@ -213,7 +211,6 @@ LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
- 
 LC_TELEPHONE = pt_BR.UTF-8
 # default
 MAKE_COMMAND := make
@@ -226,7 +223,9 @@ OLDPWD = /home/alcristi
 # environment
 LANGUAGE = en_US:en
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-e8c298fb-1.67.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-e8c298fb-1.68.0-main.sock
+# environment
+BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -263,16 +262,10 @@ PAGER = less
 LC_ALL = C
 # environment
 GJS_DEBUG_TOPICS = JS ERROR;JS LOG
-# environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/e254aa71_3822_46b5_99ca_5a4ca626537d
 # automatic
 ^F = $(notdir $^)
-# environment
-GNOME_TERMINAL_SERVICE = :1.174
 # default
 SUFFIXES := 
-# environment
-ASDF_DIR = /home/alcristi/.asdf
 # environment
 SNAP_REEXEC = 
 # environment
@@ -285,16 +278,15 @@ WINDOWPATH = 2
 GJS_DEBUG_OUTPUT = stderr
 # default
 .RECIPEPREFIX := 
+ 
 # environment
 LC_ADDRESS = pt_BR.UTF-8
 # environment
 LANG = C
 # environment
-TERM = xterm-256color
-# environment
-VSCODE_PID = 19651
+VSCODE_PID = 62221
 # variable set hash-table stats:
-# Load=141/1024=14%, Rehash=0, Collisions=23/169=14%
+# Load=137/1024=13%, Rehash=0, Collisions=25/165=15%
 
 # Pattern-specific Variable Values
 
@@ -302,9 +294,9 @@ VSCODE_PID = 19651
 
 # Directories
 
-# . (device 2066, inode 439150): 10 files, no impossibilities.
+# . (device 2066, inode 439150): 13 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 13 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -368,12 +360,12 @@ Makefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 15 / storage = 120 B / avg = 8 B
-# current buf: size = 8162 B / used = 120 B / count = 15 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 18 / storage = 145 B / avg = 8 B
+# current buf: size = 8162 B / used = 145 B / count = 18 / avg = 8 B
 
-# strcache performance: lookups = 22 / hit rate = 31%
+# strcache performance: lookups = 25 / hit rate = 28%
 # hash-table stats:
-# Load=15/8192=0%, Rehash=0, Collisions=1/22=5%
-# Finished Make data base on Tue May 31 10:44:42 2022
+# Load=18/8192=0%, Rehash=0, Collisions=1/25=4%
+# Finished Make data base on Fri Jun 10 17:52:01 2022
 
  

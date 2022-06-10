@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/alcristi/Desktop/My_Project/minishell/Minishell/a.out",
-			"args": [],
+			"args": ["\"amigo\""],
 			"stopAtEntry": false,
 			"cwd": "/home/alcristi/Desktop/My_Project/minishell/Minishell",
 			"environment": [],
