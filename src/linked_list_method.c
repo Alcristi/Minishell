@@ -6,13 +6,13 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:04:06 by alcristi          #+#    #+#             */
-/*   Updated: 2022/05/31 12:04:08 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:27:12 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_double_list	*new(char* data)
+t_double_list	*new(char *data)
 {
 	t_double_list	*list;
 
@@ -23,7 +23,7 @@ t_double_list	*new(char* data)
 	return (list);
 }
 
-void	add_node_front(t_double_list **node, char* data)
+void	add_node_front(t_double_list **node, char *data)
 {
 	t_double_list	*new_node;
 
@@ -39,7 +39,7 @@ void	add_node_front(t_double_list **node, char* data)
 	}
 }
 
-void	add_node_last(t_double_list **node, char* data)
+void	add_node_last(t_double_list **node, char *data)
 {
 	t_double_list	*new_node;
 	t_double_list	*aux;
@@ -53,11 +53,11 @@ void	add_node_last(t_double_list **node, char* data)
 	*node = aux;
 }
 
-void print_linked_list(t_double_list *node)
+void	print_linked_list(t_double_list *node)
 {
 	while (node)
 	{
-		printf("%s\n",node->data);
+		printf("%s\n", node->data);
 		node = node->next;
 	}
 }

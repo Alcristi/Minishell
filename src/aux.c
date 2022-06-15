@@ -1,27 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/06/15 15:28:14 by alcristi         ###   ########.fr       */
+/*   Created: 2022/06/15 19:15:03 by alcristi          #+#    #+#             */
+/*   Updated: 2022/06/15 19:41:38 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_core_var	*g_core_var;
-
-int	main(int argc, char *argv[], char *env[])
+void	free_double(char **str)
 {
 	int	i;
 
 	i = 0;
-	init_core(env);
-	prompt();
-	rl_clear_history();
-	free_core();
-	return (0);
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
+char	*clear_quotes(char *str)
+{
+	char	**tmp;
+	int		i;
+	char	*aux;
+	char	*text;
+
+	i = 0;
+	tmp = ft_split(str, '\"');
+	while (tmp[i])
+	{
+		if (i == 0)
+			text = ft_strjoin("", tmp[i]);
+		else
+		{
+			aux = text;
+			text = ft_strjoin(aux, tmp[i]);
+			free(aux);
+		}
+		i++;
+	}
+	return (text);
 }
