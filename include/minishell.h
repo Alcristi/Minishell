@@ -81,6 +81,7 @@ void	free_token(t_token *head);
 
 char *clear_quotes(char *str);
 char	*ft_strchr_token(char *s, int c);
+char	*ft_strnstr_token(char *str, char *to_find, size_t n);
 void classify_token(t_token *token);
 void check_token(t_token *token);
 t_token *parse_cmd(t_token *tokens);
