@@ -88,9 +88,9 @@ t_token *parse_cmd(t_token *tokens);
 int ft_get_dir(char *str);
 void init_dir(t_prompt *prompt);
 void free_dir(t_core_var *core);
-void str_prompt(void);
-void free_core(void);
+//void str_prompt(void);
+//void free_core(void);
 void prompt(void);
-void init_core(char **env);
+//void init_core(char **env);
 
 void	free_double(char **str);
