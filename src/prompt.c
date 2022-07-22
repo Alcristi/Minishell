@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/06/15 18:58:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:09:37 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	str_prompt(void)
+static void	str_prompt(void)
 {
 	char	*aux;
 
@@ -38,12 +38,26 @@ void	str_prompt(void)
 	free(aux);
 }
 
-void	free_core(void)
+static int check_exit(char *buff)
 {
-	free(g_core_var->prompt.prompt);
-	free(g_core_var->buff);
-	free_list(g_core_var->env);
-	free(g_core_var);
+	if (buff == NULL)
+	{
+		ft_putstr_fd("exit\n", 1);
+		return (1);
+	}
+	else if (!ft_strncmp(buff, "exit", ft_strlen("exit")))
+		return (1);
+	return (0);
+}
+
+static int	check_print(char *buff, t_double_list *env)
+{
+	if (!ft_strncmp(buff, "print", ft_strlen("print")))
+	{
+		print_linked_list(env);
+		return (1);
+	}
+	return (0);
 }
 
 void	prompt(void)
@@ -54,16 +68,9 @@ void	prompt(void)
 	{
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
-		if (g_core_var->buff == NULL)
-		{
-			printf("exit\n");
+		if (check_exit(g_core_var->buff))
 			break ;
-		}
-		if (!ft_strncmp(g_core_var->buff, "exit", ft_strlen("exit")))
-			break ;
-		else if (!ft_strncmp(g_core_var->buff, "print", ft_strlen("print")))
-			print_linked_list(g_core_var->env);
-		else
+		else if (!check_print(g_core_var->buff, g_core_var->env))
 		{
 			tokens = parse_cmd(tokens);
 		}
@@ -71,22 +78,5 @@ void	prompt(void)
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);
 		free_token(tokens);
-	}
-}
-
-void	init_core(char **env)
-{
-	int	i;
-
-	i = 0;
-	g_core_var = (t_core_var *)malloc(sizeof(t_core_var));
-	g_core_var->prompt.user = getenv("USER");
-	while (env[i])
-	{
-		if (i == 0)
-			g_core_var->env = new (env[i]);
-		else
-			add_node_last(&g_core_var->env, env[i]);
-		i++;
 	}
 }

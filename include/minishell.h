@@ -44,6 +44,7 @@ typedef struct s_double_list
 	struct s_double_list *next;
 	struct s_double_list *previus;
 }t_double_list;
+
 typedef struct s_dir
 {
 	char	*current;
@@ -82,16 +83,14 @@ void	free_token(t_token *head);
 char *clear_quotes(char *str);
 char	*ft_strchr_token(char *s, int c);
 char	*ft_strnstr_token(char *str, char *to_find, size_t n);
-void classify_token(t_token *token);
-void check_token(t_token *token);
+void	classify_token(t_token *token);
+void	normalize_token(t_token *token);
+void	normalize_redirect(t_token *tokens);
 t_token *parse_cmd(t_token *tokens);
 
 int ft_get_dir(char *str);
 void init_dir(t_prompt *prompt);
 void free_dir(t_core_var *core);
-void str_prompt(void);
-void free_core(void);
 void prompt(void);
-void init_core(char **env);
 
 void	free_double(char **str);

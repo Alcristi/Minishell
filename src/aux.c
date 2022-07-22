@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:15:03 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/20 12:26:55 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:13:07 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,35 @@ char	*cut_str(char *str, char *to_find, int i)
 		str[i] = '\0';
 	}
 	return (s);
+}
+
+char	*ft_strchr_token(char *s, int c)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (c == '\0')
+		return ((char *) s + ft_strlen(s));
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			if (s[i + 1] != '\0')
+			{
+				str = ft_strdup(&s[i + 1]);
+				s[i + 1] = '\0';
+			}
+			else
+			{
+				str = ft_strdup(&s[i]);
+				s[i] = '\0';
+			}
+			return (str);
+		}
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strnstr_token(char *str, char *to_find, size_t n)
