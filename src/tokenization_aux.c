@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_aux.c                                        :+:      :+:    :+:   */
+/*   tokenization_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/22 14:52:53 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:53:15 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static void	classify_string(t_token *token, int size)
 	t_token	*aux;
 
 	aux = token->previus;
-	if (aux->is_cmd || aux->is_arg)
+	if (aux == NULL || !aux->is_arg || !aux->is_cmd)
+		token->is_cmd = TRUE;
+	else if (aux->is_cmd || aux->is_arg)
 		token->is_arg = TRUE;
 	else if (aux->is_input && aux->str[0] == '<')
 		token->is_input = TRUE;
@@ -27,8 +29,6 @@ static void	classify_string(t_token *token, int size)
 		token->is_heredoc = TRUE;
 	else if (aux->is_output_append && aux->str[0] == '>')
 		token->is_output_append = TRUE;
-	else if (aux == NULL || !aux->is_arg || !aux->is_cmd)
-		token->is_cmd = TRUE;
 }
 
 void	classify_token(t_token *token)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 14:09:37 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:55:16 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ void	prompt(void)
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env))
 		{
-			tokens = parse_cmd(tokens);
+			normalize_quotes();
+			//tokens = parse_cmd(tokens);
 		}
 		add_history(g_core_var->buff);
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);
-		free_token(tokens);
+		//free_token(tokens);
 	}
 }

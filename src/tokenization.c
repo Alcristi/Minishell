@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 14:51:39 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:51:16 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_token	*build_tokens()
 {
 	char	**tmp;
 	t_token	*tokens;
-	
+
 	tmp = ft_split(g_core_var->buff, ' ');
 	convert_for_linked_list(tmp, &tokens);
 	free_double(tmp);
@@ -58,6 +58,7 @@ t_token	*parse_cmd(t_token *tokens)
 			tokens = aux;
 			normalize_redirect(tokens);
 			cicle = 1;
+			continue ;
 		}
 		else if (tokens->next == NULL && cicle == 1)
 			break ;

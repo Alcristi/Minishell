@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/20 14:46:17 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:16:03 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,21 @@ void	add_node_middle_token(t_token **node, char *data)
 	t_token	*aux;
 
 	aux = node[0]->next;
-	new_node = new_token(data);
-	node[0]->next = new_node;
-	new_node->next = aux;
-	aux->previus = new_node;
-	new_node->previus = node[0];
+	if(!aux)
+	{
+		new_node = new_token(data);
+		node[0]->next = new_node;
+		new_node->next = aux;
+		new_node->previus = node[0];
+	}
+	else
+	{
+		new_node = new_token(data);
+		node[0]->next = new_node;
+		new_node->next = aux;
+		aux->previus = new_node;
+		new_node->previus = node[0];
+	}
 }
 
 void	free_token(t_token *head)
