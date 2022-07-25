@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/22 21:24:13 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/24 21:21:25 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char *resolve_dolar(int *position)
 {
-
+	
 }
 
 static char *resolve_single_quotes(int *position)
@@ -40,7 +40,23 @@ static char *resolve_single_quotes(int *position)
 
 static char *resolve_double_quotes(int *position)
 {
+	char *result;
+	int	count;
 
+	count = 0;
+	result = malloc(sizeof(char) * ft_strlen(&g_core_var->buff[position[0]]));
+	if(g_core_var->buff[position[0]] == '\"')
+	{
+		position[0]++;
+		while(g_core_var->buff[position[0]] != '\"')
+		{
+				result[count] = g_core_var->buff[position[0]];
+				count++;
+				position[0]++;
+		}
+		result[count] = '\0';
+	}
+	return (result);
 }
 
 void	normalize_quotes()
@@ -62,8 +78,8 @@ void	normalize_quotes()
 		}
 		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
 		{
-			tmp = resolve_single_quotes(&count); 
-			printf("%s\n",tmp);
+			tmp = resolve_single_quotes(&count);
+			//printf("%s\n",tmp);
 			add_node_last(&result,tmp);
 		}
 		else if (g_core_var->buff[count] == '\"' && g_core_var->buff[count + 1])

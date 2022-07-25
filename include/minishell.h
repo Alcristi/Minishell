@@ -86,6 +86,7 @@ char	*ft_strnstr_token(char *str, char *to_find, size_t n);
 void	classify_token(t_token *token);
 void	normalize_token(t_token *token);
 void	normalize_redirect(t_token *tokens);
+void	normalize_quotes();
 t_token *parse_cmd(t_token *tokens);
 
 int ft_get_dir(char *str);

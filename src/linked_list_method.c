@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:04:06 by alcristi          #+#    #+#             */
-/*   Updated: 2022/06/15 15:27:12 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/22 21:42:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ void	add_node_last(t_double_list **node, char *data)
 
 void	print_linked_list(t_double_list *node)
 {
+	node = node->next;
 	while (node)
 	{
-		printf("%s\n", node->data);
+		printf("%s", node->data);
 		node = node->next;
 	}
+	printf("\n");
 }
 
 void	free_list(t_double_list *head)
