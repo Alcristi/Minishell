@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:05:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/25 19:23:13 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/25 20:16:46 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ftx_isalnum(int c)
 	return (0);
 }
 
-static char	*cat_name_var(int count, char *buff)
+static char	*cat_name_var(int *position, char *buff)
 {
 	char	*temp;
 	int		index;
@@ -28,18 +28,20 @@ static char	*cat_name_var(int count, char *buff)
 
 	index = 1;
 	index2 = 0;
-	while (buff[count + index])
+	while (buff[position[0] + index])
 	{
-		if (buff[count + index] == ' ' || !ftx_isalnum(buff[count + index]))
+		if (buff[position[0] + index] == ' '
+			|| !ftx_isalnum(buff[position[0] + index]))
 			break ;
 		index++;
 	}
-	temp = (char *) malloc(index * sizeof(char));
+	temp = (char *) malloc(index * sizeof(char) + 1);
 	while (index2 < index - 1)
 	{
-		temp[index2] = buff[count + index2 + 1];
+		temp[index2] = buff[position[0] + index2 + 1];
 		index2++;
 	}
+	position[0] += index -1;
 	temp[index2] = '\0';
 	return (temp);
 }
@@ -89,13 +91,13 @@ static char	*cat_var(char *env, int len_name_var)
 	return (result);
 }
 
-char	*resolve_dollar(int count)
+char	*resolve_dollar(int *position)
 {
 	char			*name_var;
 	char			*content_var;
 	t_double_list	*aux_env;
 
-	name_var = cat_name_var(count, g_core_var->buff);
+	name_var = cat_name_var(position, g_core_var->buff);
 	aux_env = g_core_var->env;
 	content_var = NULL;
 	while (aux_env != NULL)
