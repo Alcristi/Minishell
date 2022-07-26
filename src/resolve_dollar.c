@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:05:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/25 20:16:46 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:59:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*cat_name_var(int *position, char *buff)
 		temp[index2] = buff[position[0] + index2 + 1];
 		index2++;
 	}
-	position[0] += index -1;
+	position[0] += index;
 	temp[index2] = '\0';
 	return (temp);
 }

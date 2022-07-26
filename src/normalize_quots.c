@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/25 20:17:01 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/07/26 22:07:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	normalize_quotes(void)
 		if (g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
 		{
 			tmp = resolve_dollar(&count);
+			if (tmp == NULL)
+				continue ;
 			add_node_last(&result, tmp);
 		}
 		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
