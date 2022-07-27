@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/24 21:21:25 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:16:13 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char *resolve_dolar(int *position)
 {
-	
+
 }
 
 static char *resolve_single_quotes(int *position)
@@ -59,10 +59,34 @@ static char *resolve_double_quotes(int *position)
 	return (result);
 }
 
+static void convert_double_ll_in_string(t_double_list *result)
+{
+	int				total_characters;
+	char			*tmp;
+	t_double_list	*aux_result;
+
+	aux_result = result;
+	total_characters = 0;
+	while(aux_result)
+	{
+		total_characters += ft_strlen(aux_result->data);
+		aux_result = aux_result->next;
+	}
+	aux_result = result;
+	tmp = ft_strdup("");
+	while(aux_result)
+	{
+		tmp = ft_strjoin_gnl(tmp,aux_result->data);
+		aux_result = aux_result->next;
+	}
+	free(g_core_var->buff);
+	g_core_var->buff = ft_strdup(tmp);
+	free(tmp);
+}
+
 void	normalize_quotes()
 {
 	int count;
-	char *result_result;
 	t_double_list *result;
 	char *tmp;
 
@@ -70,15 +94,10 @@ void	normalize_quotes()
 	result = new("");
 	while (g_core_var->buff[count])
 	{
-		if (g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
+		if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
 		{
 			tmp = resolve_single_quotes(&count);
 			printf("%s\n",tmp);
-			add_node_last(&result,tmp);
-		}
-		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
-		{
-			tmp = resolve_single_quotes(&count);
 			//printf("%s\n",tmp);
 			add_node_last(&result,tmp);
 		}
@@ -98,6 +117,8 @@ void	normalize_quotes()
 		free(tmp);
 		count++;
 	}
+	convert_double_ll_in_string(result);
+	printf("%s\n",g_core_var->buff);
 	print_linked_list(result);
 	free_list(result);
 }
