@@ -28,7 +28,7 @@ typedef struct s_token
 	int is_input;
 	int is_output;
 	int is_heredoc;
-	int is_output_append;
+	int is_out_append;
 	int is_cmd;
 	int is_arg;
 	int single_quotes;

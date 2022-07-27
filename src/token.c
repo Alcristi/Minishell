@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 20:16:03 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:22:40 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*new_token(char *data)
 	list->is_heredoc = FALSE;
 	list->is_input = FALSE;
 	list->is_output = FALSE;
-	list->is_output_append = FALSE;
+	list->is_out_append = FALSE;
 	list->is_pipe = FALSE;
 	list->single_quotes = FALSE;
 	list->double_quotes = FALSE;
@@ -52,7 +52,7 @@ void	add_node_middle_token(t_token **node, char *data)
 	t_token	*aux;
 
 	aux = node[0]->next;
-	if(!aux)
+	if (!aux)
 	{
 		new_node = new_token(data);
 		node[0]->next = new_node;

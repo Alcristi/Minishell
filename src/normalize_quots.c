@@ -6,14 +6,13 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/27 09:18:47 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:24:49 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-static void convert_double_ll_in_string(t_double_list *result)
+static void	convert_double_ll_in_string(t_double_list *result)
 {
 	int				total_characters;
 	char			*tmp;
@@ -21,23 +20,22 @@ static void convert_double_ll_in_string(t_double_list *result)
 
 	aux_result = result;
 	total_characters = 0;
-	while(aux_result)
+	while (aux_result)
 	{
 		total_characters += ft_strlen(aux_result->data);
 		aux_result = aux_result->next;
 	}
 	aux_result = result;
 	tmp = ft_strdup("");
-	while(aux_result)
+	while (aux_result)
 	{
-		tmp = ft_strjoin_gnl(tmp,aux_result->data);
+		tmp = ft_strjoin_gnl(tmp, aux_result->data);
 		aux_result = aux_result->next;
 	}
 	free(g_core_var->buff);
 	g_core_var->buff = ft_strdup(tmp);
 	free(tmp);
 }
-
 
 void	normalize_quotes(void)
 {
