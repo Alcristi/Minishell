@@ -6,13 +6,11 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 20:51:16 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/26 23:08:28 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 static void	convert_for_linked_list(char **str, t_token **tokens)
 {
@@ -28,7 +26,7 @@ static void	convert_for_linked_list(char **str, t_token **tokens)
 	}
 }
 
-static t_token	*build_tokens()
+static t_token	*build_tokens(void)
 {
 	char	**tmp;
 	t_token	*tokens;
@@ -42,7 +40,7 @@ static t_token	*build_tokens()
 t_token	*parse_cmd(t_token *tokens)
 {
 	t_token	*aux;
-	int	cicle;
+	int		cicle;
 
 	cicle = 0;
 	tokens = build_tokens();

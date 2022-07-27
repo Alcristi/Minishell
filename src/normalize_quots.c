@@ -6,14 +6,13 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/26 22:40:13 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/26 23:22:50 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-static void convert_double_ll_in_string(t_double_list *result)
+static void	convert_double_ll_in_string(t_double_list *result)
 {
 	int				total_characters;
 	char			*tmp;
@@ -21,16 +20,16 @@ static void convert_double_ll_in_string(t_double_list *result)
 
 	aux_result = result;
 	total_characters = 0;
-	while(aux_result)
+	while (aux_result)
 	{
 		total_characters += ft_strlen(aux_result->data);
 		aux_result = aux_result->next;
 	}
 	aux_result = result;
 	tmp = ft_strdup("");
-	while(aux_result)
+	while (aux_result)
 	{
-		tmp = ft_strjoin_gnl(tmp,aux_result->data);
+		tmp = ft_strjoin_gnl(tmp, aux_result->data);
 		aux_result = aux_result->next;
 	}
 	free(g_core_var->buff);
@@ -38,6 +37,15 @@ static void convert_double_ll_in_string(t_double_list *result)
 	free(tmp);
 }
 
+char	*load_single_char(char c, int position)
+{
+	char	*str;
+
+	str = malloc(sizeof(char) + 1);
+	str[0] = g_core_var->buff[position];
+	str[1] = '\0';
+	return (str);
+}
 
 void	normalize_quotes(void)
 {
@@ -50,35 +58,21 @@ void	normalize_quotes(void)
 	result = new("");
 	while (g_core_var->buff[count])
 	{
-		if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
-		{
+		if (g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
 			tmp = resolve_dollar(&count);
-			if (tmp == NULL)
-				continue ;
-			add_node_last(&result, tmp);
-		}
 		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
-		{
 			tmp = resolve_single_quotes(&count);
-			add_node_last(&result, tmp);
-		}
 		else if (g_core_var->buff[count] == '\"' && g_core_var->buff[count + 1])
-		{
 			tmp = resolve_double_quotes(&count);
-			add_node_last(&result, tmp);
-		}
 		else
-		{
-			tmp = malloc(sizeof(char) + 1);
-			tmp[0] = g_core_var->buff[count];
-			tmp[1] = '\0';
-			add_node_last(&result, tmp);
-		}
+			tmp = load_single_char(g_core_var->buff[count], count);
+		if (tmp == NULL)
+			continue ;
+		add_node_last(&result, tmp);
 		free(tmp);
 		count++;
 	}
 	convert_double_ll_in_string(result);
 	printf("%s\n",g_core_var->buff);
-	print_linked_list(result);
 	free_list(result);
 }
