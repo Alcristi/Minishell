@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/22 20:53:15 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/27 09:21:41 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	classify_string(t_token *token, int size)
 	t_token	*aux;
 
 	aux = token->previus;
-	if (aux == NULL || !aux->is_arg || !aux->is_cmd)
+	if (aux == NULL || (!aux->is_arg && !aux->is_cmd))
 		token->is_cmd = TRUE;
 	else if (aux->is_cmd || aux->is_arg)
 		token->is_arg = TRUE;

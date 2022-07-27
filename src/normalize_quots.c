@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/26 22:40:13 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/27 09:18:47 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ void	normalize_quotes(void)
 	result = new("");
 	while (g_core_var->buff[count])
 	{
-		if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
+		if (g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
 		{
 			tmp = resolve_dollar(&count);
 			if (tmp == NULL)
 				continue ;
 			add_node_last(&result, tmp);
+			count--;
 		}
 		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
 		{
@@ -78,7 +79,5 @@ void	normalize_quotes(void)
 		count++;
 	}
 	convert_double_ll_in_string(result);
-	printf("%s\n",g_core_var->buff);
-	print_linked_list(result);
 	free_list(result);
 }

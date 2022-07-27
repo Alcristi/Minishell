@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 20:55:16 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/07/27 09:20:09 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ void	prompt(void)
 	{
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
+		add_history(g_core_var->buff);
 		if (check_exit(g_core_var->buff))
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env))
 		{
 			normalize_quotes();
+			printf("%s\n",g_core_var->buff);
 			//tokens = parse_cmd(tokens);
 		}
-		add_history(g_core_var->buff);
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);
 		//free_token(tokens);
