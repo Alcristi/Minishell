@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/27 10:22:29 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/02 10:21:21 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,90 @@ static int	check_print(char *buff, t_double_list *env)
 	return (0);
 }
 
+int	parse_tkn(t_token *tokens)
+{
+	t_token	*cursor;
+
+	cursor = tokens;
+	while (cursor)
+	{
+		if(cursor->is_input)
+		{
+			if(!ft_strncmp("<",cursor->str,ft_strlen("<")) && (cursor->next == NULL || cursor->next->str[0] == '<' || cursor->next->str[0] == '>' ||cursor->next->str[0] == '|'  ))
+			{
+				if(cursor->next == NULL)
+				{
+					printf("bash: syntax error near unexpected token `newline'\n");
+					return(0);
+				}
+				else
+				{
+					printf("bash: syntax error near unexpected token `%s'\n",cursor->next->str);
+					return(0);
+				}
+			}
+		}
+		else if(cursor->is_output)
+		{
+			if(!ft_strncmp(">",cursor->str,ft_strlen(">")) && (cursor->next == NULL || cursor->next->str[0] == '<' || cursor->next->str[0] == '>' ||cursor->next->str[0] == '|'  ))
+			{
+				if(cursor->next == NULL)
+				{
+					printf("bash: syntax error near unexpected token `newline'\n");
+					return(0);
+				}
+				else
+				{
+					printf("bash: syntax error near unexpected token `%s'\n",cursor->next->str);
+					return(0);
+				}
+			}
+		}
+		else if(cursor->is_heredoc)
+		{
+			if(!ft_strncmp("<<",cursor->str,ft_strlen("<<")) && (cursor->next == NULL || cursor->next->str[0] == '<' || cursor->next->str[0] == '>' ||cursor->next->str[0] == '|'  ))
+			{
+				if(cursor->next == NULL)
+				{
+					printf("bash: syntax error near unexpected token `newline'\n");
+					return(0);
+				}
+				else
+				{
+					printf("bash: syntax error near unexpected token `%s'\n",cursor->next->str);
+					return(0);
+				}
+			}
+		}
+		else if(cursor->is_out_append)
+		{
+			if(!ft_strncmp(">>",cursor->str,ft_strlen(">>")) && (cursor->next == NULL || cursor->next->str[0] == '<' || cursor->next->str[0] == '>' ||cursor->next->str[0] == '|'  ))
+			{
+				if(cursor->next == NULL)
+				{
+					printf("bash: syntax error near unexpected token `newline'\n");
+					return(0);
+				}
+				else
+				{
+					printf("bash: syntax error near unexpected token `%s'\n",cursor->next->str);
+					return(0);
+				}
+			}
+		}
+		else if(cursor->is_pipe)
+		{
+			if(!ft_strncmp("|",cursor->str,ft_strlen("|")) && (cursor->next == NULL || cursor->previus == NULL|| cursor->next->str[0] == '<' || cursor->next->str[0] == '>' ||cursor->next->str[0] == '|'  ))
+			{
+					printf("bash: syntax error near unexpected token `|'\n");
+					return(0);
+			}
+		}
+		cursor = cursor->next;
+	}
+	return (1);
+}
+
 void	prompt(void)
 {
 	t_token	*tokens;
@@ -75,7 +159,8 @@ void	prompt(void)
 		{
 			normalize_quotes();
 			printf("%s\n", g_core_var->buff);
-			tokens = parse_cmd(tokens);
+			tokens = tokenization_cmd(tokens);
+			parse_tkn(tokens);
 		}
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);

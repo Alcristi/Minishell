@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/27 11:00:56 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/02 10:40:51 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	multiplex_fuction(t_token *tokens, int cicle)
 		classify_token(tokens);
 }
 
-t_token	*parse_cmd(t_token *tokens)
+t_token	*tokenization_cmd(t_token *tokens)
 {
 	t_token	*aux;
 	int		cicle;
@@ -62,7 +62,7 @@ t_token	*parse_cmd(t_token *tokens)
 		if (tokens->next == NULL && cicle == 0)
 		{
 			tokens = aux;
-			normalize_redirect(tokens);
+			//normalize_redirect(tokens);
 			cicle = 1;
 			continue ;
 		}

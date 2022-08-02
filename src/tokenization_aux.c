@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/27 09:37:17 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/02 10:38:52 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ void	normalize_token(t_token *token)
 		data = ft_strnstr_token(token->str, ">>", size);
 	else if (ft_strnstr(token->str, "<<", size) && size != 2)
 		data = ft_strnstr_token(token->str, "<<", size);
-	else if (ft_strchr(token->str, '<') && size != 1)
+	else if (ft_strchr(token->str, '<') && size != 1 && ft_strncmp(token->str,"<<",ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '<');
-	else if (ft_strchr(token->str, '>') && size != 1)
+	else if (ft_strchr(token->str, '>') && size != 1 && ft_strncmp(token->str,">>",ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '>');
 	else if (ft_strchr(token->str, '|') && size != 1)
 		data = ft_strchr_token(token->str, '|');
 	if (data)
 		add_node_middle_token(&token, data);
-	if (((ft_strchr(token->str, '|') || ft_strchr(token->str, '>')
-				|| ft_strchr(token->str, '<')) && size != 1)
+	if (((ft_strchr(token->str, '|') || (ft_strchr(token->str, '>') &&  ft_strncmp(token->str,">>",ft_strlen(token->str)))
+				|| (ft_strchr(token->str, '<') &&  ft_strncmp(token->str,"<<",ft_strlen(token->str)))) && size != 1)
 		|| ((ft_strnstr(token->str, "<<", size)
 				|| ft_strnstr(token->str, ">>", size)) && size != 2))
 		normalize_token(token);
@@ -94,10 +94,10 @@ void	normalize_redirect(t_token *tokens)
 	char	aux;
 
 	cursor = tokens;
-	while (cursor->next)
+	while (cursor)
 	{
-		if ((cursor->str[0] == '<' && cursor->next->str[0] == '<')
-			|| (cursor->str[0] == '>' && cursor->next->str[0] == '>'))
+		if ((cursor->str[0] == '<' && cursor->next && cursor->next->str[0] == '<')
+			|| (cursor->str[0] == '>' && cursor->next && cursor->next->str[0] == '>'))
 		{
 			aux = cursor->str[0];
 			free(cursor->str);
@@ -107,7 +107,8 @@ void	normalize_redirect(t_token *tokens)
 				cursor->str = ft_strdup(">>");
 			tmp = cursor->next;
 			cursor->next = tmp->next;
-			cursor->next->previus = cursor;
+			if(cursor->next)
+				cursor->next->previus = cursor;
 			free(tmp->str);
 			free(tmp);
 		}

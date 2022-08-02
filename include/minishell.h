@@ -90,7 +90,7 @@ char	*resolve_dollar(int *position);
 char *resolve_single_quotes(int *position);
 char *resolve_double_quotes(int *position);
 void	normalize_quotes();
-t_token *parse_cmd(t_token *tokens);
+t_token *tokenization_cmd(t_token *tokens);
 
 int ft_get_dir(char *str);
 void init_dir(t_prompt *prompt);

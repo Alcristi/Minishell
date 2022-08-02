@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul 26 22:35:47 2022
+# Make data base, printed on Tue Aug  2 08:01:26 2022
 
 # Variables
 
@@ -61,7 +61,7 @@ LSCOLORS = exfxcxdxbxbxbxbxbxbxbx
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-OLDPWD = /home/alcristi/Desktop/My_Project/minishell
+OLDPWD = /home/alcristi/Desktop
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -111,7 +111,7 @@ PT8HOME = /opt/pt
 # environment
 ZSH = /home/alcristi/.oh-my-zsh
 # environment
-VSCODE_PID = 5980
+VSCODE_PID = 4855
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -119,7 +119,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/alcristi42:@/tmp/.ICE-unix/3277,unix/alcristi42:/tmp/.ICE-unix/3277
+SESSION_MANAGER = local/alcristi42:@/tmp/.ICE-unix/3321,unix/alcristi42:/tmp/.ICE-unix/3321
 # automatic
 *F = $(notdir $*)
 # environment
@@ -143,7 +143,7 @@ XMODIFIERS = @im=ibus
 # environment
 GJS_DEBUG_TOPICS = JS ERROR;JS LOG
 # environment
-SHLVL = 2
+SHLVL = 1
 # environment
 MAKELEVEL := 0
 # default
@@ -155,7 +155,7 @@ PATH = /home/alcristi/.asdf/shims:/home/alcristi/.asdf/bin:/home/alcristi/.local
 # default
 MAKEFILES := 
 # environment
-VSCODE_GIT_IPC_HANDLE = /run/user/1000/vscode-git-e52b74f99d.sock
+VSCODE_GIT_IPC_HANDLE = /run/user/1000/vscode-git-8ade62a70b.sock
 # environment
 LANGUAGE = en_US:en
 # environment
@@ -175,7 +175,7 @@ SNAP = /snap/code/102
 # environment
 QT_DEVICE_PIXEL_RATIO = auto
 # environment
-INVOCATION_ID = 142b74d2b462470682a377060fb0340a
+INVOCATION_ID = d2c35fb6199d4fddaaa6ac7e11a05450
 # environment
 SNAP_REVISION = 102
 # environment
@@ -215,7 +215,7 @@ ASDF_DIR = /home/alcristi/.asdf
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 3300
+SYSTEMD_EXEC_PID = 3379
 # environment
 DISPLAY = :1
 # environment
@@ -231,11 +231,11 @@ SNAP_DATA = /var/snap/code/102
 # environment
 SNAP_CONTEXT = -6ix3mlMXGpQa2Aiiw7ZXaedTMIKKugZzvABRoY2ugOBinjR9frR
 # environment
-MANAGERPID = 2627
+MANAGERPID = 2647
 # environment
 LC_MEASUREMENT = pt_BR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 5920
+GIO_LAUNCHED_DESKTOP_FILE_PID = 4800
 # environment
 PAGER = less
 # environment
@@ -251,7 +251,7 @@ GDK_PIXBUF_MODULE_FILE = /home/alcristi/snap/code/common/.cache/gdk-pixbuf-loade
 # environment
 LC_CTYPE = pt_BR.UTF-8
 # environment
-JOURNAL_STREAM = 8:40676
+JOURNAL_STREAM = 8:41761
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -275,6 +275,7 @@ IM_CONFIG_PHASE = 1
 # environment
 PAPERSIZE = a4
 # default
+ 
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
@@ -287,7 +288,6 @@ VSCODE_CLI = 1
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
- 
 SNAP_COMMON = /var/snap/code/common
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
@@ -384,6 +384,6 @@ all:
 # strcache performance: lookups = 29 / hit rate = 24%
 # hash-table stats:
 # Load=22/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Tue Jul 26 22:35:47 2022
+# Finished Make data base on Tue Aug  2 08:01:26 2022
 
  
