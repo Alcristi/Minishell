@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/02 10:38:52 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/02 11:38:00 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@ void	classify_token(t_token *token)
 		classify_string(token, size);
 }
 
+int	is_normalize(t_token *token, int size)
+{
+	if (((ft_strchr(token->str, '|')
+				|| (ft_strchr(token->str, '>')
+					&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
+				|| (ft_strchr(token->str, '<')
+					&& ft_strncmp(token->str, "<<", ft_strlen(token->str))))
+			&& size != 1)
+		|| ((ft_strnstr(token->str, "<<", size)
+				|| ft_strnstr(token->str, ">>", size)) && size != 2))
+	{
+		return (1);
+	}
+	return (0);
+}
+
 void	normalize_token(t_token *token)
 {
 	int		size;
@@ -70,48 +86,49 @@ void	normalize_token(t_token *token)
 		data = ft_strnstr_token(token->str, ">>", size);
 	else if (ft_strnstr(token->str, "<<", size) && size != 2)
 		data = ft_strnstr_token(token->str, "<<", size);
-	else if (ft_strchr(token->str, '<') && size != 1 && ft_strncmp(token->str,"<<",ft_strlen(token->str)))
+	else if (ft_strchr(token->str, '<') && size != 1
+		&& ft_strncmp(token->str, "<<", ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '<');
-	else if (ft_strchr(token->str, '>') && size != 1 && ft_strncmp(token->str,">>",ft_strlen(token->str)))
+	else if (ft_strchr(token->str, '>') && size != 1
+		&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '>');
 	else if (ft_strchr(token->str, '|') && size != 1)
 		data = ft_strchr_token(token->str, '|');
 	if (data)
 		add_node_middle_token(&token, data);
-	if (((ft_strchr(token->str, '|') || (ft_strchr(token->str, '>') &&  ft_strncmp(token->str,">>",ft_strlen(token->str)))
-				|| (ft_strchr(token->str, '<') &&  ft_strncmp(token->str,"<<",ft_strlen(token->str)))) && size != 1)
-		|| ((ft_strnstr(token->str, "<<", size)
-				|| ft_strnstr(token->str, ">>", size)) && size != 2))
+	if (is_normalize(token, size))
 		normalize_token(token);
 	if (data)
 		free(data);
 }
 
-void	normalize_redirect(t_token *tokens)
-{
-	t_token	*cursor;
-	t_token	*tmp;
-	char	aux;
+// void	normalize_redirect(t_token *tokens)
+// {
+// 	t_token	*cursor;
+// 	t_token	*tmp;
+// 	char	aux;
 
-	cursor = tokens;
-	while (cursor)
-	{
-		if ((cursor->str[0] == '<' && cursor->next && cursor->next->str[0] == '<')
-			|| (cursor->str[0] == '>' && cursor->next && cursor->next->str[0] == '>'))
-		{
-			aux = cursor->str[0];
-			free(cursor->str);
-			if (aux == '<')
-				cursor->str = ft_strdup("<<");
-			else
-				cursor->str = ft_strdup(">>");
-			tmp = cursor->next;
-			cursor->next = tmp->next;
-			if(cursor->next)
-				cursor->next->previus = cursor;
-			free(tmp->str);
-			free(tmp);
-		}
-		cursor = cursor->next;
-	}
-}
+// 	cursor = tokens;
+// 	while (cursor)
+// 	{
+// 		if ((cursor->str[0] == '<' &&
+// cursor->next && cursor->next->str[0] == '<')
+// 			|| (cursor->str[0] == '>'
+// && cursor->next && cursor->next->str[0] == '>'))
+// 		{
+// 			aux = cursor->str[0];
+// 			free(cursor->str);
+// 			if (aux == '<')
+// 				cursor->str = ft_strdup("<<");
+// 			else
+// 				cursor->str = ft_strdup(">>");
+// 			tmp = cursor->next;
+// 			cursor->next = tmp->next;
+// 			if (cursor->next)
+// 				cursor->next->previus = cursor;
+// 			free(tmp->str);
+// 			free(tmp);
+// 		}
+// 		cursor = cursor->next;
+// 	}
+// }
