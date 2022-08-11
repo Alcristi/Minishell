@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation_parse.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 11:56:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/02 11:56:48 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:21:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ int	is_valid_pipe(t_token *cursor)
 		printf("bash: syntax error near unexpected token `|'\n");
 		return (0);
 	}
+	return (1);
 }
