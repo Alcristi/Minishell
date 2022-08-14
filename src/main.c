@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/02 10:39:58 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:23:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	init_core(char **env)
 	i = 0;
 	g_core_var = (t_core_var *)malloc(sizeof(t_core_var));
 	g_core_var->prompt.user = getenv("USER");
+	g_core_var->confirm = 0;
 	while (env[i])
 	{
 		if (i == 0)
@@ -44,6 +45,7 @@ int	main(int argc, char *argv[], char *env[])
 	int	i;
 
 	i = 0;
+	signal(SIGINT, sig_handle);
 	init_core(env);
 	prompt();
 	rl_clear_history();

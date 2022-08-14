@@ -73,6 +73,7 @@ typedef struct s_core_var
 	char			*buff;
 	t_prompt		prompt;
 	t_double_list	*env;
+	int				confirm;
 }t_core_var;
 
 extern t_core_var	*g_core_var;
@@ -81,7 +82,7 @@ t_double_list	*new(char* data);
 void	add_node_front(t_double_list **node, char* data);
 void	add_node_last(t_double_list **node, char* data);
 void	free_list(t_double_list *head);
-void print_linked_list(t_double_list *node);
+void	print_linked_list(t_double_list *node);
 
 t_token *new_token(char *data);
 void	load_stacks(t_token **node, t_token *data);
@@ -104,6 +105,14 @@ char *resolve_double_quotes(int *position);
 void	normalize_quotes();
 t_token *tokenization_cmd(t_token *tokens);
 
+int	is_valid_input(t_token *cursor);
+int	is_valid_out(t_token *cursor);
+int	is_valid_heredoc(t_token *cursor);
+int	is_valid_out_append(t_token *cursor);
+int	is_valid_pipe(t_token *cursor);
+int	parse_tkn(t_token *tokens);
+
+void	sig_handle(int signum);
 int ft_get_dir(char *str);
 void init_dir(t_prompt *prompt);
 void free_dir(t_core_var *core);
