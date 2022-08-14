@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/02 11:54:28 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:29:44 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	check_print(char *buff, t_double_list *env)
 
 void	prompt(void)
 {
-	t_token	*tokens;
+	t_token		*tokens;
+	t_stacks	*stacks;
 
 	while (1)
 	{
@@ -77,7 +78,11 @@ void	prompt(void)
 			printf("%s\n", g_core_var->buff);
 			tokens = tokenization_cmd(tokens);
 			parse_tkn(tokens);
+			stacks = build_stack(tokens);
 		}
 		free(g_core_var->buff);
+		free(g_core_var->prompt.prompt);
+		free_token(&tokens);
+		free_stacks(&stacks);
 	}
 }
