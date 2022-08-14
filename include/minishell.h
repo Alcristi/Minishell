@@ -60,6 +60,14 @@ typedef struct s_prompt
 	char	*prompt;
 }t_prompt;
 
+typedef struct s_stack_aux
+{
+	t_token	*stack_input;
+	t_token	*stack_out;
+	t_token	*stack_cmd;
+	t_token	*stack_herodoc;
+}t_stacks;
+
 typedef struct s_core_var
 {
 	char			*buff;
@@ -76,9 +84,13 @@ void	free_list(t_double_list *head);
 void print_linked_list(t_double_list *node);
 
 t_token *new_token(char *data);
+void	load_stacks(t_token **node, t_token *data);
 void add_node_last_token(t_token **node, char *data);
 void add_node_middle_token(t_token **node,char *data);
-void	free_token(t_token *head);
+void	free_token(t_token **head);
+
+t_stacks *build_stack(t_token *tokens);
+void free_stacks(t_stacks **stacks);
 
 char *clear_quotes(char *str);
 char	*ft_strchr_token(char *s, int c);
@@ -96,5 +108,13 @@ int ft_get_dir(char *str);
 void init_dir(t_prompt *prompt);
 void free_dir(t_core_var *core);
 void prompt(void);
+
+int	parse_tkn(t_token *tokens);
+int	is_valid_input(t_token *cursor);
+int	is_valid_out(t_token *cursor);
+int	is_valid_heredoc(t_token *cursor);
+int	is_valid_out_append(t_token *cursor);
+int	is_valid_pipe(t_token *cursor);
+
 
 void	free_double(char **str);
