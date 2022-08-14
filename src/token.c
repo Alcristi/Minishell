@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:30:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:52:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	free_token(t_token **head)
 	while (head[0])
 	{
 		aux = head[0]->next;
-		if(head[0]->str)
+		if (head[0]->str)
 			free(head[0]->str);
 		head[0]->str = NULL;
 		free(head[0]);

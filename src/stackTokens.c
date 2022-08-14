@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stackTokens.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
+/*   Updated: 2022/08/14 10:54:39 by alcristi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	load_stacks(t_token **node, t_token *data)
@@ -7,9 +19,9 @@ void	load_stacks(t_token **node, t_token *data)
 	char	*str;
 
 	str = ft_strdup(data->str);
-	if(!*node)
+	if (!*node)
 	{
-		node[0] = ft_calloc(sizeof(t_token),1);
+		node[0] = ft_calloc(sizeof(t_token), 1);
 		node[0][0] = *data;
 		node[0][0].str = str;
 		node[0][0].next = NULL;
@@ -17,7 +29,7 @@ void	load_stacks(t_token **node, t_token *data)
 	}
 	else
 	{
-		new_node = ft_calloc(sizeof(t_token),1);
+		new_node = ft_calloc(sizeof(t_token), 1);
 		*new_node = *data;
 		new_node->str = str;
 		new_node->previus = NULL;
@@ -27,29 +39,30 @@ void	load_stacks(t_token **node, t_token *data)
 	}
 }
 
-t_stacks *build_stack(t_token *tokens)
+t_stacks	*build_stack(t_token *tokens)
 {
-	t_stacks *new;
-	t_token *cursor;
+	t_stacks	*new;
+	t_token		*cursor;
 
 	cursor = tokens;
-	new = ft_calloc(sizeof(t_stacks),1);
-	while(cursor)
+	new = ft_calloc(sizeof(t_stacks), 1);
+	while (cursor)
 	{
-		if(cursor->is_input && cursor->str[0] != '<')
-			load_stacks(&new->stack_input,cursor);
-		else if((cursor->is_output || cursor->is_out_append) && cursor->str[0] != '>')
-			load_stacks(&new->stack_out,cursor);
-		else if(cursor->is_heredoc && cursor->str[0] != '<')
-			load_stacks(&new->stack_herodoc,cursor);
-		else if(cursor->is_cmd || cursor->is_arg || cursor->is_pipe)
-			load_stacks(&new->stack_cmd,cursor);
+		if (cursor->is_input && cursor->str[0] != '<')
+			load_stacks(&new->stack_input, cursor);
+		else if ((cursor->is_output || cursor->is_out_append)
+			&& cursor->str[0] != '>')
+			load_stacks(&new->stack_out, cursor);
+		else if (cursor->is_heredoc && cursor->str[0] != '<')
+			load_stacks(&new->stack_herodoc, cursor);
+		else if (cursor->is_cmd || cursor->is_arg || cursor->is_pipe)
+			load_stacks(&new->stack_cmd, cursor);
 		cursor = cursor->next;
 	}
 	return (new);
 }
 
-void free_stacks(t_stacks **stacks)
+void	free_stacks(t_stacks **stacks)
 {
 	free_token(&stacks[0]->stack_cmd);
 	free_token(&stacks[0]->stack_herodoc);
