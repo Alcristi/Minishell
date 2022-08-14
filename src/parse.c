@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 11:55:30 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/02 11:55:36 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:12:24 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	parse_tkn(t_token *tokens)
 	t_token	*cursor;
 	int		is_valid;
 
+	is_valid = 1;
 	cursor = tokens;
 	while (cursor)
 	{
