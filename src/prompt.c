@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:29:44 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/14 21:02:43 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,59 @@ static int	check_print(char *buff, t_double_list *env)
 	return (0);
 }
 
+char argv[20][20] = {"/usr/bin/ls","/usr/bin/cat"};
+char arg[20][20] = {"-l","-e"};
+
+int count = -1;
+void childProcess()
+{
+	count ++;
+
+	pid_t	pid;
+	int		fd[2];
+
+	pipe(fd);
+
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		execl(argv[count],arg[count],NULL);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		waitpid(pid, NULL, 0);
+	}
+}
+
+void execute(t_stacks *stacks)
+{
+	pid_t pid;
+	int	status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+			for(int i = 0; i < 2; i++)
+				childProcess();
+			dup(1);
+			execl("/usr/bin/ca","",NULL);
+			free_stacks(&stacks);
+			free(g_core_var->buff);
+			free(g_core_var->prompt.prompt);
+			exit(0);
+
+	}
+	else
+	{
+		waitpid(pid,&status,0);
+		printf("exit with status: %d\n",WEXITSTATUS(status));
+	}
+}
+
 void	prompt(void)
 {
 	t_token		*tokens;
@@ -77,12 +130,15 @@ void	prompt(void)
 			normalize_quotes();
 			printf("%s\n", g_core_var->buff);
 			tokens = tokenization_cmd(tokens);
-			parse_tkn(tokens);
-			stacks = build_stack(tokens);
+			if(parse_tkn(tokens))
+			{
+				stacks = build_stack(tokens);
+				execute(stacks);
+				free_stacks(&stacks);
+			}
 		}
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);
 		free_token(&tokens);
-		free_stacks(&stacks);
 	}
 }
