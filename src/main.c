@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/12 01:23:16 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/17 11:57:09 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static void	init_core(char **env)
 	g_core_var = (t_core_var *)malloc(sizeof(t_core_var));
 	g_core_var->prompt.user = getenv("USER");
 	g_core_var->confirm = 0;
+	g_core_var->fd_in = 0;
+	g_core_var->fd_out = 0;
+	g_core_var->envp = env;
 	while (env[i])
 	{
 		if (i == 0)
@@ -32,7 +35,7 @@ static void	init_core(char **env)
 	}
 }
 
-static void	free_core(void)
+void	free_core(void)
 {
 	free(g_core_var->prompt.prompt);
 	free(g_core_var->buff);
