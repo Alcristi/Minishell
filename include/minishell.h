@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <signal.h>
+# include <fcntl.h>
 
 #include<readline/readline.h>
 #include<readline/history.h>
@@ -74,10 +75,16 @@ typedef struct s_core_var
 	char			*buff;
 	t_prompt		prompt;
 	t_double_list	*env;
+	char			**envp;
 	int				confirm;
+	int				fd_in;
+	int				fd_out;
+	int				exit_code;
 }t_core_var;
 
 extern t_core_var	*g_core_var;
+
+void	free_core(void);
 
 t_double_list	*new(char* data);
 void	add_node_front(t_double_list **node, char* data);
@@ -128,3 +135,6 @@ int	is_valid_pipe(t_token *cursor);
 
 
 void	free_double(char **str);
+
+char	*cat_var(char *env, int len_name_var);
+int		search_var(char *var, char *env);
