@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:05:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/27 09:16:04 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/16 18:53:39 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*cat_name_var(int *position, char *buff)
 	return (temp);
 }
 
-static int	search_var(char *var, char *env)
+int	search_var(char *var, char *env)
 {
 	int	count;
 	int	index;
@@ -73,7 +73,7 @@ static int	search_var(char *var, char *env)
 		return (0);
 }
 
-static char	*cat_var(char *env, int len_name_var)
+char	*cat_var(char *env, int len_name_var)
 {
 	int		size;
 	int		count;
