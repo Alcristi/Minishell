@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/17 13:15:39 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:52:03 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ static int	check_print(char *buff, t_double_list *env)
 	}
 	return (0);
 }
-
-char argv[20][20] = {"/usr/bin/cat","/usr/bin/sort"};
-char arg[20][20] = {"-e", "-l"};
-
-int count = -1;
 
 int is_valid(t_token *cmd)
 {
@@ -165,7 +160,6 @@ char ** build_cmd(t_token *cmd, int id)
 
 void childProcess(t_stacks *stacks, int positon_cmd)
 {
-	count ++;
 
 	pid_t	pid;
 	int		fd[2];
@@ -196,13 +190,14 @@ void open_file(t_stacks *stacks)
 		g_core_var->fd_in = open(stacks->stack_input->str,O_RDONLY);
 		if(g_core_var->fd_in < 0)
 			exit(1);
+		dup2(g_core_var->fd_in,0);
 	}
 	if(stacks->stack_out)
 	{
 		if(stacks->stack_out->is_output)
-			g_core_var->fd_out = open(stacks->stack_input->str,O_WRONLY);
+			g_core_var->fd_out = open(stacks->stack_out->str,O_WRONLY | O_CREAT | O_TRUNC ,0644);
 		else
-			g_core_var->fd_out = open(stacks->stack_input->str,O_APPEND | O_CREAT ,0644);
+			g_core_var->fd_out = open(stacks->stack_out->str,O_WRONLY |O_APPEND | O_CREAT ,0644);
 		if(g_core_var->fd_out < 0)
 			exit(1);
 	}
@@ -259,6 +254,13 @@ int amount_pipe(t_stacks *stacks)
 	return (amount_pipe);
 }
 
+void handle(int i)
+{
+	(void) i;
+	write(0,"\n",1);
+	return ;
+}
+
 void execute(t_stacks *stacks, t_token *tokens)
 {
 	pid_t pid;
@@ -266,6 +268,7 @@ void execute(t_stacks *stacks, t_token *tokens)
 	char	**cmd;
 	int		i;
 	pid = fork();
+	signal(SIGINT,handle);
 	if (pid == 0)
 	{
 		open_file(stacks);
@@ -273,10 +276,10 @@ void execute(t_stacks *stacks, t_token *tokens)
 			here_doc(stacks,tokens);
 		for(i = 0; i < amount_pipe(stacks); i++)
 			childProcess(stacks, i);
-		printf("aq \n");
 		cmd = build_cmd(stacks->stack_cmd,i);
-		printf("%s\n",cmd[0]);
 		dup(1);
+		if(g_core_var->fd_out != 0)
+			dup2(g_core_var->fd_out,STDOUT_FILENO);
 		execve(cmd[0],cmd,g_core_var->envp);
 		free_stacks(&stacks);
 		free_token(&tokens);
@@ -286,7 +289,7 @@ void execute(t_stacks *stacks, t_token *tokens)
 	else
 	{
 		waitpid(pid,&status,0);
-		printf("exit with status: %d\n",WEXITSTATUS(status));
+		//printf("exit with status: %d\n",WEXITSTATUS(status));
 	}
 }
 
@@ -297,15 +300,15 @@ void	prompt(void)
 
 	while (1)
 	{
+		signal(SIGINT, sig_handle);
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
 		add_history(g_core_var->buff);
 		if (check_exit(g_core_var->buff))
 			break ;
-		else if (!check_print(g_core_var->buff, g_core_var->env))
+		else if (!check_print(g_core_var->buff, g_core_var->env) && ft_strlen(g_core_var->buff) > 0)
 		{
 			normalize_quotes();
-			printf("%s\n", g_core_var->buff);
 			tokens = tokenization_cmd(tokens);
 			if(parse_tkn(tokens))
 			{
@@ -314,8 +317,9 @@ void	prompt(void)
 				free_stacks(&stacks);
 			}
 		}
+		if(ft_strlen(g_core_var->buff) > 0)
+			free_token(&tokens);
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);
-		free_token(&tokens);
 	}
 }

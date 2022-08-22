@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/17 11:57:09 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:51:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int argc, char *argv[], char *env[])
 	int	i;
 
 	i = 0;
-	signal(SIGINT, sig_handle);
 	init_core(env);
 	prompt();
 	rl_clear_history();

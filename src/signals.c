@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/14 17:37:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/18 17:22:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	sig_handle(int signum)
 {
-	printf("signal: %d\n", signum);
-	exit(1);
+	(void)signum;
+
+	write(0,"\n",1);
+	rl_replace_line("",0);
+	rl_on_new_line();
+	rl_redisplay();
 }
-//enviar os sinal para os processos filhos
