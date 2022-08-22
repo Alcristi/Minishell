@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 23:05:05 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:20:05 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static char	*catch_content(char *arg)
 
 int	bt_export(char *arg)
 {
-	char *name;
-	char *content;
-	
+	char	*name;
+	char	*content;
+
 	name = catch_name(arg);
 	if (name == NULL)
 		return (1);
@@ -68,9 +68,9 @@ int	bt_export(char *arg)
 	if (content == NULL)
 	{
 		free(name);
-		return (1);	
+		return (1);
 	}
-	//add_last(env, arg);
+	add_node_last(g_core_var->env, arg);
 	free(name);
 	free(content);
 	return (0);

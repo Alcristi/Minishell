@@ -6,28 +6,16 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 23:30:03 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 23:07:16 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:14:42 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
-static int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-*/
-
 static int	is_pwd(char *str)
 {
-	int count;
-	int size;
+	int	count;
+	int	size;
 
 	count = 0;
 	size = ft_strlen(str);
@@ -49,9 +37,9 @@ static int	is_pwd(char *str)
 
 static char	*catch_pwd(char *data)
 {
-	int size;
-	int	count;
-	char *result;
+	int		size;
+	int		count;
+	char	*result;
 
 	count = 0;
 	size = ft_strlen(data);

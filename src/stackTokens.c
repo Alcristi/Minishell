@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stackTokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/16 18:14:23 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:37:18 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	load_stacks_last(t_token **node, t_token *data)
 		new_node = ft_calloc(sizeof(t_token), 1);
 		*new_node = *data;
 		cursor = node[0];
-		while(cursor->next)
+		while (cursor->next)
 			cursor = cursor->next;
 		new_node->str = str;
 		new_node->previus = cursor;
