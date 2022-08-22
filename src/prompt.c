@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/18 18:52:03 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:55:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int is_valid(t_token *cmd)
 	int				count;
 	char			*tmp;
 
-	count = 0;
+	count = 1;
 	aux_env = g_core_var->env;
 	tmp = ft_strjoin("/",cmd->str);
 	while(aux_env)
@@ -87,10 +87,12 @@ int is_valid(t_token *cmd)
 	while (access(cmd->str, F_OK) && tmp_path[count])
 	{
 		free(cmd->str);
-		count++;
 		cmd->str = ft_strjoin(tmp_path[count],tmp);
+		count++;
 	}
+	free(path);
 	free(tmp);
+	free_double(tmp_path);
 	if(access(cmd->str,F_OK))
 		return (0);
 	return(1);
@@ -99,9 +101,9 @@ int is_valid(t_token *cmd)
 
 char ** build_cmd(t_token *cmd, int id)
 {
+	t_token	*cursor;
 	char	**arg_cmd;
 	int		count_tokens;
-	t_token	*cursor;
 	int		count;
 	int		position_cmd;
 
@@ -125,7 +127,7 @@ char ** build_cmd(t_token *cmd, int id)
 		count_tokens++;
 		cursor = cursor->next;
 	}
-	arg_cmd = ft_calloc(sizeof(char*),count_tokens);
+	arg_cmd = ft_calloc(sizeof(char*),count_tokens + 1);
 
 	if(is_valid(cmd))
 	{
@@ -267,6 +269,8 @@ void execute(t_stacks *stacks, t_token *tokens)
 	int status;
 	char	**cmd;
 	int		i;
+
+	i = 0;
 	pid = fork();
 	signal(SIGINT,handle);
 	if (pid == 0)
@@ -274,13 +278,17 @@ void execute(t_stacks *stacks, t_token *tokens)
 		open_file(stacks);
 		if(stacks->stack_herodoc)
 			here_doc(stacks,tokens);
-		for(i = 0; i < amount_pipe(stacks); i++)
+		while( i < amount_pipe(stacks))
+		{
 			childProcess(stacks, i);
+			i++;
+		}
 		cmd = build_cmd(stacks->stack_cmd,i);
 		dup(1);
 		if(g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out,STDOUT_FILENO);
-		execve(cmd[0],cmd,g_core_var->envp);
+		if(cmd)
+			execve(cmd[0],cmd,g_core_var->envp);
 		free_stacks(&stacks);
 		free_token(&tokens);
 		free_core();
