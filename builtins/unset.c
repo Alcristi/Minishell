@@ -6,13 +6,13 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:30:37 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 22:54:30 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:06:54 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	search_var(char *name_var, char *data)
+static int	search_var_bt(char *name_var, char *data)
 {
 	int	count;
 	int	correct;
@@ -57,7 +57,7 @@ int	bt_unset(char *name)
 		temp = temp->previus;
 	while (temp != NULL)
 	{
-		if (search_var(name, temp->data))
+		if (search_var_bt(name, temp->data))
 		{
 			remove_env(temp);
 			return (1);

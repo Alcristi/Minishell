@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 22:53:42 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:05:05 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static char	*catch_name(char *arg)
 
 static char	*catch_content(char *arg)
 {
-	char	*content
+	char	*content;
 	int		count;
 	int		pos_equal;
 
-	content = NULL
+	content = NULL;
 	count = 0;
 	pos_equal = 0;
 	while (pos_equal < ft_strlen(arg) && arg[pos_equal] != '=')

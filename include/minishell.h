@@ -92,6 +92,12 @@ void	add_node_last(t_double_list **node, char* data);
 void	free_list(t_double_list *head);
 void	print_linked_list(t_double_list *node);
 
+int		bt_echo(int nb, char **args);
+void	bt_env(void);
+int		bt_export(char *arg);
+int		bt_pwd(void);
+int		bt_unset(char *name);
+
 t_token *new_token(char *data);
 void	load_stacks(t_token **node, t_token *data);
 void add_node_last_token(t_token **node, char *data);

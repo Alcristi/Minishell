@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 23:30:03 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 22:54:09 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:07:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	bt_pwd(void)
 	{
 		if (is_pwd(temp->data))
 		{
-			return = catch_pwd(temp->data);
+			result = catch_pwd(temp->data);
 			if (result != NULL)
 			{
 				printf("%s\n", result);
@@ -86,7 +86,7 @@ int	bt_pwd(void)
 			}
 		}
 		else
-			temp = temp->env;
+			temp = temp->next;
 	}
 	return (1);
 }
