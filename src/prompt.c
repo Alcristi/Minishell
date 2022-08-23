@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/22 20:55:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:49:39 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int is_valid(t_token *cmd)
 
 }
 
-char ** build_cmd(t_token *cmd, int id)
+char ** build_cmd(t_stacks *stack, int id)
 {
 	t_token	*cursor;
 	char	**arg_cmd;
@@ -110,18 +110,18 @@ char ** build_cmd(t_token *cmd, int id)
 	position_cmd = 0;
 	count = 0;
 	count_tokens = 0;
-	cursor = cmd;
 
 	while(1)
 	{
-		if(cmd->is_cmd)
+		if(stack->stack_cmd->is_cmd)
 		{
 			position_cmd++;
 			if(position_cmd > id)
 				break;
 		}
-		cmd = cmd->next;
+		stack->stack_cmd = stack->stack_cmd->next;
 	}
+	cursor = stack->stack_cmd;
 	while (cursor && !cursor->is_pipe)
 	{
 		count_tokens++;
@@ -129,26 +129,30 @@ char ** build_cmd(t_token *cmd, int id)
 	}
 	arg_cmd = ft_calloc(sizeof(char*),count_tokens + 1);
 
-	if(is_valid(cmd))
+	if(is_valid(stack->stack_cmd))
 	{
-		while(count < count_tokens && cmd)
+		while(count < count_tokens && stack->stack_cmd)
 		{
-			arg_cmd[count] = ft_strdup(cmd->str);
+			arg_cmd[count] = ft_strdup(stack->stack_cmd->str);
 			count++;
-			if(!cmd->next)
+			if(!stack->stack_cmd->next)
 			{
-				free(cmd);
-				cmd = NULL;
+				free(stack->stack_cmd);
+				stack->stack_cmd = NULL;
 				break;
 			}
-			cmd = cmd->next;
-			if(cmd)
-				free(cmd->previus);
+			stack->stack_cmd = stack->stack_cmd->next;
+			if(stack->stack_cmd)
+			{
+				free(stack->stack_cmd->previus);
+				stack->stack_cmd->previus = NULL;
+			}
 		}
-		if(cmd && cmd->is_pipe)
+		if(stack->stack_cmd && stack->stack_cmd->is_pipe)
 		{
-			cmd = cmd->next;
-			free(cmd->previus);
+			stack->stack_cmd = stack->stack_cmd->next;
+			free(stack->stack_cmd->previus);
+			stack->stack_cmd->previus = NULL;
 		}
 		arg_cmd[count] = NULL;
 		return (arg_cmd);
@@ -172,7 +176,7 @@ void childProcess(t_stacks *stacks, int positon_cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		cmd  = build_cmd(stacks->stack_cmd,positon_cmd);
+		cmd  = build_cmd(stacks,positon_cmd);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		execve(cmd[0],cmd,g_core_var->envp);
@@ -269,6 +273,9 @@ void execute(t_stacks *stacks, t_token *tokens)
 	int status;
 	char	**cmd;
 	int		i;
+	int size;
+
+	size = amount_pipe(stacks);
 
 	i = 0;
 	pid = fork();
@@ -278,12 +285,12 @@ void execute(t_stacks *stacks, t_token *tokens)
 		open_file(stacks);
 		if(stacks->stack_herodoc)
 			here_doc(stacks,tokens);
-		while( i < amount_pipe(stacks))
+		while( i < size)
 		{
 			childProcess(stacks, i);
 			i++;
 		}
-		cmd = build_cmd(stacks->stack_cmd,i);
+		cmd = build_cmd(stacks,i);
 		dup(1);
 		if(g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out,STDOUT_FILENO);
