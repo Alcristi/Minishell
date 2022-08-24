@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 23:20:05 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/24 00:43:26 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	bt_export(char *arg)
 		free(name);
 		return (1);
 	}
-	add_node_last(g_core_var->env, arg);
+	add_node_last(&g_core_var->env, arg);
 	free(name);
 	free(content);
 	return (0);

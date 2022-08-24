@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 23:36:29 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/24 01:11:28 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int		is_valid_pipe(t_token *cursor);
 int		parse_tkn(t_token *tokens);
 
 void	sig_handle(int signum);
+void	handle(int i);
 int		ft_get_dir(char *str);
 void	init_dir(t_prompt *prompt);
 void	free_dir(t_core_var *core);
@@ -152,6 +153,12 @@ int		is_valid_out_append(t_token *cursor);
 int		is_valid_pipe(t_token *cursor);
 
 void	free_double(char **str);
+
+int		is_valid(t_token *cmd);
+char	**build_cmd(t_stacks *stack, int id);
+void	here_doc(t_stacks *stacks, t_token *tokens);
+int		amount_pipe(t_stacks *stacks);
+void	execute(t_stacks *stacks, t_token *tokens);
 
 char	*cat_var(char *env, int len_name_var);
 int		search_var(char *var, char *env);
