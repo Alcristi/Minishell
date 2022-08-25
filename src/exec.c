@@ -6,24 +6,19 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/24 01:57:37 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:54:32 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//verifica nos caminhos do $PATH se existe o comando solicitado
-int	is_valid(t_token *cmd)
+static char	**load_path(void)
 {
 	t_double_list	*aux_env;
 	char			*path;
-	char			**tmp_path;
-	int				count;
-	char			*tmp;
+	char			**cut_path;
 
-	count = 1;
 	aux_env = g_core_var->env;
-	tmp = ft_strjoin("/", cmd->str);
 	while (aux_env)
 	{
 		if (search_var("PATH", aux_env->data))
@@ -34,7 +29,22 @@ int	is_valid(t_token *cmd)
 		else
 			aux_env = aux_env->next;
 	}
-	tmp_path = ft_split(path, ':');
+	cut_path = ft_split(path, ':');
+	free(path);
+	return (cut_path);
+}
+
+//verifica nos caminhos do $PATH se existe o comando solicitado
+int	is_valid(t_token *cmd)
+{
+	t_double_list	*aux_env;
+	char			**tmp_path;
+	int				count;
+	char			*tmp;
+
+	count = 1;
+	tmp = ft_strjoin("/", cmd->str);
+	tmp_path = load_path();
 	free(cmd->str);
 	cmd->str = ft_strjoin(tmp_path[0], tmp);
 	while (access(cmd->str, F_OK) && tmp_path[count])
@@ -43,7 +53,6 @@ int	is_valid(t_token *cmd)
 		cmd->str = ft_strjoin(tmp_path[count], tmp);
 		count++;
 	}
-	free(path);
 	free(tmp);
 	free_double(tmp_path);
 	if (access(cmd->str, F_OK))
@@ -75,41 +84,23 @@ static void	child_process(t_stacks *stacks, int positon_cmd)
 	}
 }
 
-//abre os arquivos de entrada e de saida
-static void	open_file(t_stacks *stacks)
-{
-	if (stacks->stack_input)
-	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
-		if (g_core_var->fd_in < 0)
-			exit(1);
-		dup2(g_core_var->fd_in, 0);
-	}
-	if (stacks->stack_out)
-	{
-		if (stacks->stack_out->is_output)
-			g_core_var->fd_out = open(stacks->stack_out->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			g_core_var->fd_out = open(stacks->stack_out->str, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		if (g_core_var->fd_out < 0)
-			exit(1);
-	}
-}
-
-static void	child_aux(t_stacks *stacks, t_token *tokens, char **cmd)
+//auxilia a funcao execute a trabalhar com os processos filhos
+static char	**child_aux(t_stacks **stacks, t_token **tokens)
 {
 	int		count;
+	char	**cmd;
 
 	count = 0;
-	open_file(stacks);
-	if (stacks->stack_herodoc)
-		here_doc(stacks, tokens);
-	while (count < amount_pipe(stacks))
+	open_file(stacks[0]);
+	if (stacks[0]->stack_herodoc)
+		here_doc(stacks[0], tokens[0]);
+	while (count < amount_pipe(stacks[0]))
 	{
-		child_process(stacks, count);
+		child_process(stacks[0], count);
 		count++;
 	}
-	cmd = build_cmd(stacks, count);
+	cmd = build_cmd(stacks[0], count);
+	return (cmd);
 }
 
 //executa os comando passados no prompt atravez das stacks
@@ -127,16 +118,7 @@ void	execute(t_stacks *stacks, t_token *tokens)
 	signal(SIGINT, handle);
 	if (pid == 0)
 	{
-		//child_aux(stacks, tokens, cmd);
-		open_file(stacks);
-		if (stacks->stack_herodoc)
-			here_doc(stacks, tokens);
-		while (count < amount_pipe(stacks))
-		{
-			child_process(stacks, count);
-			count++;
-		}
-		cmd = build_cmd(stacks, count);
+		cmd = child_aux(&stacks, &tokens);
 		dup(1);
 		if (g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out, STDOUT_FILENO);
@@ -150,4 +132,3 @@ void	execute(t_stacks *stacks, t_token *tokens)
 	else
 		waitpid(pid, &status, 0);
 }
-//printf("exit with status: %d\n",WEXITSTATUS(status));

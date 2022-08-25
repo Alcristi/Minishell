@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/24 01:49:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/24 23:12:36 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,16 @@ static void	str_prompt(void)
 	free(aux);
 }
 
-static void	check_execute(t_token *tokens, t_stacks *stacks)
+static void	check_execute(t_token **tokens, t_stacks **stacks)
 {
-
+	normalize_quotes();
+	tokens[0] = tokenization_cmd(tokens[0]);
+	if (parse_tkn(tokens[0]))
+	{
+		stacks[0] = build_stack(tokens[0]);
+		execute(stacks[0], tokens[0]);
+		free_stacks(&stacks[0]);
+	}
 }
 
 //função com o loop do prompt
@@ -84,16 +91,7 @@ void	prompt(void)
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env)
 			&& ft_strlen(g_core_var->buff) > 0)
-		{
-			normalize_quotes();
-			tokens = tokenization_cmd(tokens);
-			if (parse_tkn(tokens))
-			{
-				stacks = build_stack(tokens);
-				execute(stacks, tokens);
-				free_stacks(&stacks);
-			}
-		}//check_execute(tokens, stacks);
+			check_execute(&tokens, &stacks);
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);
 		free(g_core_var->buff);

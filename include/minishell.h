@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/24 01:11:28 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:55:02 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int		is_valid_pipe(t_token *cursor);
 
 void	free_double(char **str);
 
+void	open_file(t_stacks *stacks);
 int		is_valid(t_token *cmd);
 char	**build_cmd(t_stacks *stack, int id);
 void	here_doc(t_stacks *stacks, t_token *tokens);
