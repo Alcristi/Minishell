@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_double_quotes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:33:46 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/27 10:57:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/26 00:34:12 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	ft_strdel(char **pont)
-{
-	if (pont != NULL)
-	{
-		free(*pont);
-		*pont = NULL;
-	}
-}
 
 static char	*ft_strjoin_free1(char *s1, char const *s2, size_t size2)
 {

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 02:25:38 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/25 23:10:29 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static int	number_tokens(t_stacks *stack)
 	}
 	return (count_tokens);
 }
+
+
 
 //preciso diminuir linhas
 //funcao auxiliar da build_cmd que constroi o arg_cmd

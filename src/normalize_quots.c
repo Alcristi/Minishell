@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normalize_quots.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/07/27 10:24:49 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/26 00:31:31 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,43 +37,60 @@ static void	convert_double_ll_in_string(t_double_list *result)
 	free(tmp);
 }
 
+static void	save_char(char caracter, t_double_list **result)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = malloc(sizeof(char) + 1);
+	tmp[0] = caracter;
+	tmp[1] = '\0';
+	add_node_last(&result[0], tmp);
+	ft_strdel(&tmp);
+}
+
+static int	quotes_check_aux(int *count, t_double_list **result)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (g_core_var->buff[*count] == '$')
+	{
+		tmp = resolve_dollar(count);
+		if (tmp == NULL)
+			return (1);
+		add_node_last(result, tmp);
+		count--;
+	}
+	else if (g_core_var->buff[*count] == '\'')
+	{
+		tmp = resolve_single_quotes(count);
+		add_node_last(result, tmp);
+	}
+	else if (g_core_var->buff[*count] == '\"')
+	{
+		tmp = resolve_double_quotes(count);
+		add_node_last(result, tmp);
+	}
+	ft_strdel(&tmp);
+	return (0);
+}
+
 void	normalize_quotes(void)
 {
 	int				count;
-	char			*result_result;
 	t_double_list	*result;
-	char			*tmp;
 
 	count = 0;
 	result = new("");
 	while (g_core_var->buff[count])
 	{
-		if (g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
-		{
-			tmp = resolve_dollar(&count);
-			if (tmp == NULL)
-				continue ;
-			add_node_last(&result, tmp);
-			count--;
-		}
-		else if (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
-		{
-			tmp = resolve_single_quotes(&count);
-			add_node_last(&result, tmp);
-		}
-		else if (g_core_var->buff[count] == '\"' && g_core_var->buff[count + 1])
-		{
-			tmp = resolve_double_quotes(&count);
-			add_node_last(&result, tmp);
-		}
+		if ((g_core_var->buff[count] == '$' && g_core_var->buff[count + 1])
+			|| (g_core_var->buff[count] == '\'' && g_core_var->buff[count + 1])
+			|| (g_core_var->buff[count] == '\"' && g_core_var->buff[count + 1]))
+			quotes_check_aux(&count, &result);
 		else
-		{
-			tmp = malloc(sizeof(char) + 1);
-			tmp[0] = g_core_var->buff[count];
-			tmp[1] = '\0';
-			add_node_last(&result, tmp);
-		}
-		free(tmp);
+			save_char(g_core_var->buff[count], &result);
 		count++;
 	}
 	convert_double_ll_in_string(result);
