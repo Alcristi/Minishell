@@ -1,114 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_aux.c                                         :+:      :+:    :+:   */
+/*   execute_aux.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 23:10:29 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:57:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//funcao auxiliar da cmd_build
-static t_stacks	*position_cmd(t_stacks *stack, int id)
-{
-	int			position;
-	t_stacks	*temp_stack;
-
-	position = 0;
-	temp_stack = stack;
-	while (1)
-	{
-		if (temp_stack->stack_cmd->is_cmd)
-		{
-			position++;
-			if (position > id)
-				break ;
-		}
-		temp_stack->stack_cmd = temp_stack->stack_cmd->next;
-	}
-	return (temp_stack);
-}
-
-//faz a contagem de tokens
-//funcao auxiliar da cmd_build
-static int	number_tokens(t_stacks *stack)
-{
-	t_token		*cursor;
-	int			count_tokens;
-
-	count_tokens = 0;
-	cursor = stack->stack_cmd;
-	while (cursor && !cursor->is_pipe)
-	{
-		count_tokens++;
-		cursor = cursor->next;
-	}
-	return (count_tokens);
-}
-
-
-
-//preciso diminuir linhas
-//funcao auxiliar da build_cmd que constroi o arg_cmd
-static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
-{
-	int		count;
-
-	count = 0;
-	/***
-	* Porque a limpeza esta sendo feita dentro do algoritmo 
-	* ao invez de usar uma função que limpe tudo no fim do ciclo?
-	***/
-	while (count < ct_tokens && stack->stack_cmd)
-	{
-		arg_cmd[count] = ft_strdup(stack->stack_cmd->str);
-		count++;
-		if (!stack->stack_cmd->next)
-		{
-			free(stack->stack_cmd);
-			stack->stack_cmd = NULL;
-			break ;
-		}
-		stack->stack_cmd = stack->stack_cmd->next;
-		if (stack->stack_cmd)
-		{
-			free(stack->stack_cmd->previus);
-			stack->stack_cmd->previus = NULL;
-		}
-	}
-	if (stack->stack_cmd && stack->stack_cmd->is_pipe)
-	{
-		stack->stack_cmd = stack->stack_cmd->next;
-		free(stack->stack_cmd->previus);
-		stack->stack_cmd->previus = NULL;
-	}
-	arg_cmd[count] = NULL;
-}
-
-//constroi a matriz de execução dos comandos no execve
-char	**build_cmd(t_stacks *stack, int id)
-{
-	t_stacks	*temp_stack;
-	char		**arg_cmd;
-	int			count_tokens;
-	int			count;
-
-	count = 0;
-	temp_stack = position_cmd(stack, id);
-	count_tokens = number_tokens(temp_stack);
-	if (is_valid(temp_stack->stack_cmd))
-	{
-		arg_cmd = ft_calloc(sizeof(char *), count_tokens + 1);
-		arg_cmd_build(arg_cmd, count_tokens, temp_stack);
-		return (arg_cmd);
-	}
-	else
-		return (NULL);
-}
 
 //abre os arquivos de entrada e de saida
 void	open_file(t_stacks *stacks)
@@ -133,6 +35,32 @@ void	open_file(t_stacks *stacks)
 	}
 }
 
+//verifica nos caminhos do $PATH se existe o comando solicitado
+int	is_valid(t_token *cmd)
+{
+	t_double_list	*aux_env;
+	char			**tmp_path;
+	int				count;
+	char			*tmp;
+
+	count = 1;
+	tmp = ft_strjoin("/", cmd->str);
+	tmp_path = load_path();
+	free(cmd->str);
+	cmd->str = ft_strjoin(tmp_path[0], tmp);
+	while (access(cmd->str, F_OK) && tmp_path[count])
+	{
+		free(cmd->str);
+		cmd->str = ft_strjoin(tmp_path[count], tmp);
+		count++;
+	}
+	free(tmp);
+	free_double(tmp_path);
+	if (access(cmd->str, F_OK))
+		return (0);
+	return (1);
+}
+
 static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 {
 	free(line);
@@ -140,6 +68,22 @@ static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 	free_token(&tokens);
 	free_core();
 	exit(0);
+}
+
+static void	heredoc_child(int fd_pp[2], t_stacks **stacks, t_token **tokens)
+{
+	char	*line;
+
+	while (1)
+	{
+		write(STDIN_FILENO, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (!ft_strncmp(line, stacks[0]->stack_herodoc->str,
+				ft_strlen(stacks[0]->stack_herodoc->str)))
+			exit_child(stacks[0], tokens[0], line);
+		write(fd_pp[1], line, ft_strlen(line));
+		free(line);
+	}
 }
 
 //abre um arquivo de entrada na entrada padrão
@@ -155,16 +99,7 @@ void	here_doc(t_stacks *stacks, t_token *tokens)
 	if (pid_hd == 0)
 	{
 		close(fd_pp[0]);
-		while (1)
-		{
-			write(STDIN_FILENO, "> ", 2);
-			line = get_next_line(STDIN_FILENO);
-			if (!ft_strncmp(line, stacks->stack_herodoc->str,
-					ft_strlen(stacks->stack_herodoc->str)))
-				exit_child(stacks, tokens, line);
-			write(fd_pp[1], line, ft_strlen(line));
-			free(line);
-		}
+		heredoc_child(fd_pp, &stacks, &tokens);
 	}
 	else
 	{
@@ -172,21 +107,4 @@ void	here_doc(t_stacks *stacks, t_token *tokens)
 		dup2(fd_pp[0], STDIN_FILENO);
 		wait(NULL);
 	}
-}
-
-//verifica a quantidade de pipes que tem dentro do argumento passado no prompt
-int	amount_pipe(t_stacks *stacks)
-{
-	t_token	*cursor;
-	int		amount_pipe;
-
-	amount_pipe = 0;
-	cursor = stacks->stack_cmd;
-	while (cursor)
-	{
-		if (cursor->is_pipe)
-			amount_pipe++;
-		cursor = cursor->next;
-	}
-	return (amount_pipe);
 }

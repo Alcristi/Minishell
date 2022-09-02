@@ -1,5 +1,0 @@
-Main.c -> OK
-prompt.c ->
-new exec.c ->
-new exec_aux.c -> 
-

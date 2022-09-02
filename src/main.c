@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/24 01:11:38 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:57:33 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	free_core(void)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	init_core(env); //OK
-	prompt(); //---
+	init_core(env);
+	prompt();
 	rl_clear_history();
 	free_core();
 	return (0);

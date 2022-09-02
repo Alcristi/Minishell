@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 00:54:32 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:47:53 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	**load_path(void)
+char	**load_path(void)
 {
 	t_double_list	*aux_env;
 	char			*path;
@@ -32,32 +32,6 @@ static char	**load_path(void)
 	cut_path = ft_split(path, ':');
 	free(path);
 	return (cut_path);
-}
-
-//verifica nos caminhos do $PATH se existe o comando solicitado
-int	is_valid(t_token *cmd)
-{
-	t_double_list	*aux_env;
-	char			**tmp_path;
-	int				count;
-	char			*tmp;
-
-	count = 1;
-	tmp = ft_strjoin("/", cmd->str);
-	tmp_path = load_path();
-	free(cmd->str);
-	cmd->str = ft_strjoin(tmp_path[0], tmp);
-	while (access(cmd->str, F_OK) && tmp_path[count])
-	{
-		free(cmd->str);
-		cmd->str = ft_strjoin(tmp_path[count], tmp);
-		count++;
-	}
-	free(tmp);
-	free_double(tmp_path);
-	if (access(cmd->str, F_OK))
-		return (0);
-	return (1);
 }
 
 //executa os comandos nos processos netos
@@ -82,6 +56,23 @@ static void	child_process(t_stacks *stacks, int positon_cmd)
 		dup2(fd[0], STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
+}
+
+//verifica a quantidade de pipes que tem dentro do argumento passado no prompt
+static int	amount_pipe(t_stacks *stacks)
+{
+	t_token	*cursor;
+	int		amount_pipe;
+
+	amount_pipe = 0;
+	cursor = stacks->stack_cmd;
+	while (cursor)
+	{
+		if (cursor->is_pipe)
+			amount_pipe++;
+		cursor = cursor->next;
+	}
+	return (amount_pipe);
 }
 
 //auxilia a funcao execute a trabalhar com os processos filhos

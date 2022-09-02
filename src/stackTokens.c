@@ -6,13 +6,14 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/24 00:38:56 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/30 00:26:12 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 //carrega a pilha (de cima para baixo)
+//node: destino
 void	load_stacks(t_token **node, t_token *data)
 {
 	t_token	*new_node;
