@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:55:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/03 00:52:42 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,50 @@
 
 static void	convert_for_linked_list(char **str, t_token **tokens)
 {
-	int	i;
-
-	i = -1;
-	while (str[++i])
+	int count;
+	int	index;
+	
+	index = -1;
+	while (str[++index])
 	{
-		if (i == 0)
-			tokens[0] = new_token(str[i]);
+		count = 0;
+		while (str[index][count])
+		{
+			if (str[index][count] == 7)
+				str[index][count] = ' ';
+			count++;
+		}
+		if (index == 0)
+			tokens[0] = new_token(str[index]);
 		else
-			add_node_last_token(tokens, str[i]);
+			add_node_last_token(tokens, str[index]);
+	}
+}
+
+static void	convert_space_buff(void)
+{
+	int	size;
+	int	count;
+	int	active_s_quotes;
+	int	active_d_quotes;
+
+	count = 0;
+	active_s_quotes = 0;
+	active_d_quotes = 0;
+	size = ft_strlen(g_core_var->buff);
+	while (count < size)
+	{
+		if (g_core_var->buff[count] == '\'' && active_s_quotes == 0)
+			active_s_quotes = 1;
+		else if (g_core_var->buff[count] == '\"' && active_d_quotes == 0)
+			active_s_quotes = 1;
+		else if (g_core_var->buff[count] == '\'' && active_s_quotes == 1)
+			active_s_quotes = 0;
+		else if (g_core_var->buff[count] == '\"' && active_d_quotes == 1)
+			active_s_quotes = 0;
+		else if (g_core_var->buff[count] == ' ' && (active_s_quotes || active_d_quotes))
+			g_core_var->buff[count] = 7;
+		count++;
 	}
 }
 
@@ -32,6 +67,7 @@ static t_token	*build_tokens(void)
 	t_token	*tokens;
 
 	tokens = NULL;
+	convert_space_buff();
 	tmp = ft_split(g_core_var->buff, ' ');
 	convert_for_linked_list(tmp, &tokens);
 	free_double(tmp);
