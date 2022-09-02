@@ -6,13 +6,12 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 22:01:58 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:38:35 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//cria um novo token utilizando como conteudo o char *data
 t_token	*new_token(char *data)
 {
 	t_token	*list;
@@ -33,8 +32,6 @@ t_token	*new_token(char *data)
 	return (list);
 }
 
-//adiciona um novo token ao fim da lista linkada
-//ultiliza char *data como conteudo do novo token
 void	add_node_last_token(t_token **node, char *data)
 {
 	t_token	*new_node;
@@ -49,8 +46,6 @@ void	add_node_last_token(t_token **node, char *data)
 	*node = aux;
 }
 
-//SUPOSIÇÃO: adiciona um novo token na posição atual da lista linkada
-//ultiliza char *data como conteudo do novo token
 void	add_node_middle_token(t_token **node, char *data)
 {
 	t_token	*new_node;
@@ -74,7 +69,6 @@ void	add_node_middle_token(t_token **node, char *data)
 	}
 }
 
-//Faz a limpeza dos tokens
 void	free_token(t_token **head)
 {
 	t_token	*aux;

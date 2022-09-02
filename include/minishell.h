@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 01:47:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:37:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		bt_pwd(void);
 int		bt_unset(char *name);
 t_token	*new_token(char *data);
 
-void	load_stacks(t_token **node, t_token *data);
+void	load_stacks(t_token **dst, t_token *data);
 void	add_node_last_token(t_token **node, char *data);
 void	add_node_middle_token(t_token **node, char *data);
 void	free_token(t_token **head);

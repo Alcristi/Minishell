@@ -6,13 +6,12 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 01:57:04 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:33:59 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//abre os arquivos de entrada e de saida
 void	open_file(t_stacks *stacks)
 {
 	if (stacks->stack_input)
@@ -35,7 +34,6 @@ void	open_file(t_stacks *stacks)
 	}
 }
 
-//verifica nos caminhos do $PATH se existe o comando solicitado
 int	is_valid(t_token *cmd)
 {
 	t_double_list	*aux_env;
@@ -86,7 +84,6 @@ static void	heredoc_child(int fd_pp[2], t_stacks **stacks, t_token **tokens)
 	}
 }
 
-//abre um arquivo de entrada na entrada padrão
 void	here_doc(t_stacks *stacks, t_token *tokens)
 {
 	int		fd_pp[2];

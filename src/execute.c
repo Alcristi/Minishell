@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 01:47:53 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:34:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**load_path(void)
 	return (cut_path);
 }
 
-//executa os comandos nos processos netos
 static void	child_process(t_stacks *stacks, int positon_cmd)
 {
 	pid_t	pid;
@@ -58,7 +57,6 @@ static void	child_process(t_stacks *stacks, int positon_cmd)
 	}
 }
 
-//verifica a quantidade de pipes que tem dentro do argumento passado no prompt
 static int	amount_pipe(t_stacks *stacks)
 {
 	t_token	*cursor;
@@ -75,7 +73,6 @@ static int	amount_pipe(t_stacks *stacks)
 	return (amount_pipe);
 }
 
-//auxilia a funcao execute a trabalhar com os processos filhos
 static char	**child_aux(t_stacks **stacks, t_token **tokens)
 {
 	int		count;
@@ -94,7 +91,6 @@ static char	**child_aux(t_stacks **stacks, t_token **tokens)
 	return (cmd);
 }
 
-//executa os comando passados no prompt atravez das stacks
 void	execute(t_stacks *stacks, t_token *tokens)
 {
 	pid_t	pid;

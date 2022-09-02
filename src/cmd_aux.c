@@ -6,14 +6,12 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 01:49:00 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:33:42 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//faz a contagem de tokens
-//funcao auxiliar da cmd_build
 int	number_tokens(t_stacks *stack)
 {
 	t_token		*cursor;
@@ -29,7 +27,6 @@ int	number_tokens(t_stacks *stack)
 	return (count_tokens);
 }
 
-//funcao auxiliar da cmd_build
 static t_stacks	*position_cmd(t_stacks *stack, int id)
 {
 	int			position;
@@ -50,8 +47,6 @@ static t_stacks	*position_cmd(t_stacks *stack, int id)
 	return (temp_stack);
 }
 
-//preciso diminuir linhas
-//funcao auxiliar da build_cmd que constroi o arg_cmd
 static void	free_cmd_aux(t_token **previus)
 {
 	free(previus[0]);
@@ -84,7 +79,6 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 	arg_cmd[count] = NULL;
 }
 
-//constroi a matriz de execução dos comandos no execve
 char	**build_cmd(t_stacks *stack, int id)
 {
 	t_stacks	*temp_stack;

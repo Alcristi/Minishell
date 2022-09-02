@@ -6,13 +6,12 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/24 23:12:36 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:34:37 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//verifica se um comando de saida foi digitado
 static int	check_exit(char *buff)
 {
 	if (buff == NULL)
@@ -25,7 +24,6 @@ static int	check_exit(char *buff)
 	return (0);
 }
 
-//verifica nos caminhos do $PATH se existe o comando solicitado
 static int	check_print(char *buff, t_double_list *env)
 {
 	if (!ft_strncmp(buff, "print", ft_strlen("print")))
@@ -36,7 +34,6 @@ static int	check_print(char *buff, t_double_list *env)
 	return (0);
 }
 
-//cria a string do prompt_line
 static void	str_prompt(void)
 {
 	char	*aux;

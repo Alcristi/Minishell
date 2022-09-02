@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 01:57:18 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:34:56 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	sig_handle(int signum)
 	rl_redisplay();
 }
 
-//função do signal
 void	handle(int i)
 {
 	(void)i;
