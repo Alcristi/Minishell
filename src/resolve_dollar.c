@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 16:05:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/16 18:53:39 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:00:26 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*cat_name_var(int *position, char *buff)
 			break ;
 		index++;
 	}
-	temp = (char *) malloc(index * sizeof(char) + 1);
+	temp = (char *) ft_calloc(index * sizeof(char), 1);
 	while (index2 < index - 1)
 	{
 		temp[index2] = buff[position[0] + index2 + 1];
@@ -81,7 +81,7 @@ char	*cat_var(char *env, int len_name_var)
 
 	size = ft_strlen(env) - len_name_var;
 	count = 0;
-	result = malloc(size * sizeof(char));
+	result = ft_calloc(sizeof(char), size);
 	while (env[count + len_name_var + 1])
 	{
 		result[count] = env[count + len_name_var + 1];

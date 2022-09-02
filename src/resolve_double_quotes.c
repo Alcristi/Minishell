@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:33:46 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/26 00:34:12 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:01:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*resolve_double_quotes(int *position)
 	char	aux;
 
 	count = 0;
-	result = malloc(sizeof(char) * ft_strlen(&g_core_var->buff[position[0]]));
+	result = ft_calloc(sizeof(char), ft_strlen(&g_core_var->buff[position[0]]));
 	result[0] = '\0';
 	if (g_core_var->buff[position[0]] == '\"')
 	{

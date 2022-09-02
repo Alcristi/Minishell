@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 01:57:33 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:55:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_core(char **env)
 	int	count;
 
 	count = 0;
-	g_core_var = (t_core_var *)malloc(sizeof(t_core_var));
+	g_core_var = (t_core_var *)ft_calloc(sizeof(t_core_var), 1);
 	g_core_var->prompt.user = getenv("USER");
 	g_core_var->confirm = 0;
 	g_core_var->fd_in = 0;

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/26 14:19:01 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:01:58 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*new_token(char *data)
 {
 	t_token	*list;
 
-	list = malloc(sizeof(t_token));
+	list = ft_calloc(sizeof(t_token), 1);
 	list->next = NULL;
 	list->previus = NULL;
 	list->str = ft_strdup(data);

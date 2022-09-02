@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 15:55:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/26 00:31:31 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:58:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	save_char(char caracter, t_double_list **result)
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = malloc(sizeof(char) + 1);
+	tmp = ft_calloc(sizeof(char), 1);
 	tmp[0] = caracter;
 	tmp[1] = '\0';
 	add_node_last(&result[0], tmp);
