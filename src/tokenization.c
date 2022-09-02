@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/03 00:52:42 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/03 00:58:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	convert_for_linked_list(char **str, t_token **tokens)
 {
-	int count;
+	int	count;
 	int	index;
-	
+
 	index = -1;
 	while (str[++index])
 	{
@@ -55,7 +55,8 @@ static void	convert_space_buff(void)
 			active_s_quotes = 0;
 		else if (g_core_var->buff[count] == '\"' && active_d_quotes == 1)
 			active_s_quotes = 0;
-		else if (g_core_var->buff[count] == ' ' && (active_s_quotes || active_d_quotes))
+		else if (g_core_var->buff[count] == ' '
+			&& (active_s_quotes || active_d_quotes))
 			g_core_var->buff[count] = 7;
 		count++;
 	}
