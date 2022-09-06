@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/24 00:43:26 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/06 02:22:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,30 @@ static char	*catch_content(char *arg)
 	return (content);
 }
 
+static void	print_vars(void)
+{
+	t_double_list	*aux;
+
+	aux = g_core_var->env;
+	while (aux->previus != NULL)
+		aux = aux->previus;
+	while (aux != NULL)
+	{
+		printf("declare -x %s\n" aux->data);
+		aux = aux->next;
+	}
+}
+
 int	bt_export(char *arg)
 {
 	char	*name;
 	char	*content;
 
+	if (arg == NULL)
+	{
+		print_vars();
+		return (0);
+	}
 	name = catch_name(arg);
 	if (name == NULL)
 		return (1);
