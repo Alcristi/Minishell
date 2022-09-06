@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 22:37:04 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/07 00:28:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		bt_echo(int nb, char **args);
 void	bt_env(void);
 int		bt_export(char *arg);
 int		bt_pwd(void);
+int		bt_cd(char *path);
 int		bt_unset(char *name);
 t_token	*new_token(char *data);
 

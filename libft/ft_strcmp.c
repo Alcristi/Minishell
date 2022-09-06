@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 22:38:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 00:29:54 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/07/29 22:05:57 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/07 00:33:05 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include"libft.h"
 
-int	bt_echo(int nb, char **args)
+int	ft_strcmp(char *str, char *str2)
 {
-	int	count;
-	int	break_line;
+	size_t	size;
+	size_t	count;
 
-	if (args == NULL)
-		return (1);
+	size = ft_strlen(str);
 	count = 0;
-	break_line = 1;
-	while (count < nb)
+	if (size != ft_strlen(str2))
+		return (1);
+	while (count < size)
 	{
-		if (!ft_strcmp(args[count], "-n"))
-			break_line = 0;
+		if (str[count] == str2[count])
+			count++;
 		else
-			printf("%s", args[count]);
-		count++;
+			return (1);
 	}
-	if (break_line == 1)
-		printf("\n");
 	return (0);
 }

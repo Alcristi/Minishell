@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:04:54 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/26 00:22:36 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/06 23:53:51 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_strcmp(char *str, char *str2);
 void	ft_strdel(char **pont);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);

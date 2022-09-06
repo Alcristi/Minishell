@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/06 02:22:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/07 00:30:19 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	print_vars(void)
 		aux = aux->previus;
 	while (aux != NULL)
 	{
-		printf("declare -x %s\n" aux->data);
+		printf("declare -x %s\n", aux->data);
 		aux = aux->next;
 	}
 }

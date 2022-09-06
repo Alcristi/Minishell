@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 22:38:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 00:29:54 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/07 00:29:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	bt_echo(int nb, char **args)
+int	bt_cd(char *path)
 {
-	int	count;
-	int	break_line;
+	int		result;
 
-	if (args == NULL)
-		return (1);
-	count = 0;
-	break_line = 1;
-	while (count < nb)
+	if (path == NULL)
+		return (0);
+	result = 0;
+	result = chdir(path);
+	if (result == -1)
 	{
-		if (!ft_strcmp(args[count], "-n"))
-			break_line = 0;
-		else
-			printf("%s", args[count]);
-		count++;
+		printf("cd: %s: No such file or directory\n", path);
+		return (-1);
 	}
-	if (break_line == 1)
-		printf("\n");
+	else
+	{
+		free_dir(g_core_var);
+		init_dir(&g_core_var->prompt);
+	}
 	return (0);
 }

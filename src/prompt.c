@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 22:34:37 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/06 23:51:56 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void	check_execute(t_token **tokens, t_stacks **stacks)
 	}
 }
 
-//função com o loop do prompt
 void	prompt(void)
 {
 	t_token		*tokens;
