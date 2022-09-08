@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 00:28:16 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/08 18:26:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_double_list	*new(char *data);
 void	add_node_front(t_double_list **node, char *data);
 void	add_node_last(t_double_list **node, char *data);
 void	free_list(t_double_list *head);
+void	convert_space_buff(void);
 void	print_linked_list(t_double_list *node);
 
 int		bt_echo(int nb, char **args);

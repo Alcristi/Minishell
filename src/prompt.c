@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/06 23:51:56 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/08 18:25:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	prompt(void)
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
 		add_history(g_core_var->buff);
+		convert_space_buff();
 		if (check_exit(g_core_var->buff))
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env)
