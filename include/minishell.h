@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 00:55:02 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:21:17 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ extern t_core_var	*g_core_var;
 void	free_core(void);
 
 t_double_list	*new(char *data);
+
+int	bt_pwd(void);
+int	bt_unset(char *name);
+int	bt_export(char *arg);
+void	bt_env(void);
+int	bt_echo(int nb, char **args);
 
 void	add_node_front(t_double_list **node, char *data);
 void	add_node_last(t_double_list **node, char *data);

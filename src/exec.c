@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 00:54:32 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/07 20:53:07 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	is_valid(t_token *cmd)
 	char			*tmp;
 
 	count = 1;
+	if(ft_strchr(cmd->str,'/'))
+		return (!access(cmd->str, F_OK | X_OK));
 	tmp = ft_strjoin("/", cmd->str);
 	tmp_path = load_path();
 	free(cmd->str);
@@ -60,8 +62,55 @@ int	is_valid(t_token *cmd)
 	return (1);
 }
 
+int is_cmd_builtin(char **cmd)
+{
+	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
+		return (1);
+	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
+		return (1);
+	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
+		return (1);
+	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
+		return (1);
+	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
+		return (1);
+	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
+		return (1);
+	else
+		return (0);
+}
+
+int exec_builtin(char **cmd)
+{
+	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
+	{
+		char	**echo_args;
+		int		argc;
+		return (bt_echo(1,&cmd[1]));
+	}
+	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
+		return (0);
+	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
+		return (bt_pwd());
+	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
+	{
+		return (bt_export(cmd[1]));
+	}
+	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
+	{
+		return (bt_unset(cmd[1]));
+	}
+	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
+	{
+		bt_env();
+		return (0);
+	}
+	else
+		return (0);
+}
+
 //executa os comandos nos processos netos
-static void	child_process(t_stacks *stacks, int positon_cmd)
+static void	child_process(t_stacks *stacks, int positon_cmd, t_token *tokens)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -74,46 +123,59 @@ static void	child_process(t_stacks *stacks, int positon_cmd)
 		cmd = build_cmd(stacks, positon_cmd);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		execve(cmd[0], cmd, g_core_var->envp);
+		if (cmd && is_cmd_builtin(cmd))
+			exec_builtin(cmd);
+		else if(cmd)
+			execve(cmd[0], cmd, g_core_var->envp);
+		free_stacks(&stacks);
+		free_token(&tokens);
+		if (cmd)
+			free_double(cmd);
+		free_core();
+		exit(0);
 	}
 	else
 	{
+		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
 	}
 }
 
 //auxilia a funcao execute a trabalhar com os processos filhos
 static char	**child_aux(t_stacks **stacks, t_token **tokens)
 {
-	int		count;
 	char	**cmd;
+	int		count;
+	int		size;
 
 	count = 0;
+	size = amount_pipe(stacks[0]);
+	cmd = NULL;
 	open_file(stacks[0]);
 	if (stacks[0]->stack_herodoc)
 		here_doc(stacks[0], tokens[0]);
-	while (count < amount_pipe(stacks[0]))
+	while ( stacks[0]->stack_cmd && count < size)
 	{
-		child_process(stacks[0], count);
+		child_process(stacks[0], count,tokens[0]);
 		count++;
 	}
-	cmd = build_cmd(stacks[0], count);
+	if(stacks[0]->stack_cmd)
+		cmd = build_cmd(stacks[0], count);
 	return (cmd);
 }
 
 //executa os comando passados no prompt atravez das stacks
+
 void	execute(t_stacks *stacks, t_token *tokens)
 {
 	pid_t	pid;
 	int		status;
 	char	**cmd;
-	int		size;
 	int		count;
 
 	count = 0;
-	size = amount_pipe(stacks);
+	cmd = NULL;
 	pid = fork();
 	signal(SIGINT, handle);
 	if (pid == 0)
@@ -122,10 +184,14 @@ void	execute(t_stacks *stacks, t_token *tokens)
 		dup(1);
 		if (g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out, STDOUT_FILENO);
-		if (cmd)
-			execve(cmd[0], cmd, g_core_var->envp);
+		if (cmd && is_cmd_builtin(cmd))
+			status = exec_builtin(cmd);
+		else if(cmd)
+			status = execve(cmd[0], cmd, g_core_var->envp);
 		free_stacks(&stacks);
 		free_token(&tokens);
+		if (cmd)
+			free_double(cmd);
 		free_core();
 		exit(0);
 	}

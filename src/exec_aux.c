@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 02:25:38 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/06 23:07:46 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 
 	count = 0;
 	/***
-	* Porque a limpeza esta sendo feita dentro do algoritmo 
+	* Porque a limpeza esta sendo feita dentro do algoritmo
 	* ao invez de usar uma função que limpe tudo no fim do ciclo?
 	***/
 	while (count < ct_tokens && stack->stack_cmd)
@@ -67,6 +67,7 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 		count++;
 		if (!stack->stack_cmd->next)
 		{
+			free(stack->stack_cmd->str);
 			free(stack->stack_cmd);
 			stack->stack_cmd = NULL;
 			break ;
@@ -74,6 +75,7 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 		stack->stack_cmd = stack->stack_cmd->next;
 		if (stack->stack_cmd)
 		{
+			free(stack->stack_cmd->previus->str);
 			free(stack->stack_cmd->previus);
 			stack->stack_cmd->previus = NULL;
 		}
@@ -81,10 +83,29 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 	if (stack->stack_cmd && stack->stack_cmd->is_pipe)
 	{
 		stack->stack_cmd = stack->stack_cmd->next;
+		free(stack->stack_cmd->previus->str);
 		free(stack->stack_cmd->previus);
 		stack->stack_cmd->previus = NULL;
 	}
 	arg_cmd[count] = NULL;
+}
+
+int is_builtin(t_stacks *cmd)
+{
+	if (!ft_strncmp(cmd->stack_cmd->str,"echo",ft_strlen("echo")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str,"cd",ft_strlen("cd")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str,"pwd",ft_strlen("pwd")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str,"export",ft_strlen("export")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str,"unset",ft_strlen("unset")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str,"env",ft_strlen("env")))
+		return (1);
+	else
+		return (0);
 }
 
 //constroi a matriz de execução dos comandos no execve
@@ -98,6 +119,12 @@ char	**build_cmd(t_stacks *stack, int id)
 	count = 0;
 	temp_stack = position_cmd(stack, id);
 	count_tokens = number_tokens(temp_stack);
+	if (is_builtin(temp_stack))
+	{
+		arg_cmd = ft_calloc(sizeof(char *), count_tokens + 1);
+		arg_cmd_build(arg_cmd, count_tokens, temp_stack);
+		return (arg_cmd);
+	}
 	if (is_valid(temp_stack->stack_cmd))
 	{
 		arg_cmd = ft_calloc(sizeof(char *), count_tokens + 1);
@@ -131,11 +158,11 @@ void	open_file(t_stacks *stacks)
 	}
 }
 
-static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
+static void	exit_child(t_stacks **stacks, t_token **tokens, char **line)
 {
-	free(line);
-	free_stacks(&stacks);
-	free_token(&tokens);
+	free(line[0]);
+	free_stacks(stacks);
+	free_token(tokens);
 	free_core();
 	exit(0);
 }
@@ -159,7 +186,7 @@ void	here_doc(t_stacks *stacks, t_token *tokens)
 			line = get_next_line(STDIN_FILENO);
 			if (!ft_strncmp(line, stacks->stack_herodoc->str,
 					ft_strlen(stacks->stack_herodoc->str)))
-				exit_child(stacks, tokens, line);
+			exit_child(&stacks, &tokens, &line);
 			write(fd_pp[1], line, ft_strlen(line));
 			free(line);
 		}
