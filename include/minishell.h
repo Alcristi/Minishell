@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/08 18:26:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/15 19:33:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ char	*ft_strnstr_token(char *str, char *to_find, size_t n);
 void	classify_token(t_token *token);
 void	normalize_token(t_token *token);
 void	normalize_redirect(t_token *tokens);
-char	*resolve_dollar(int *position);
-char	*resolve_single_quotes(int *position);
-char	*resolve_double_quotes(int *position);
-void	normalize_quotes(void);
+//char	*resolve_dollar(int *position);
+//char	*resolve_single_quotes(int *position);
+//char	*resolve_double_quotes(int *position);
+//void	normalize_quotes(void);
 t_token	*tokenization_cmd(t_token *tokens);
 
 int		is_valid_input(t_token *cursor);
@@ -155,6 +155,14 @@ int		is_valid_out_append(t_token *cursor);
 int		is_valid_pipe(t_token *cursor);
 
 void	free_double(char **str);
+
+char	*catch_var(char *name_var);
+char	*ft_strjoin_free1(char *s1, char const *s2, size_t size2);
+
+char	*resolve_single_quotes(char *str);
+char	*resolve_dollar(char *str);
+char	*resolve_double_quotes(char *str);
+int		resolve_string(t_token **tokens);
 
 void	open_file(t_stacks *stacks);
 char	**load_path(void);

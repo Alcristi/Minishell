@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resolve_single_quotes.c                            :+:      :+:    :+:   */
+/*   resolve_s_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 10:57:32 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 22:01:29 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/09/13 01:12:12 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/15 19:13:14 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*resolve_single_quotes(int *position)
+char	*resolve_single_quotes(char *str)
 {
 	char	*result;
-	int		count;
+	int		index_r;
+	int		index_s;
 
-	count = 0;
-	result = ft_calloc(sizeof(char), ft_strlen(&g_core_var->buff[position[0]]));
-	if (g_core_var->buff[position[0]] == '\'')
+	index_r = 0;
+	index_s = 0;
+	result = ft_calloc(sizeof(char), ft_strlen(str) -1);
+	while (str[index_s] != '\0')
 	{
-		position[0]++;
-		while (g_core_var->buff[position[0]] != '\'')
+		if (str[index_s] != '\'')
 		{
-			result[count] = g_core_var->buff[position[0]];
-			count++;
-			position[0]++;
+			result[index_r] = str[index_s];
+			index_r++;
 		}
-		result[count] = '\0';
+		index_s++;
 	}
+	result[index_r] = '\0';
 	return (result);
 }

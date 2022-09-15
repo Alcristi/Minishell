@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/08 18:25:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/15 19:34:49 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	str_prompt(void)
 
 static void	check_execute(t_token **tokens, t_stacks **stacks)
 {
-	normalize_quotes();
 	tokens[0] = tokenization_cmd(tokens[0]);
 	if (parse_tkn(tokens[0]))
 	{
