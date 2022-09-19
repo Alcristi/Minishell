@@ -1,65 +1,57 @@
 #include <stdio.h>
 #include "../include/libft.h"
-char *x;
-char *check[] = {"<","<<",">",">>","|"};
+#include "../include/minishell.h"
 
-int parseProduct()
+void new_exec(char **envp)
 {
+	char *const argv1[] = {"/usr/bin/cat","/dev/urandom",NULL};
+	char *const argv2[] = {"/usr/bin/head","-1",NULL};
+	int status;
+	int array[2];
+	int pp[2];
+	int salve_fd[2];
 
-}
-int parseFactor()
-{
-	if(*x >= '0' && *x<= '9')
+	salve_fd[0] = dup(STDIN_FILENO);
+	salve_fd[1] = dup(STDOUT_FILENO);
+	pipe(pp);
+	for(int i = 0; i < 2; i++)
 	{
-		return *x++ - '0';
-	}
-	else
-	{
-		printf("expected digit but found %c\n",*x);
-	}
-}
-void print_list(char **list)
-{
-	int i;
-
-	i = 0;
-	while(list[i])
-	{
-		printf("%s\n",list[i]);
-		i++;
-	}
-}
-
-char	*ft_strchr_token(char *s, int c)
-{
-	int	i;
-
-	char *str;
-	i = 0;
-	if (c == '\0')
-		return ((char *) s + ft_strlen(s));
-	if (c > 256)
-		c -= 256;
-	while (s[i])
-	{
-		if (s[i] == c)
+		array[i] = fork();
+		if(array[i] == 0)
 		{
-			//s[i] = '\0';
-			str = ft_strdup(&s[i + 1]);
-			s[i + 1] = '\0';
-			return (str);
+			if(i == 0)
+			{
+				close(pp[0]);
+				dup2(pp[1], STDOUT_FILENO);
+				execve(argv1[0],argv1,envp);
+			}
+			else
+			{
+				close(pp[0]);
+				close(pp[1]);
+				execve(argv2[0],argv2,envp);
+			}
 		}
-		i++;
+		if(i == 0 && array[0])
+		{
+			close(pp[1]);
+			close(pp[0]);
+			dup2(pp[0], STDIN_FILENO);
+		}
 	}
-	return (0);
+	dup2(salve_fd[0],STDIN_FILENO);
+	dup2(salve_fd[1],STDOUT_FILENO);
+
+	close(salve_fd[0]);
+	close(salve_fd[1]);
+
+	waitpid(array[0],&status,0);
+	waitpid(array[1],&status,0);
 }
 
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
-	x = ft_strdup("amigo");
-
-	printf("%s\n%s\n",ft_strchr_token(x,'m'),x);
-	//print_list(check);
+	new_exec(envp);
 	return 0;
 }
