@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 22:34:56 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/08/26 00:20:05 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/08/26 00:22:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include"libft.h"
 
-void	sig_handle(int signum)
+void	ft_strdel(char **pont)
 {
-	(void)signum;
-	write(0, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle(int i)
-{
-	(void)i;
-	write(0, "\n", 1);
-	return ;
+	if (pont != NULL)
+	{
+		free(*pont);
+		*pont = NULL;
+	}
 }

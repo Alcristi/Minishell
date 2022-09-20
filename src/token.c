@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:52:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:38:35 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*new_token(char *data)
 {
 	t_token	*list;
 
-	list = malloc(sizeof(t_token));
+	list = ft_calloc(sizeof(t_token), 1);
 	list->next = NULL;
 	list->previus = NULL;
 	list->str = ft_strdup(data);

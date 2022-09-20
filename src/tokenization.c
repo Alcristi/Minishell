@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:55:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/14 03:30:50 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 static void	convert_for_linked_list(char **str, t_token **tokens)
 {
-	int	i;
+	int	count;
+	int	index;
 
-	i = -1;
-	while (str[++i])
+	index = -1;
+	while (str[++index])
 	{
-		if (i == 0)
-			tokens[0] = new_token(str[i]);
+		count = 0;
+		while (str[index][count])
+		{
+			if (str[index][count] == 7)
+				str[index][count] = 32;
+			count++;
+		}
+		if (index == 0)
+			tokens[0] = new_token(str[index]);
 		else
-			add_node_last_token(tokens, str[i]);
+			add_node_last_token(tokens, str[index]);
 	}
 }
 
@@ -30,10 +38,17 @@ static t_token	*build_tokens(void)
 {
 	char	**tmp;
 	t_token	*tokens;
+	t_token	*aux;
 
 	tokens = NULL;
-	tmp = ft_split(g_core_var->buff, ' ');
+	tmp = ft_split(g_core_var->buff, 32);
 	convert_for_linked_list(tmp, &tokens);
+	aux = tokens;
+	while (aux != NULL)
+	{
+		resolve_string(&aux);
+		aux = aux->next;
+	}
 	free_double(tmp);
 	return (tokens);
 }

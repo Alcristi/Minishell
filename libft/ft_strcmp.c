@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 22:34:56 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/07/29 22:05:57 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/07 00:33:05 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include"libft.h"
 
-void	sig_handle(int signum)
+int	ft_strcmp(char *str, char *str2)
 {
-	(void)signum;
-	write(0, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	size_t	size;
+	size_t	count;
 
-void	handle(int i)
-{
-	(void)i;
-	write(0, "\n", 1);
-	return ;
+	size = ft_strlen(str);
+	count = 0;
+	if (size != ft_strlen(str2))
+		return (1);
+	while (count < size)
+	{
+		if (str[count] == str2[count])
+			count++;
+		else
+			return (1);
+	}
+	return (0);
 }

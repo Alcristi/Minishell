@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   resolve_s_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 22:34:56 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/09/13 01:12:12 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/15 19:13:14 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	sig_handle(int signum)
+char	*resolve_single_quotes(char *str)
 {
-	(void)signum;
-	write(0, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	char	*result;
+	int		index_r;
+	int		index_s;
 
-void	handle(int i)
-{
-	(void)i;
-	write(0, "\n", 1);
-	return ;
+	index_r = 0;
+	index_s = 0;
+	result = ft_calloc(sizeof(char), ft_strlen(str) -1);
+	while (str[index_s] != '\0')
+	{
+		if (str[index_s] != '\'')
+		{
+			result[index_r] = str[index_s];
+			index_r++;
+		}
+		index_s++;
+	}
+	result[index_r] = '\0';
+	return (result);
 }

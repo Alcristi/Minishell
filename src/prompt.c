@@ -6,13 +6,12 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/20 17:30:23 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:40:11 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//verifica se um comando de saida foi digitado
 static int	check_exit(char *buff)
 {
 	if (buff == NULL)
@@ -25,7 +24,6 @@ static int	check_exit(char *buff)
 	return (0);
 }
 
-//verifica nos caminhos do $PATH se existe o comando solicitado
 static int	check_print(char *buff, t_double_list *env)
 {
 	if (!ft_strncmp(buff, "print", ft_strlen("print")))
@@ -36,7 +34,6 @@ static int	check_print(char *buff, t_double_list *env)
 	return (0);
 }
 
-//cria a string do prompt_line
 static void	str_prompt(void)
 {
 	char	*aux;
@@ -104,7 +101,6 @@ void	define_execute_signals(int child_pid)
 
 static void	check_execute(t_token **tokens, t_stacks **stacks)
 {
-	normalize_quotes();
 	tokens[0] = tokenization_cmd(tokens[0]);
 	if (parse_tkn(tokens[0]))
 	{
@@ -114,7 +110,6 @@ static void	check_execute(t_token **tokens, t_stacks **stacks)
 	}
 }
 
-//função com o loop do prompt
 void	prompt(void)
 {
 	t_token		*tokens;
@@ -126,6 +121,7 @@ void	prompt(void)
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
 		add_history(g_core_var->buff);
+		convert_space_buff();
 		if (check_exit(g_core_var->buff))
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env)

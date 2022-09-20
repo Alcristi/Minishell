@@ -6,7 +6,11 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/19 23:42:48 by alcristi         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/15 19:33:57 by esilva-s         ###   ########.fr       */
+>>>>>>> 7b1fa66e08be58be2c122414d534037b878954c4
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +112,18 @@ int	bt_echo(int nb, char **args);
 void	add_node_front(t_double_list **node, char *data);
 void	add_node_last(t_double_list **node, char *data);
 void	free_list(t_double_list *head);
+void	convert_space_buff(void);
 void	print_linked_list(t_double_list *node);
 
 int		bt_echo(int nb, char **args);
 void	bt_env(void);
 int		bt_export(char *arg);
 int		bt_pwd(void);
+int		bt_cd(char *path);
 int		bt_unset(char *name);
 t_token	*new_token(char *data);
 
-void	load_stacks(t_token **node, t_token *data);
+void	load_stacks(t_token **dst, t_token *data);
 void	add_node_last_token(t_token **node, char *data);
 void	add_node_middle_token(t_token **node, char *data);
 void	free_token(t_token **head);
@@ -131,10 +137,10 @@ char	*ft_strnstr_token(char *str, char *to_find, size_t n);
 void	classify_token(t_token *token);
 void	normalize_token(t_token *token);
 void	normalize_redirect(t_token *tokens);
-char	*resolve_dollar(int *position);
-char	*resolve_single_quotes(int *position);
-char	*resolve_double_quotes(int *position);
-void	normalize_quotes(void);
+//char	*resolve_dollar(int *position);
+//char	*resolve_single_quotes(int *position);
+//char	*resolve_double_quotes(int *position);
+//void	normalize_quotes(void);
 t_token	*tokenization_cmd(t_token *tokens);
 
 int		is_valid_input(t_token *cursor);
@@ -160,11 +166,25 @@ int		is_valid_pipe(t_token *cursor);
 
 void	free_double(char **str);
 
+char	*catch_var(char *name_var);
+char	*ft_strjoin_free1(char *s1, char const *s2, size_t size2);
+
+char	*resolve_single_quotes(char *str);
+char	*resolve_dollar(char *str);
+char	*resolve_double_quotes(char *str);
+int		resolve_string(t_token **tokens);
+
 void	open_file(t_stacks *stacks);
+char	**load_path(void);
 int		is_valid(t_token *cmd);
 char	**build_cmd(t_stacks *stack, int id);
+<<<<<<< HEAD
 int		here_doc(t_stacks *stacks, t_token *tokens,int select_input);
 int		amount_pipe(t_stacks *stacks);
+=======
+void	here_doc(t_stacks *stacks, t_token *tokens);
+int		number_tokens(t_stacks *stack);
+>>>>>>> 7b1fa66e08be58be2c122414d534037b878954c4
 void	execute(t_stacks *stacks, t_token *tokens);
 
 char	*cat_var(char *env, int len_name_var);

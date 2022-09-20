@@ -6,42 +6,15 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 22:38:41 by esilva-s          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/19 23:31:36 by alcristi         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/07 00:29:54 by esilva-s         ###   ########.fr       */
+>>>>>>> 7b1fa66e08be58be2c122414d534037b878954c4
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-static int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-*/
-
-static int	ft_strcmp(char *str, char *str2)
-{
-	int	size;
-	int	count;
-
-	size = ft_strlen(str);
-	count = 0;
-	if (size != ft_strlen(str2))
-		return (1);
-	while (count < size)
-	{
-		if (str[count] == str2[count])
-			count++;
-		else
-			return (1);
-	}
-	return (0);
-}
 
 int	bt_echo(int nb, char **args)
 {

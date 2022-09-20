@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_method.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:04:06 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 21:42:05 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:55:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_double_list	*new(char *data)
 {
 	t_double_list	*list;
 
-	list = malloc(sizeof(t_double_list));
+	list = ft_calloc(sizeof(t_double_list), 1);
 	list->next = NULL;
 	list->previus = NULL;
 	list->data = ft_strdup(data);

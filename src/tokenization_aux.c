@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/02 11:38:00 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/08/29 19:16:51 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	is_normalize(t_token *token, int size)
 		|| ((ft_strnstr(token->str, "<<", size)
 				|| ft_strnstr(token->str, ">>", size)) && size != 2))
 	{
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 void	normalize_token(t_token *token)
@@ -96,7 +96,7 @@ void	normalize_token(t_token *token)
 		data = ft_strchr_token(token->str, '|');
 	if (data)
 		add_node_middle_token(&token, data);
-	if (is_normalize(token, size))
+	if (!is_normalize(token, size))
 		normalize_token(token);
 	if (data)
 		free(data);
