@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 22:38:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/22 23:20:34 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/19 23:31:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	bt_echo(int nb, char **args)
 		if (!ft_strcmp(args[count], "-n"))
 			break_line = 0;
 		else
-			printf("%s", args[count]);
+			printf("%s ", args[count]);
 		count++;
 	}
 	if (break_line == 1)

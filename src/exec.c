@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 20:53:07 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:32:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,121 +80,181 @@ int is_cmd_builtin(char **cmd)
 		return (0);
 }
 
-int exec_builtin(char **cmd)
+int exec_echo(char **cmd)
+{
+	int count_args;
+
+	count_args = 0;
+	while(cmd[count_args])
+		count_args++;
+	return (bt_echo(count_args -1,&cmd[1]));
+}
+
+int execute_builtin(char **cmd)
 {
 	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
-	{
-		char	**echo_args;
-		int		argc;
-		return (bt_echo(1,&cmd[1]));
-	}
+		return (exec_echo(cmd));
 	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
 		return (0);
 	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
 		return (bt_pwd());
 	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
-	{
 		return (bt_export(cmd[1]));
-	}
 	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
-	{
 		return (bt_unset(cmd[1]));
-	}
 	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
 	{
 		bt_env();
 		return (0);
 	}
-	else
-		return (0);
 }
 
-//executa os comandos nos processos netos
-static void	child_process(t_stacks *stacks, int positon_cmd, t_token *tokens)
+int select_stdin(t_token *tokens)
 {
+	t_token *cursor;
+	int	priority_stdin;
+
+	priority_stdin = -1;
+	cursor = tokens;
+	while(cursor)
+	{
+		if (cursor->is_heredoc)
+			priority_stdin = 2;
+		else if (cursor->is_input)
+			priority_stdin = 1;
+		cursor = cursor->next;
+	}
+	return (priority_stdin);
+}
+
+void handle_redirect(t_stacks *stacks,t_token *tokens,int select_input)
+{
+	if (stacks->stack_herodoc)
+	{
+		g_core_var->exit_code =  here_doc(stacks,tokens,select_input);
+		if (g_core_var->exit_code != 0)
+			exit (130);
+	}
+
+	if (stacks->stack_input && select_input == 1)
+	{
+		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		if (g_core_var->fd_in < 0)
+		{
+			write(2,"Minisheel : ",13);
+			ft_putstr_fd(stacks->stack_input->str,2);
+			write(2,": ",2);
+			perror(NULL);
+			g_core_var->exit_code = EXIT_FAILURE;
+			exit(EXIT_FAILURE);
+		}
+		dup2(g_core_var->fd_in, STDIN_FILENO);
+	}
+
+	if (stacks->stack_out)
+	{
+		if (stacks->stack_out->is_output)
+			g_core_var->fd_out = open(stacks->stack_out->str,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			g_core_var->fd_out = open(stacks->stack_out->str,
+					O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (g_core_var->fd_out < 0)
+		{
+			perror(NULL);
+			g_core_var->exit_code = EXIT_FAILURE;
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+void free_exec(t_stacks *stacks, t_token *tokens)
+{
+	free_token(&tokens);
+	free_stacks(&stacks);
+	free_core();
+}
+
+void exec_cmd(t_stacks *stacks, t_token *tokens)
+{
+	int		priority_stdin;
+	char	**cmd;
 	pid_t	pid;
-	int		fd[2];
-	char	**cmd;
+	int		status;
 
-	pipe(fd);
+	priority_stdin = select_stdin(tokens);
 	pid = fork();
-	if (pid == 0)
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	else if (pid == 0)
 	{
-		cmd = build_cmd(stacks, positon_cmd);
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		if (cmd && is_cmd_builtin(cmd))
-			exec_builtin(cmd);
-		else if(cmd)
+		handle_redirect(stacks,tokens,priority_stdin);
+		cmd = build_cmd(stacks,0);
+		if (g_core_var->fd_out != 0)
+			dup2(g_core_var->fd_out, STDOUT_FILENO);
+		if(cmd)
 			execve(cmd[0], cmd, g_core_var->envp);
-		free_stacks(&stacks);
-		free_token(&tokens);
-		if (cmd)
-			free_double(cmd);
-		free_core();
-		exit(0);
+		perror(NULL);
+		free_exec(stacks,tokens);
+		exit(127);
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		waitpid (pid,&status,0);
+		if (g_core_var->fd_in != 0)
+			close(g_core_var->fd_in);
+		if (g_core_var->fd_out != 0)
+			close(g_core_var->fd_out);
 	}
 }
 
-//auxilia a funcao execute a trabalhar com os processos filhos
-static char	**child_aux(t_stacks **stacks, t_token **tokens)
+void exec_with_pipe(t_stacks *stacks, t_token *tokens)
 {
+	int		priority_stdin;
 	char	**cmd;
-	int		count;
-	int		size;
+	pid_t	pid;
+	int		status;
 
-	count = 0;
-	size = amount_pipe(stacks[0]);
-	cmd = NULL;
-	open_file(stacks[0]);
-	if (stacks[0]->stack_herodoc)
-		here_doc(stacks[0], tokens[0]);
-	while ( stacks[0]->stack_cmd && count < size)
-	{
-		child_process(stacks[0], count,tokens[0]);
-		count++;
-	}
-	if(stacks[0]->stack_cmd)
-		cmd = build_cmd(stacks[0], count);
-	return (cmd);
+	priority_stdin = select_stdin(tokens);
 }
 
-//executa os comando passados no prompt atravez das stacks
+void exec_builtin(t_stacks *stacks, t_token *tokens)
+{
+	char **cmd;
+	int		priority_stdin;
+	int		copy_stdout;
+	int		flag_redirect;
+
+	flag_redirect = 0;
+	copy_stdout = dup(STDOUT_FILENO);
+	priority_stdin = select_stdin(tokens);
+	handle_redirect(stacks,tokens,priority_stdin);
+	cmd = build_cmd(stacks,0);
+	if (g_core_var->fd_out != 0)
+	{
+		dup2(g_core_var->fd_out, STDOUT_FILENO);
+		flag_redirect = 1;
+	}
+	execute_builtin(cmd);
+	if(flag_redirect)
+		dup2(copy_stdout, STDOUT_FILENO);
+	free_double(cmd);
+	close(copy_stdout);
+	close(g_core_var->fd_out);
+}
 
 void	execute(t_stacks *stacks, t_token *tokens)
 {
-	pid_t	pid;
-	int		status;
-	char	**cmd;
-	int		count;
-
-	count = 0;
-	cmd = NULL;
-	pid = fork();
-	signal(SIGINT, handle);
-	if (pid == 0)
+	if(stacks->stack_cmd)
 	{
-		cmd = child_aux(&stacks, &tokens);
-		dup(1);
-		if (g_core_var->fd_out != 0)
-			dup2(g_core_var->fd_out, STDOUT_FILENO);
-		if (cmd && is_cmd_builtin(cmd))
-			status = exec_builtin(cmd);
-		else if(cmd)
-			status = execve(cmd[0], cmd, g_core_var->envp);
-		free_stacks(&stacks);
-		free_token(&tokens);
-		if (cmd)
-			free_double(cmd);
-		free_core();
-		exit(0);
+		if (amount_pipe(stacks))
+			exec_with_pipe(stacks,tokens);
+		else
+		{
+			if (is_builtin(stacks))
+				exec_builtin(stacks,tokens);
+			else
+				exec_cmd(stacks,tokens);
+		}
 	}
-	else
-		waitpid(pid, &status, 0);
 }

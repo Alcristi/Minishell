@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/25 22:21:17 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/19 23:42:48 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,11 +163,10 @@ void	free_double(char **str);
 void	open_file(t_stacks *stacks);
 int		is_valid(t_token *cmd);
 char	**build_cmd(t_stacks *stack, int id);
-void	here_doc(t_stacks *stacks, t_token *tokens);
+int		here_doc(t_stacks *stacks, t_token *tokens,int select_input);
 int		amount_pipe(t_stacks *stacks);
 void	execute(t_stacks *stacks, t_token *tokens);
 
 char	*cat_var(char *env, int len_name_var);
 int		search_var(char *var, char *env);
-
 #endif /*MINISHELL_H*/

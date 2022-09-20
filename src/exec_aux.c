@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/06 23:07:46 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:31:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,15 @@ static void	exit_child(t_stacks **stacks, t_token **tokens, char **line)
 }
 
 //abre um arquivo de entrada na entrada padrão
-void	here_doc(t_stacks *stacks, t_token *tokens)
+int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 {
 	int		fd_pp[2];
 	pid_t	pid_hd;
 	char	*line;
+	int		status;
 
 	if (pipe(fd_pp) == -1)
-		exit(-1);
+		exit(EXIT_FAILURE);
 	pid_hd = fork();
 	if (pid_hd == 0)
 	{
@@ -187,15 +188,21 @@ void	here_doc(t_stacks *stacks, t_token *tokens)
 			if (!ft_strncmp(line, stacks->stack_herodoc->str,
 					ft_strlen(stacks->stack_herodoc->str)))
 			exit_child(&stacks, &tokens, &line);
-			write(fd_pp[1], line, ft_strlen(line));
+			if (is_priority == 2)
+				write(fd_pp[1], line, ft_strlen(line));
 			free(line);
 		}
+		close(fd_pp[1]);
 	}
 	else
 	{
 		close(fd_pp[1]);
-		dup2(fd_pp[0], STDIN_FILENO);
-		wait(NULL);
+		if(is_priority == 2)
+			dup2(fd_pp[0], STDIN_FILENO);
+		else
+			close(fd_pp[0]);
+		waitpid(pid_hd,&status,0);
+		return (status);
 	}
 }
 
