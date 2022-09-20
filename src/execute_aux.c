@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 17:43:30 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:01:15 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,43 +68,43 @@ static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 	exit(0);
 }
 
-static void	heredoc_child(int fd_pp[2], t_stacks **stacks, t_token **tokens)
-{
-	char	*line;
+// static void	heredoc_child(int fd_pp[2], t_stacks **stacks, t_token **tokens)
+// {
+// 	char	*line;
 
-	while (1)
-	{
-		write(STDIN_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!ft_strncmp(line, stacks[0]->stack_herodoc->str,
-				ft_strlen(stacks[0]->stack_herodoc->str)))
-			exit_child(stacks[0], tokens[0], line);
-		write(fd_pp[1], line, ft_strlen(line));
-		free(line);
-	}
-}
+// 	while (1)
+// 	{
+// 		write(STDIN_FILENO, "> ", 2);
+// 		line = get_next_line(STDIN_FILENO);
+// 		if (!ft_strncmp(line, stacks[0]->stack_herodoc->str,
+// 				ft_strlen(stacks[0]->stack_herodoc->str)))
+// 			exit_child(stacks[0], tokens[0], line);
+// 		write(fd_pp[1], line, ft_strlen(line));
+// 		free(line);
+// 	}
+// }
 
-void	here_doc(t_stacks *stacks, t_token *tokens)
-{
-	int		fd_pp[2];
-	pid_t	pid_hd;
-	char	*line;
+// void	here_doc(t_stacks *stacks, t_token *tokens)
+// {
+// 	int		fd_pp[2];
+// 	pid_t	pid_hd;
+// 	char	*line;
 
-	if (pipe(fd_pp) == -1)
-		exit(-1);
-	pid_hd = fork();
-	if (pid_hd == 0)
-	{
-		close(fd_pp[0]);
-		heredoc_child(fd_pp, &stacks, &tokens);
-	}
-	else
-	{
-		close(fd_pp[1]);
-		dup2(fd_pp[0], STDIN_FILENO);
-		wait(NULL);
-	}
-}
+// 	if (pipe(fd_pp) == -1)
+// 		exit(-1);
+// 	pid_hd = fork();
+// 	if (pid_hd == 0)
+// 	{
+// 		close(fd_pp[0]);
+// 		heredoc_child(fd_pp, &stacks, &tokens);
+// 	}
+// 	else
+// 	{
+// 		close(fd_pp[1]);
+// 		dup2(fd_pp[0], STDIN_FILENO);
+// 		wait(NULL);
+// 	}
+// }
 
 int	amount_pipe(t_stacks *stacks)
 {
@@ -141,7 +141,7 @@ int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 			line = get_next_line(STDIN_FILENO);
 			if (!ft_strncmp(line, stacks->stack_herodoc->str,
 					ft_strlen(stacks->stack_herodoc->str)))
-			exit_child(&stacks, &tokens, &line);
+			exit_child(stacks, tokens, line);
 			if (is_priority == 2)
 				write(fd_pp[1], line, ft_strlen(line));
 			free(line);

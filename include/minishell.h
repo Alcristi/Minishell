@@ -6,11 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/09/19 23:42:48 by alcristi         ###   ########.fr       */
-=======
-/*   Updated: 2022/09/15 19:33:57 by esilva-s         ###   ########.fr       */
->>>>>>> 7b1fa66e08be58be2c122414d534037b878954c4
+/*   Updated: 2022/09/20 17:56:09 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +174,10 @@ void	open_file(t_stacks *stacks);
 char	**load_path(void);
 int		is_valid(t_token *cmd);
 char	**build_cmd(t_stacks *stack, int id);
-<<<<<<< HEAD
 int		here_doc(t_stacks *stacks, t_token *tokens,int select_input);
 int		amount_pipe(t_stacks *stacks);
-=======
-void	here_doc(t_stacks *stacks, t_token *tokens);
-int		number_tokens(t_stacks *stack);
->>>>>>> 7b1fa66e08be58be2c122414d534037b878954c4
+//void	here_doc(t_stacks *stacks, t_token *tokens);
+//int		number_tokens(t_stacks *stack);
 void	execute(t_stacks *stacks, t_token *tokens);
 
 char	*cat_var(char *env, int len_name_var);

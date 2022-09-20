@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 17:39:52 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:00:26 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,50 +35,69 @@ char	**load_path(void)
 }
 
 //verifica nos caminhos do $PATH se existe o comando solicitado
-int	is_valid(t_token *cmd)
-{
-	t_double_list	*aux_env;
-	char			**tmp_path;
-	int				count;
-	char			*tmp;
+// int	is_valid(t_token *cmd)
+// {
+// 	t_double_list	*aux_env;
+// 	char			**tmp_path;
+// 	int				count;
+// 	char			*tmp;
 
-	count = 1;
-	if(ft_strchr(cmd->str,'/'))
-		return (!access(cmd->str, F_OK | X_OK));
-	tmp = ft_strjoin("/", cmd->str);
-	tmp_path = load_path();
-	free(cmd->str);
-	cmd->str = ft_strjoin(tmp_path[0], tmp);
-	while (access(cmd->str, F_OK) && tmp_path[count])
-	{
-		free(cmd->str);
-		cmd->str = ft_strjoin(tmp_path[count], tmp);
-		count++;
-	}
-	free(tmp);
-	free_double(tmp_path);
-	if (access(cmd->str, F_OK))
-		return (0);
-	return (1);
-}
+// 	count = 1;
+// 	if(ft_strchr(cmd->str,'/'))
+// 		return (!access(cmd->str, F_OK | X_OK));
+// 	tmp = ft_strjoin("/", cmd->str);
+// 	tmp_path = load_path();
+// 	free(cmd->str);
+// 	cmd->str = ft_strjoin(tmp_path[0], tmp);
+// 	while (access(cmd->str, F_OK) && tmp_path[count])
+// 	{
+// 		free(cmd->str);
+// 		cmd->str = ft_strjoin(tmp_path[count], tmp);
+// 		count++;
+// 	}
+// 	free(tmp);
+// 	free_double(tmp_path);
+// 	if (access(cmd->str, F_OK))
+// 		return (0);
+// 	return (1);
+// }
 
-int is_cmd_builtin(char **cmd)
+
+int is_builtin(t_stacks *cmd)
 {
-	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
+	if (!ft_strncmp(cmd->stack_cmd->str,"echo",ft_strlen("echo")))
 		return (1);
-	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
+	else if (!ft_strncmp(cmd->stack_cmd->str,"cd",ft_strlen("cd")))
 		return (1);
-	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
+	else if (!ft_strncmp(cmd->stack_cmd->str,"pwd",ft_strlen("pwd")))
 		return (1);
-	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
+	else if (!ft_strncmp(cmd->stack_cmd->str,"export",ft_strlen("export")))
 		return (1);
-	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
+	else if (!ft_strncmp(cmd->stack_cmd->str,"unset",ft_strlen("unset")))
 		return (1);
-	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
+	else if (!ft_strncmp(cmd->stack_cmd->str,"env",ft_strlen("env")))
 		return (1);
 	else
 		return (0);
 }
+
+// int is_cmd_builtin(char **cmd)
+// {
+// 	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
+// 		return (1);
+// 	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
+// 		return (1);
+// 	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
+// 		return (1);
+// 	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
+// 		return (1);
+// 	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
+// 		return (1);
+// 	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
 int exec_echo(char **cmd)
 {
