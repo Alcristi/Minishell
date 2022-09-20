@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:00:26 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:38:37 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int execute_builtin(char **cmd)
 	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
 		return (exec_echo(cmd));
 	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
-		return (0);
+		return (bt_cd(cmd[1]));
 	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
 		return (bt_pwd());
 	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
@@ -259,7 +259,8 @@ void exec_builtin(t_stacks *stacks, t_token *tokens)
 		dup2(copy_stdout, STDOUT_FILENO);
 	free_double(cmd);
 	close(copy_stdout);
-	close(g_core_var->fd_out);
+	if (g_core_var->fd_out != 0)
+		close(g_core_var->fd_out);
 }
 
 void	execute(t_stacks *stacks, t_token *tokens)
