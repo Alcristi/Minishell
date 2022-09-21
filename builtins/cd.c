@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:40:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 09:33:06 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	bt_cd(char *path)
 	}
 	else
 	{
-		free_dir(g_core_var);
+		//free_dir(g_core_var);
 		init_dir(&g_core_var->prompt);
 	}
 	return (0);

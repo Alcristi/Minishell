@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 17:56:09 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:43:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 
 # include "./libft.h"
 
+# define CMD_NOT_FOUND 127
+# define PERMISSION_DENIED 126
+# define IS_DIRECTORY 126
+# define INTERRUPT_SIG_INT 130
 # define GREEN "\e[1;32m"
 # define PURPLE "\e[1;35m"
 # define BLUE "\e[1;34m"
@@ -90,6 +94,7 @@ typedef struct s_core_var
 	int				confirm;
 	int				fd_in;
 	int				fd_out;
+	int				fd_pipe[2];
 	int				exit_code;
 }t_core_var;
 
@@ -169,13 +174,14 @@ char	*resolve_single_quotes(char *str);
 char	*resolve_dollar(char *str);
 char	*resolve_double_quotes(char *str);
 int		resolve_string(t_token **tokens);
-
+void free_exec(t_stacks *stacks, t_token *tokens);
 void	open_file(t_stacks *stacks);
 char	**load_path(void);
-int		is_valid(t_token *cmd);
-char	**build_cmd(t_stacks *stack, int id);
+int		is_valid(t_token *cmd,t_stacks *stacks, t_token *tokens);
+char	**build_cmd(t_stacks *stack,t_token *tokens, int id);
 int		here_doc(t_stacks *stacks, t_token *tokens,int select_input);
 int		amount_pipe(t_stacks *stacks);
+int is_builtin(t_stacks *cmd);
 //void	here_doc(t_stacks *stacks, t_token *tokens);
 //int		number_tokens(t_stacks *stack);
 void	execute(t_stacks *stacks, t_token *tokens);

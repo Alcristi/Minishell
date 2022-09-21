@@ -6,43 +6,29 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/21 12:53:30 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:50:45 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	system_error(int number_err,char *)
+void	system_error(int number_err,char * str)
 {
+	char *error;
+
 	if (number_err == INTERRUPT_SIG_INT)
 		exit(INTERRUPT_SIG_INT);
 	else if (number_err == CMD_NOT_FOUND)
+	{
+
+		error = ft_strjoin_gnl(str,": command not found\n");
+		ft_putstr_fd(error,2);
+		free(error);
 		exit(CMD_NOT_FOUND);
-}
-
-void	open_file(t_stacks *stacks)
-{
-	if (stacks->stack_input)
-	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
-		if (g_core_var->fd_in < 0)
-			exit(1);
-		dup2(g_core_var->fd_in, 0);
-	}
-	if (stacks->stack_out)
-	{
-		if (stacks->stack_out->is_output)
-			g_core_var->fd_out = open(stacks->stack_out->str,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			g_core_var->fd_out = open(stacks->stack_out->str,
-					O_WRONLY | O_APPEND | O_CREAT, 0644);
-		if (g_core_var->fd_out < 0)
-			exit(1);
 	}
 }
 
-void check_cmd(char *str)
+void check_cmd(char *str,t_stacks *stacks, t_token *tokens)
 {
 	struct stat info_stat;
 	char	*error;
@@ -54,6 +40,7 @@ void check_cmd(char *str)
 		error = ft_strjoin_gnl(error,": is a directory\n");
 		ft_putstr_fd(error,2);
 		free(error);
+		free_exec(stacks,tokens);
 		exit (IS_DIRECTORY);
 	}
 	if(!access(str,F_OK))
@@ -64,6 +51,7 @@ void check_cmd(char *str)
 			error = ft_strjoin_gnl(error,": Permission denied\n");
 			ft_putstr_fd(error,2);
 			free(error);
+			free_exec(stacks,tokens);
 			exit(CMD_NOT_FOUND);
 		}
 	}
@@ -73,12 +61,13 @@ void check_cmd(char *str)
 		error = ft_strjoin_gnl(error,": no such file or directory\n");
 		ft_putstr_fd(error,2);
 		free(error);
+		free_exec(stacks,tokens);
 		exit(PERMISSION_DENIED);
 	}
 
 }
 
-int	is_valid(t_token *cmd)
+int	is_valid(t_token *cmd,t_stacks *stacks, t_token *tokens)
 {
 	t_double_list	*aux_env;
 	char			**tmp_path;
@@ -88,7 +77,7 @@ int	is_valid(t_token *cmd)
 	count = 1;
 	if (ft_strchr(cmd->str,'/'))
 	{
-		check_cmd(cmd->str);
+		check_cmd(cmd->str,stacks,tokens);
 		return TRUE;
 	}
 	else
@@ -106,7 +95,12 @@ int	is_valid(t_token *cmd)
 		free(tmp);
 		free_double(tmp_path);
 		if (access(cmd->str, F_OK))
-			return (0);
+		{
+			tmp = ft_strdup(cmd->str);
+			free_exec(stacks,tokens);
+
+			system_error(CMD_NOT_FOUND,tmp);
+		}
 		return (1);
 	}
 }

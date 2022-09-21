@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/21 00:48:51 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:23:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,6 @@ char	**load_path(void)
 	return (cut_path);
 }
 
-//verifica nos caminhos do $PATH se existe o comando solicitado
-// int	is_valid(t_token *cmd)
-// {
-// 	t_double_list	*aux_env;
-// 	char			**tmp_path;
-// 	int				count;
-// 	char			*tmp;
-
-// 	count = 1;
-// 	if(ft_strchr(cmd->str,'/'))
-// 		return (!access(cmd->str, F_OK | X_OK));
-// 	tmp = ft_strjoin("/", cmd->str);
-// 	tmp_path = load_path();
-// 	free(cmd->str);
-// 	cmd->str = ft_strjoin(tmp_path[0], tmp);
-// 	while (access(cmd->str, F_OK) && tmp_path[count])
-// 	{
-// 		free(cmd->str);
-// 		cmd->str = ft_strjoin(tmp_path[count], tmp);
-// 		count++;
-// 	}
-// 	free(tmp);
-// 	free_double(tmp_path);
-// 	if (access(cmd->str, F_OK))
-// 		return (0);
-// 	return (1);
-// }
-
-
 int is_builtin(t_stacks *cmd)
 {
 	if (!ft_strncmp(cmd->stack_cmd->str,"echo",ft_strlen("echo")))
@@ -80,24 +51,6 @@ int is_builtin(t_stacks *cmd)
 	else
 		return (0);
 }
-
-// int is_cmd_builtin(char **cmd)
-// {
-// 	if (!ft_strncmp(cmd[0],"echo",ft_strlen("echo")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd[0],"cd",ft_strlen("cd")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd[0],"pwd",ft_strlen("pwd")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd[0],"export",ft_strlen("export")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd[0],"unset",ft_strlen("unset")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
-// 		return (1);
-// 	else
-// 		return (0);
-// }
 
 int exec_echo(char **cmd)
 {
@@ -146,16 +99,20 @@ int select_stdin(t_token *tokens)
 	return (priority_stdin);
 }
 
-void handle_redirect(t_stacks *stacks,t_token *tokens,int select_input)
+void handle_redirect(t_stacks *stacks,t_token *tokens,int select_input, int pid)
 {
-	if (stacks->stack_herodoc)
+	char *error;
+
+	if (stacks->stack_herodoc && pid == 0)
 	{
 		g_core_var->exit_code =  here_doc(stacks,tokens,select_input);
 		if (g_core_var->exit_code != 0)
-			exit (130);
+		{
+			g_core_var->exit_code = INTERRUPT_SIG_INT;
+		}
 	}
 
-	if (stacks->stack_input && select_input == 1)
+	if (stacks->stack_input && select_input == 1 && pid == 0)
 	{
 		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
 		if (g_core_var->fd_in < 0)
@@ -165,12 +122,11 @@ void handle_redirect(t_stacks *stacks,t_token *tokens,int select_input)
 			write(2,": ",2);
 			perror(NULL);
 			g_core_var->exit_code = EXIT_FAILURE;
-			exit(EXIT_FAILURE);
 		}
 		dup2(g_core_var->fd_in, STDIN_FILENO);
 	}
 
-	if (stacks->stack_out)
+	if (stacks->stack_out && pid == 0)
 	{
 		if (stacks->stack_out->is_output)
 			g_core_var->fd_out = open(stacks->stack_out->str,
@@ -180,17 +136,19 @@ void handle_redirect(t_stacks *stacks,t_token *tokens,int select_input)
 					O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (g_core_var->fd_out < 0)
 		{
-			perror(NULL);
+			error = ft_strjoin("Minishell: ",stacks->stack_out->str);
+			error = ft_strjoin_gnl(error,": Permission denied\n");
+			ft_putstr_fd(error,2);
+			free(error);
 			g_core_var->exit_code = EXIT_FAILURE;
-			exit(EXIT_FAILURE);
 		}
 	}
 }
 
 void free_exec(t_stacks *stacks, t_token *tokens)
 {
-	free_token(&tokens);
 	free_stacks(&stacks);
+	free_token(&tokens);
 	free_core();
 }
 
@@ -207,8 +165,8 @@ void exec_cmd(t_stacks *stacks, t_token *tokens)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
-		handle_redirect(stacks,tokens,priority_stdin);
-		cmd = build_cmd(stacks,0);
+		handle_redirect(stacks,tokens,priority_stdin,pid);
+		cmd = build_cmd(stacks,tokens,0);
 		if (g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out, STDOUT_FILENO);
 		if(cmd)
@@ -239,12 +197,12 @@ void handle_wait(int *pid)
 	}
 }
 
-void handle_pipe(int count, int quantity_cmd)
+void handle_pipe(int count, int quantity_cmd, int out_origin)
 {
 	int	std_out;
-	static int origin_stdout;
-	if (count == 0)
-		origin_stdout = dup(STDOUT_FILENO);
+	int origin_stdout;
+
+	origin_stdout = dup(out_origin);
 	if (count  > 0)
 	{
 		dup2(g_core_var->fd_pipe[0],STDIN_FILENO);
@@ -271,9 +229,8 @@ void handle_pipe(int count, int quantity_cmd)
 		}
 		else
 			dup2(origin_stdout,STDOUT_FILENO);
-		close(origin_stdout);
 	}
-
+	close(origin_stdout);
 }
 
 void exec_with_pipe(t_stacks *stacks,t_token *tokens,int quantity_cmd)
@@ -296,10 +253,24 @@ void exec_with_pipe(t_stacks *stacks,t_token *tokens,int quantity_cmd)
 	cursor = stacks->stack_cmd;
 	while (cursor)
 	{
-		if (count == 0)
-			handle_redirect(stacks,tokens,priority_stdin);
-		handle_pipe(count,quantity_cmd);
 		pid_child[count] = fork();
+		if (count == 0)
+		{
+			handle_redirect(stacks,tokens,priority_stdin,pid_child[count]);
+			if (g_core_var->exit_code == INTERRUPT_SIG_INT || g_core_var->exit_code == EXIT_FAILURE && pid_child[count] == 0)
+			{
+				int exitc;
+
+				exitc = g_core_var->exit_code;
+				free(pid_child);
+				close(out_ortigin);
+				close(input_origin);
+				free_exec(stacks,tokens);
+				exit(exitc);
+			}
+		}
+
+		handle_pipe(count,quantity_cmd,out_ortigin);
 		if (pid_child[count] == -1)
 			exit (10);
 		if (pid_child[count] == 0)
@@ -308,11 +279,12 @@ void exec_with_pipe(t_stacks *stacks,t_token *tokens,int quantity_cmd)
 			close(out_ortigin);
 			close(g_core_var->fd_pipe[0]);
 			close(g_core_var->fd_pipe[1]);
-			cmd = build_cmd(stacks,count);
+			free(pid_child);
+			cmd = build_cmd(stacks,tokens,count);
 			if(cmd)
 				execve(cmd[0], cmd, g_core_var->envp);
 			free_exec(stacks,tokens);
-			perror("aquiiiii");
+			perror(NULL);
 			exit(127);
 		}
 		else
@@ -330,6 +302,7 @@ void exec_with_pipe(t_stacks *stacks,t_token *tokens,int quantity_cmd)
 	handle_wait(pid_child);
 	close(input_origin);
 	close(out_ortigin);
+	free(pid_child);
 }
 
 void exec_builtin(t_stacks *stacks, t_token *tokens)
@@ -342,8 +315,8 @@ void exec_builtin(t_stacks *stacks, t_token *tokens)
 	flag_redirect = 0;
 	copy_stdout = dup(STDOUT_FILENO);
 	priority_stdin = select_stdin(tokens);
-	handle_redirect(stacks,tokens,priority_stdin);
-	cmd = build_cmd(stacks,0);
+	handle_redirect(stacks,tokens,priority_stdin,0);
+	cmd = build_cmd(stacks,tokens,0);
 	if (g_core_var->fd_out != 0)
 	{
 		dup2(g_core_var->fd_out, STDOUT_FILENO);
