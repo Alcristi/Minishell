@@ -6,11 +6,19 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:01:15 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:53:30 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	system_error(int number_err,char *)
+{
+	if (number_err == INTERRUPT_SIG_INT)
+		exit(INTERRUPT_SIG_INT);
+	else if (number_err == CMD_NOT_FOUND)
+		exit(CMD_NOT_FOUND);
+}
 
 void	open_file(t_stacks *stacks)
 {
@@ -34,6 +42,42 @@ void	open_file(t_stacks *stacks)
 	}
 }
 
+void check_cmd(char *str)
+{
+	struct stat info_stat;
+	char	*error;
+
+	stat(str,&info_stat);
+	if (S_ISDIR(info_stat.st_mode))
+	{
+		error = ft_strjoin("Minishell: ",str);
+		error = ft_strjoin_gnl(error,": is a directory\n");
+		ft_putstr_fd(error,2);
+		free(error);
+		exit (IS_DIRECTORY);
+	}
+	if(!access(str,F_OK))
+	{
+		if(access(str,X_OK))
+		{
+			error = ft_strjoin("Minishell:",str);
+			error = ft_strjoin_gnl(error,": Permission denied\n");
+			ft_putstr_fd(error,2);
+			free(error);
+			exit(CMD_NOT_FOUND);
+		}
+	}
+	else
+	{
+		error = ft_strjoin("Minishell:",str);
+		error = ft_strjoin_gnl(error,": no such file or directory\n");
+		ft_putstr_fd(error,2);
+		free(error);
+		exit(PERMISSION_DENIED);
+	}
+
+}
+
 int	is_valid(t_token *cmd)
 {
 	t_double_list	*aux_env;
@@ -42,21 +86,29 @@ int	is_valid(t_token *cmd)
 	char			*tmp;
 
 	count = 1;
-	tmp = ft_strjoin("/", cmd->str);
-	tmp_path = load_path();
-	free(cmd->str);
-	cmd->str = ft_strjoin(tmp_path[0], tmp);
-	while (access(cmd->str, F_OK) && tmp_path[count])
+	if (ft_strchr(cmd->str,'/'))
 	{
-		free(cmd->str);
-		cmd->str = ft_strjoin(tmp_path[count], tmp);
-		count++;
+		check_cmd(cmd->str);
+		return TRUE;
 	}
-	free(tmp);
-	free_double(tmp_path);
-	if (access(cmd->str, F_OK))
-		return (0);
-	return (1);
+	else
+	{
+		tmp = ft_strjoin("/", cmd->str);
+		tmp_path = load_path();
+		free(cmd->str);
+		cmd->str = ft_strjoin(tmp_path[0], tmp);
+		while (access(cmd->str, F_OK) && tmp_path[count])
+		{
+			free(cmd->str);
+			cmd->str = ft_strjoin(tmp_path[count], tmp);
+			count++;
+		}
+		free(tmp);
+		free_double(tmp_path);
+		if (access(cmd->str, F_OK))
+			return (0);
+		return (1);
+	}
 }
 
 static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)

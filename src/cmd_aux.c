@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:39:43 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:52:30 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,24 +176,6 @@ static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 	}
 	arg_cmd[count] = NULL;
 }
-
-// int is_builtin(t_stacks *cmd)
-// {
-// 	if (!ft_strncmp(cmd->stack_cmd->str,"echo",ft_strlen("echo")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd->stack_cmd->str,"cd",ft_strlen("cd")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd->stack_cmd->str,"pwd",ft_strlen("pwd")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd->stack_cmd->str,"export",ft_strlen("export")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd->stack_cmd->str,"unset",ft_strlen("unset")))
-// 		return (1);
-// 	else if (!ft_strncmp(cmd->stack_cmd->str,"env",ft_strlen("env")))
-// 		return (1);
-// 	else
-// 		return (0);
-// }
 
 //constroi a matriz de execução dos comandos no execve
 char	**build_cmd(t_stacks *stack, int id)

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:38:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 00:48:51 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,14 +227,109 @@ void exec_cmd(t_stacks *stacks, t_token *tokens)
 	}
 }
 
-void exec_with_pipe(t_stacks *stacks, t_token *tokens)
+void handle_wait(int *pid)
 {
+	int count;
+
+	count = 0;
+	while(pid[count] != 0)
+	{
+		waitpid(pid[count],NULL,0);
+		count++;
+	}
+}
+
+void handle_pipe(int count, int quantity_cmd)
+{
+	int	std_out;
+	static int origin_stdout;
+	if (count == 0)
+		origin_stdout = dup(STDOUT_FILENO);
+	if (count  > 0)
+	{
+		dup2(g_core_var->fd_pipe[0],STDIN_FILENO);
+		close(g_core_var->fd_pipe[0]);
+	}
+
+	if (count >= 0 && count != (quantity_cmd - 1) )
+	{
+		if (pipe(g_core_var->fd_pipe) == -1)
+		{
+			g_core_var->exit_code = EXIT_FAILURE;
+			return ;
+		}
+		dup2(g_core_var->fd_pipe[1],STDOUT_FILENO);
+		close(g_core_var->fd_pipe[1]);
+	}
+	else if (count == quantity_cmd - 1)
+	{
+		close(g_core_var->fd_pipe[0]);
+		if (g_core_var->fd_out != 0)
+		{
+			dup2(g_core_var->fd_out,STDOUT_FILENO);
+			close(g_core_var->fd_out);
+		}
+		else
+			dup2(origin_stdout,STDOUT_FILENO);
+		close(origin_stdout);
+	}
+
+}
+
+void exec_with_pipe(t_stacks *stacks,t_token *tokens,int quantity_cmd)
+{
+	pid_t	pid;
 	int		priority_stdin;
 	char	**cmd;
-	pid_t	pid;
 	int		status;
+	int		count;
+	int		*pid_child;
+	t_token *cursor;
+	int input_origin;
+	int out_ortigin;
 
+	out_ortigin = dup(STDERR_FILENO);
+	input_origin = dup(STDIN_FILENO);
+	count = 0;
 	priority_stdin = select_stdin(tokens);
+	pid_child = ft_calloc(sizeof(int),quantity_cmd*2);
+	cursor = stacks->stack_cmd;
+	while (cursor)
+	{
+		if (count == 0)
+			handle_redirect(stacks,tokens,priority_stdin);
+		handle_pipe(count,quantity_cmd);
+		pid_child[count] = fork();
+		if (pid_child[count] == -1)
+			exit (10);
+		if (pid_child[count] == 0)
+		{
+			close(input_origin);
+			close(out_ortigin);
+			close(g_core_var->fd_pipe[0]);
+			close(g_core_var->fd_pipe[1]);
+			cmd = build_cmd(stacks,count);
+			if(cmd)
+				execve(cmd[0], cmd, g_core_var->envp);
+			free_exec(stacks,tokens);
+			perror("aquiiiii");
+			exit(127);
+		}
+		else
+		{
+			while (cursor && !cursor->is_pipe )
+				cursor = cursor->next;
+			if (cursor)
+				cursor = cursor->next;
+		}
+		count++;
+	}
+	dup2(input_origin,STDIN_FILENO);
+	if(g_core_var->fd_out != 0)
+		dup2(out_ortigin,STDOUT_FILENO);
+	handle_wait(pid_child);
+	close(input_origin);
+	close(out_ortigin);
 }
 
 void exec_builtin(t_stacks *stacks, t_token *tokens)
@@ -265,10 +360,13 @@ void exec_builtin(t_stacks *stacks, t_token *tokens)
 
 void	execute(t_stacks *stacks, t_token *tokens)
 {
+	int	quantity_pipe;
+
+	quantity_pipe = amount_pipe(stacks);
 	if(stacks->stack_cmd)
 	{
-		if (amount_pipe(stacks))
-			exec_with_pipe(stacks,tokens);
+		if (quantity_pipe)
+			exec_with_pipe(stacks,tokens,quantity_pipe + 1);
 		else
 		{
 			if (is_builtin(stacks))
