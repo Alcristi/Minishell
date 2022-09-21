@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 00:30:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:23:23 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static char	*catch_name(char *arg)
 	return (name);
 }
 
+
 static char	*catch_content(char *arg)
 {
 	char	*content;
@@ -56,6 +57,7 @@ static char	*catch_content(char *arg)
 	return (content);
 }
 
+
 static void	print_vars(void)
 {
 	t_double_list	*aux;
@@ -70,10 +72,31 @@ static void	print_vars(void)
 	}
 }
 
+int	localize_var(char *name_var, char *arg)
+{
+	t_double_list	*aux_env;
+
+	aux_env = g_core_var->env;
+	while (aux_env->previus != NULL)
+		aux_env = aux_env->previus;
+	while (aux_env != NULL)
+	{
+		if (search_var(name_var, aux_env->data))
+		{
+			printf("DentroDentro\n");
+			free(aux_env->data);
+			aux_env->data = ft_strdup(arg);
+			return (1);
+		}
+		else
+			aux_env = aux_env->next;
+	}
+	return (0);
+}
+
 int	bt_export(char *arg)
 {
 	char	*name;
-	char	*content;
 
 	if (arg == NULL)
 	{
@@ -83,14 +106,14 @@ int	bt_export(char *arg)
 	name = catch_name(arg);
 	if (name == NULL)
 		return (1);
-	content = catch_content(arg);
-	if (content == NULL)
+	if (localize_var(name, arg))
 	{
+		printf("dentro\n");
 		free(name);
-		return (1);
+		return (0);
 	}
+	printf("fora\n");
 	add_node_last(&g_core_var->env, arg);
 	free(name);
-	free(content);
 	return (0);
 }

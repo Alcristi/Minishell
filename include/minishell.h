@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 17:56:09 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 00:19:42 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_stacks	*build_stack(t_token *tokens);
 
 void	free_stacks(t_stacks **stacks);
 
+int 	is_builtin(t_stacks *cmd);
 char	*clear_quotes(char *str);
 char	*ft_strchr_token(char *s, int c);
 char	*ft_strnstr_token(char *str, char *to_find, size_t n);

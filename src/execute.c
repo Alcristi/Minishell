@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:38:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:26:09 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int is_builtin(t_stacks *cmd)
 		return (1);
 	else
 		return (0);
+	//eu adicionei esse return pois estava apitando na copilação
 }
 
 // int is_cmd_builtin(char **cmd)
@@ -126,6 +127,7 @@ int execute_builtin(char **cmd)
 		bt_env();
 		return (0);
 	}
+	return (-1);
 }
 
 int select_stdin(t_token *tokens)
