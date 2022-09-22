@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 01:13:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/15 19:24:22 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:18:18 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ static int	check_dollar(char *str, int size)
 	count = 0;
 	while (count < size)
 	{
-		if (str[count - 1] == '$' && valid_name_char(str[count]))
+		if (count == 0)
+		{
+			count++;
+			continue ;
+		}
+		else if (str[count - 1] == '$' && valid_name_char(str[count]))
 			return (1);
 		count++;
 	}
