@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/21 22:48:48 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:23:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*catch_name(char *arg)
 		return (NULL);
 	if (pos_equal == 0)
 		return (NULL);
-	name = malloc(sizeof(char) * pos_equal);
+	name = malloc(sizeof(char) * pos_equal + 1);
 	while (count < pos_equal)
 	{
 		name[count] = arg[count];
