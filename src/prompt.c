@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/20 17:40:11 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:23:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ static int	check_exit(char *buff)
 	if (buff == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);
+		bt_exit(NULL);
 		return (1);
 	}
 	else if (!ft_strncmp(buff, "exit", ft_strlen("exit")))
+	{
+		bt_exit(NULL);
 		return (1);
+	}
+		
 	return (0);
 }
 

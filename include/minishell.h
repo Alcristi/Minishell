@@ -117,6 +117,7 @@ int		bt_export(char *arg);
 int		bt_pwd(void);
 int		bt_cd(char *path);
 int		bt_unset(char *name);
+int		bt_exit(char *nb);
 t_token	*new_token(char *data);
 
 void	load_stacks(t_token **dst, t_token *data);

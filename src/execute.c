@@ -77,6 +77,8 @@ int is_builtin(t_stacks *cmd)
 		return (1);
 	else if (!ft_strncmp(cmd->stack_cmd->str,"env",ft_strlen("env")))
 		return (1);
+	//else if (!ft_strncmp(cmd->stack_cmd->str,"exit",ft_strlen("exit")))
+	//	return (1); teste falho em implementar o exit
 	else
 		return (0);
 	//eu adicionei esse return pois estava apitando na copilação
@@ -127,6 +129,8 @@ int execute_builtin(char **cmd)
 		bt_env();
 		return (0);
 	}
+	//else if (!ft_strncmp(cmd[0],"env",ft_strlen("env")))
+	//	bt_exit(cmd[1]);
 	return (-1);
 }
 
