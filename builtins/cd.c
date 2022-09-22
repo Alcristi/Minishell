@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/20 18:40:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:19:03 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	bt_cd(char *path)
 	int		result;
 
 	if (path == NULL)
+	{
+		//printf();
 		return (0);
+	}
+		
 	result = 0;
 	result = chdir(path);
 	if (result == -1)
@@ -27,7 +31,7 @@ int	bt_cd(char *path)
 	}
 	else
 	{
-		free_dir(g_core_var);
+		//free_dir(g_core_var);
 		init_dir(&g_core_var->prompt);
 	}
 	return (0);
