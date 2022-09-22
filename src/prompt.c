@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/22 22:23:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:38:50 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	str_prompt(void)
 	g_core_var->prompt.prompt = ft_strjoin(aux, BLUE);
 	free(aux);
 	aux = g_core_var->prompt.prompt;
-	g_core_var->prompt.prompt = ft_strjoin(aux, g_core_var->prompt.dir.current);
+	//g_core_var->prompt.prompt = ft_strjoin(aux, g_core_var->prompt.dir.current);
+	g_core_var->prompt.prompt = ft_strjoin(aux, g_core_var->prompt.dir.path_current);
 	free(aux);
 	aux = g_core_var->prompt.prompt;
 	g_core_var->prompt.prompt = ft_strjoin(aux, END);
