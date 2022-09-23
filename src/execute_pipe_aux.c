@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 00:01:49 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 00:44:35 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,20 @@ void	handle_pipe(int count, int quantity_cmd, int out_origin)
 	else if (count == quantity_cmd - 1)
 	{
 		close(g_core_var->fd_pipe[0]);
-		if (g_core_var->fd_out != 0)
-			copy_fd(g_core_var->fd_out, STDOUT_FILENO);
-		else
-			dup2(origin_stdout, STDOUT_FILENO);
+		dup2(origin_stdout, STDOUT_FILENO);
 	}
 	close(origin_stdout);
+}
+
+void	exec_here_doc(t_stacks *stacks, t_token *tokens, int *pid, int count)
+{
+	int	select;
+
+	select = select_stdin(tokens);
+	if (stacks->stack_herodoc && count == 0)
+	{
+		g_core_var->exit_code = here_doc_pipe(stacks, tokens, select, pid);
+		if (g_core_var->exit_code != 0)
+			g_core_var->exit_code = INTERRUPT_SIG_INT;
+	}
 }

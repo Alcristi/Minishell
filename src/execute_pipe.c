@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:02 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/22 23:57:03 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 00:44:30 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,12 @@ void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd)
 	while (cursor)
 	{
 		handle_pipe(count, quantity_cmd, g_core_var->fd_stdout);
+		exec_here_doc(stacks, tokens, pid_child, count);
 		pid_child[count] = fork();
 		if (pid_child[count] == -1)
 			exit (EXIT_FAILURE);
-		if (count == 0)
-		{
-			handle_redirect_pipe(stacks, tokens, pid_child, count);
-			validator_redirect_pipe(stacks, tokens, pid_child, count);
-		}
+		handle_redirect_pipe(stacks, tokens, pid_child, count);
+		validator_redirect_pipe(stacks, tokens, pid_child, count);
 		if (pid_child[count] == 0)
 			exec_in_pipe(stacks, tokens, pid_child, count);
 		else

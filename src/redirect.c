@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:50:57 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/22 23:50:58 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 00:41:04 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,18 @@ void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
 	int	select;
 
 	select = select_stdin(tokens);
-	if (stacks->stack_herodoc && pid[count] == 0)
-	{
-		g_core_var->exit_code = here_doc_pipe(stacks, tokens, select, pid);
-		if (g_core_var->exit_code != 0)
-			g_core_var->exit_code = INTERRUPT_SIG_INT;
-	}
-	if (stacks->stack_input && select == 1 && pid[count] == 0)
+	if (stacks->stack_input && select == 1 && pid[count] == 0 && count == 0)
 	{
 		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
 		if (g_core_var->fd_in < 0)
 			file_error(stacks->stack_input->str);
 		dup2(g_core_var->fd_in, STDIN_FILENO);
 	}
-	if (stacks->stack_out && pid[count] == 0)
+	if (stacks->stack_out && pid[count] == 0 && count == (amount_pipe(stacks)))
 	{
 		open_out(stacks);
 		if (g_core_var->fd_out < 0)
 			file_error(stacks->stack_out->str);
+		copy_fd(g_core_var->fd_out, STDOUT_FILENO);
 	}
 }
