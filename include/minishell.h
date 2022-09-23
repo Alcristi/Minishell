@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/21 14:43:36 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 00:00:49 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ typedef struct s_token
 	int				is_out_append;
 	int				is_cmd;
 	int				is_arg;
-	int				single_quotes;
-	int				double_quotes;
+	int				quotes;
 	struct s_token	*next;
 	struct s_token	*previus;
 }	t_token;
@@ -92,6 +91,8 @@ typedef struct s_core_var
 	t_double_list	*env;
 	char			**envp;
 	int				confirm;
+	int				fd_stdin;
+	int				fd_stdout;
 	int				fd_in;
 	int				fd_out;
 	int				fd_pipe[2];
@@ -179,12 +180,30 @@ void	open_file(t_stacks *stacks);
 char	**load_path(void);
 int		is_valid(t_token *cmd,t_stacks *stacks, t_token *tokens);
 char	**build_cmd(t_stacks *stack,t_token *tokens, int id);
-int		here_doc(t_stacks *stacks, t_token *tokens,int select_input);
+int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority,int *pid);
+int		here_doc(t_stacks *stacks, t_token *tokens,int is_priority);
 int		amount_pipe(t_stacks *stacks);
 int is_builtin(t_stacks *cmd);
 //void	here_doc(t_stacks *stacks, t_token *tokens);
 //int		number_tokens(t_stacks *stack);
 void	execute(t_stacks *stacks, t_token *tokens);
+
+void	handle_wait(int *pid);
+void	copy_fd(int font, int dest);
+void	parent(int pid);
+
+int	select_stdin(t_token *tokens);
+void	file_error(char *str);
+void	open_out(t_stacks *stacks);
+void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count);
+void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
+	, int *pid, int count);
+
+void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd);
+void	exec_in_pipe(t_stacks *stacks, t_token *tokens
+	, int *pid_child, int count);
+void	handle_pipe(int count, int quantity_cmd, int out_origin);
+void	exec_builtin(t_stacks *stacks, t_token *tokens);
 
 char	*cat_var(char *env, int len_name_var);
 int		search_var(char *var, char *env);

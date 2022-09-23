@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:13:28 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/15 19:12:29 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:14:58 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	resolve_string(t_token **tokens)
 	if (result != NULL)
 	{
 		free(tokens[0]->str);
+		if (sign == 1 || sign == 2)
+			tokens[0]->quotes = TRUE;
 		tokens[0]->str = ft_strdup(result);
 		free(result);
 	}

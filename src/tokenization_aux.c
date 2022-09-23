@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/08/29 19:16:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:21:50 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_normalize(t_token *token, int size)
 					&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
 				|| (ft_strchr(token->str, '<')
 					&& ft_strncmp(token->str, "<<", ft_strlen(token->str))))
-			&& size != 1)
+			&& size != 1 && !token->quotes)
 		|| ((ft_strnstr(token->str, "<<", size)
 				|| ft_strnstr(token->str, ">>", size)) && size != 2))
 	{
@@ -82,17 +82,17 @@ void	normalize_token(t_token *token)
 
 	data = NULL;
 	size = ft_strlen(token->str);
-	if (ft_strnstr(token->str, ">>", size) && size != 2)
+	if (ft_strnstr(token->str, ">>", size) && size != 2 && !token->quotes)
 		data = ft_strnstr_token(token->str, ">>", size);
-	else if (ft_strnstr(token->str, "<<", size) && size != 2)
+	else if (ft_strnstr(token->str, "<<", size) && size != 2 && !token->quotes)
 		data = ft_strnstr_token(token->str, "<<", size);
-	else if (ft_strchr(token->str, '<') && size != 1
+	else if (ft_strchr(token->str, '<') && size != 1 && !token->quotes
 		&& ft_strncmp(token->str, "<<", ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '<');
-	else if (ft_strchr(token->str, '>') && size != 1
+	else if (ft_strchr(token->str, '>') && size != 1 && !token->quotes
 		&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
 		data = ft_strchr_token(token->str, '>');
-	else if (ft_strchr(token->str, '|') && size != 1)
+	else if (ft_strchr(token->str, '|') && size != 1 && !token->quotes)
 		data = ft_strchr_token(token->str, '|');
 	if (data)
 		add_node_middle_token(&token, data);

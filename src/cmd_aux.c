@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/21 14:41:04 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:39:02 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,46 +52,42 @@ static int	number_tokens(t_stacks *stack)
 
 //preciso diminuir linhas
 //funcao auxiliar da build_cmd que constroi o arg_cmd
-static void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
+static void	free_two(char *str, t_token **cmd)
+{
+	free(str);
+	free(cmd[0]);
+	cmd[0] = NULL;
+}
+
+void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 {
 	int		count;
 
 	count = 0;
-	/***
-	* Porque a limpeza esta sendo feita dentro do algoritmo
-	* ao invez de usar uma função que limpe tudo no fim do ciclo?
-	***/
 	while (count < ct_tokens && stack->stack_cmd)
 	{
 		arg_cmd[count] = ft_strdup(stack->stack_cmd->str);
 		count++;
 		if (!stack->stack_cmd->next)
 		{
-			free(stack->stack_cmd->str);
-			free(stack->stack_cmd);
-			stack->stack_cmd = NULL;
+			free_two(stack->stack_cmd->str, &stack->stack_cmd);
 			break ;
 		}
 		stack->stack_cmd = stack->stack_cmd->next;
 		if (stack->stack_cmd)
-		{
-			free(stack->stack_cmd->previus->str);
-			free(stack->stack_cmd->previus);
-			stack->stack_cmd->previus = NULL;
-		}
+			free_two(stack->stack_cmd->previus->str,
+				&stack->stack_cmd->previus);
 	}
 	if (stack->stack_cmd && stack->stack_cmd->is_pipe)
 	{
 		stack->stack_cmd = stack->stack_cmd->next;
-		free(stack->stack_cmd->previus->str);
-		free(stack->stack_cmd->previus);
-		stack->stack_cmd->previus = NULL;
+		free_two(stack->stack_cmd->previus->str, &stack->stack_cmd->previus);
 	}
 	arg_cmd[count] = NULL;
 }
 
 //constroi a matriz de execução dos comandos no execve
-char	**build_cmd(t_stacks *stack, t_token *tokens,int id)
+char	**build_cmd(t_stacks *stack, t_token *tokens, int id)
 {
 	t_stacks	*temp_stack;
 	char		**arg_cmd;
@@ -107,7 +103,7 @@ char	**build_cmd(t_stacks *stack, t_token *tokens,int id)
 		arg_cmd_build(arg_cmd, count_tokens, temp_stack);
 		return (arg_cmd);
 	}
-	if (is_valid(temp_stack->stack_cmd,stack,tokens))
+	if (is_valid(temp_stack->stack_cmd, stack, tokens))
 	{
 		arg_cmd = ft_calloc(sizeof(char *), count_tokens + 1);
 		arg_cmd_build(arg_cmd, count_tokens, temp_stack);

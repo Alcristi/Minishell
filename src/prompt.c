@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/21 10:43:38 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:31:51 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,47 +60,11 @@ static void	str_prompt(void)
 	free(aux);
 }
 
-static void	handle_sigint(int sig)
-{
-	(void)sig;
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	define_main_signals(void)
-{
-	struct sigaction	sa_sigint;
-	struct sigaction	sa_sigquit;
-
-	sa_sigint.sa_handler = &handle_sigint;
-	sa_sigint.sa_flags = 0;
-	sigemptyset(&sa_sigint.sa_mask);
-	sigaction(SIGINT, &sa_sigint, NULL);
-	sa_sigquit.sa_handler = SIG_IGN;
-	sa_sigquit.sa_flags = 0;
-	sigemptyset(&sa_sigquit.sa_mask);
-	sigaction(SIGQUIT, &sa_sigquit, NULL);
-}
-
-void	define_execute_signals(int child_pid)
-{
-	struct sigaction	sa;
-
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	if (child_pid == 0)
-		sa.sa_handler = SIG_DFL;
-	else
-		sa.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-
 static void	check_execute(t_token **tokens, t_stacks **stacks)
 {
+	g_core_var->exit_code = 0;
+	g_core_var->fd_in = 0;
+	g_core_var->fd_out = 0;
 	tokens[0] = tokenization_cmd(tokens[0]);
 	if (parse_tkn(tokens[0]))
 	{
@@ -117,7 +81,7 @@ void	prompt(void)
 
 	while (1)
 	{
-		signal(SIGINT, handle_sigint);
+		signal(SIGINT, sig_handle);
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
 		add_history(g_core_var->buff);
@@ -126,7 +90,10 @@ void	prompt(void)
 			break ;
 		else if (!check_print(g_core_var->buff, g_core_var->env)
 			&& ft_strlen(g_core_var->buff) > 0)
+		{
 			check_execute(&tokens, &stacks);
+			printf("exit %d\n", WEXITSTATUS(g_core_var->exit_code));
+		}
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);
 		free(g_core_var->buff);

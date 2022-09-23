@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 22:38:35 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:17:10 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ t_token	*new_token(char *data)
 	list->is_output = FALSE;
 	list->is_out_append = FALSE;
 	list->is_pipe = FALSE;
-	list->single_quotes = FALSE;
-	list->double_quotes = FALSE;
+	list->quotes = FALSE;
 	return (list);
 }
 
