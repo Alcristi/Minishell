@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:02 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 00:44:30 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:21:12 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	validator_redirect_pipe(t_stacks *stacks, t_token *tokens
 {
 	int	code_exit;
 
-	if (g_core_var->exit_code == INTERRUPT_SIG_INT
-		|| g_core_var->exit_code == EXIT_FAILURE && pid_child[count] == 0)
+	if ((g_core_var->exit_code == INTERRUPT_SIG_INT
+		|| g_core_var->exit_code == EXIT_FAILURE) && pid_child[count] == 0)
 	{
 		code_exit = g_core_var->exit_code;
 		free(pid_child);
@@ -68,6 +68,7 @@ void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd)
 	{
 		handle_pipe(count, quantity_cmd, g_core_var->fd_stdout);
 		exec_here_doc(stacks, tokens, pid_child, count);
+		signal(SIGQUIT,handle_quit);
 		pid_child[count] = fork();
 		if (pid_child[count] == -1)
 			exit (EXIT_FAILURE);

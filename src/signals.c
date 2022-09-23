@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/02 22:34:56 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:11:42 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,19 @@ void	handle(int i)
 {
 	(void)i;
 	write(0, "\n", 1);
+	return ;
+}
+
+void	handle_here(int i)
+{
+	(void)i;
+	write(0, "\n", 1);
+	exit (130);
+}
+
+void handle_quit(int i)
+{
+	(void)i;
+	write(0, "Quit\n", 5);
 	return ;
 }

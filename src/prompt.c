@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/22 21:31:51 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 08:53:33 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	prompt(void)
 
 	while (1)
 	{
+		signal(SIGQUIT,SIG_IGN);
 		signal(SIGINT, sig_handle);
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);

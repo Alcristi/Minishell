@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 00:23:55 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:04:32 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 	free_core();
 	exit(0);
 }
+char	*mount_message_eof(char *s)
+{
+	char *str;
+
+	str = ft_strdup("\nminishell: warning: heredoc ");
+	str = ft_strjoin_gnl(str,"delimited by EOF - wanted '");
+	str = ft_strjoin_gnl(str,s);
+	return (ft_strjoin_gnl(str,"'\n"));
+}
 
 static void	heredoc_child(int fd_pp[2], t_stacks *stacks
 	, t_token *tokens, int is_priority)
@@ -28,8 +37,16 @@ static void	heredoc_child(int fd_pp[2], t_stacks *stacks
 
 	while (1)
 	{
+		signal(SIGINT, handle_here);
 		write(STDIN_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+		{
+			line = mount_message_eof(stacks->stack_herodoc->str);
+			ft_putstr_fd(line, 2);
+			close(fd_pp[1]);
+			exit_child(stacks, tokens, line);
+		}
 		if (!ft_strncmp(line, stacks->stack_herodoc->str,
 				ft_strlen(stacks->stack_herodoc->str)))
 		{

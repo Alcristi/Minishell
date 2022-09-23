@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/23 00:01:59 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:08:20 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 	pid_t	pid;
 	int		status;
 
+	signal(SIGQUIT,handle_quit);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
@@ -85,6 +86,7 @@ void	execute(t_stacks *stacks, t_token *tokens)
 	int	quantity_pipe;
 
 	quantity_pipe = amount_pipe(stacks);
+	signal(SIGINT, handle);
 	if (stacks->stack_cmd)
 	{
 		if (quantity_pipe)
