@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 09:41:30 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 00:49:14 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	exec_builtin(t_stacks *stacks, t_token *tokens)
 	handle_redirect(stacks, tokens, &pid, 0);
 	if (validate_redirect_builtin ())
 		return ;
-	cmd = build_cmd(stacks, tokens, 0);
+	cmd = build_cmd(&stacks, &tokens, 0);
 	if (g_core_var->fd_out != 0)
 		dup2(g_core_var->fd_out, STDOUT_FILENO);
 	g_core_var->exit_code = execute_builtin(cmd);

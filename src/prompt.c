@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 08:53:33 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 01:24:02 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	check_execute(t_token **tokens, t_stacks **stacks)
 	if (parse_tkn(tokens[0]))
 	{
 		stacks[0] = build_stack(tokens[0]);
-		execute(stacks[0], tokens[0]);
+		execute(stacks, tokens);
 		free_stacks(&stacks[0]);
 	}
 }
@@ -81,7 +81,7 @@ void	prompt(void)
 
 	while (1)
 	{
-		signal(SIGQUIT,SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sig_handle);
 		str_prompt();
 		g_core_var->buff = readline(g_core_var->prompt.prompt);

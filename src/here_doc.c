@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 10:04:32 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/27 23:40:10 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 	free_core();
 	exit(0);
 }
+
 char	*mount_message_eof(char *s)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strdup("\nminishell: warning: heredoc ");
-	str = ft_strjoin_gnl(str,"delimited by EOF - wanted '");
-	str = ft_strjoin_gnl(str,s);
-	return (ft_strjoin_gnl(str,"'\n"));
+	str = ft_strjoin_gnl(str, "delimited by EOF - wanted '");
+	str = ft_strjoin_gnl(str, s);
+	return (ft_strjoin_gnl(str, "'\n"));
 }
 
 static void	heredoc_child(int fd_pp[2], t_stacks *stacks
@@ -38,8 +39,9 @@ static void	heredoc_child(int fd_pp[2], t_stacks *stacks
 	while (1)
 	{
 		signal(SIGINT, handle_here);
-		write(STDIN_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
+		if (line)
+			line = ft_strjoin_gnl(line, "\n");
 		if (line == NULL)
 		{
 			line = mount_message_eof(stacks->stack_herodoc->str);
@@ -64,7 +66,6 @@ static void	close_files_here_doc(int fd, int *pid)
 	free(pid);
 	close(g_core_var->fd_stdin);
 	close(g_core_var->fd_stdout);
-	close(g_core_var->fd_pipe[0]);
 	close(fd);
 }
 
@@ -78,6 +79,7 @@ int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 	if (pipe(fd_pp) == -1)
 		exit(EXIT_FAILURE);
 	pid_hd = fork();
+	signal(SIGQUIT, SIG_IGN);
 	if (pid_hd == 0)
 	{
 		close(fd_pp[0]);
@@ -104,6 +106,7 @@ int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority, int *pid)
 	if (pipe(fd_pp) == -1)
 		exit(EXIT_FAILURE);
 	pid_hd = fork();
+	signal(SIGQUIT, SIG_IGN);
 	if (pid_hd == 0)
 	{
 		close_files_here_doc(fd_pp[0], pid);

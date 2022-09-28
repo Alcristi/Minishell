@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/23 10:11:42 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/27 23:26:28 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	handle_here(int i)
 	exit (130);
 }
 
-void handle_quit(int i)
+void	handle_quit(int i)
 {
 	(void)i;
-	write(0, "Quit\n", 5);
+	ft_putstr_fd("Quit\n", 2);
 	return ;
 }

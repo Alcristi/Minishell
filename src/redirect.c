@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:50:57 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 10:11:08 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/27 23:06:15 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,6 @@ void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count)
 	int	select;
 
 	select = select_stdin(tokens);
-	if (stacks->stack_herodoc && pid[count] == 0)
-	{
-		signal(SIGQUIT,SIG_IGN);
-		g_core_var->exit_code = here_doc(stacks, tokens, select);
-		if (g_core_var->exit_code != 0)
-			g_core_var->exit_code = INTERRUPT_SIG_INT;
-	}
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
 	{
 		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);

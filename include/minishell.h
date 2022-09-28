@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/23 08:53:00 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 00:50:18 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	free_core(void);
 
 t_double_list	*new(char *data);
 
+
 int	bt_pwd(void);
 int	bt_unset(char *name);
 int	bt_export(char *arg);
@@ -175,22 +176,22 @@ char	*resolve_single_quotes(char *str);
 char	*resolve_dollar(char *str);
 char	*resolve_double_quotes(char *str);
 int		resolve_string(t_token **tokens);
-void free_exec(t_stacks *stacks, t_token *tokens);
+void free_exec(t_stacks **stacks, t_token **tokens);
 void	open_file(t_stacks *stacks);
 char	**load_path(void);
-int		is_valid(t_token *cmd,t_stacks *stacks, t_token *tokens);
-char	**build_cmd(t_stacks *stack,t_token *tokens, int id);
+int		is_valid(t_token *cmd,t_stacks **stacks, t_token **tokens);
+char	**build_cmd(t_stacks **stack,t_token **tokens, int id);
 int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority,int *pid);
 int		here_doc(t_stacks *stacks, t_token *tokens,int is_priority);
 int		amount_pipe(t_stacks *stacks);
 int is_builtin(t_stacks *cmd);
 //void	here_doc(t_stacks *stacks, t_token *tokens);
 //int		number_tokens(t_stacks *stack);
-void	execute(t_stacks *stacks, t_token *tokens);
+void	execute(t_stacks **stacks, t_token **tokens);
 
 void	handle_wait(int *pid);
 void	copy_fd(int font, int dest);
-void	parent(int pid);
+void	parent(int pid, t_stacks *stacks);
 
 int	select_stdin(t_token *tokens);
 void	file_error(char *str);
@@ -199,8 +200,8 @@ void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count);
 void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
 	, int *pid, int count);
 
-void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd);
-void	exec_in_pipe(t_stacks *stacks, t_token *tokens
+void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd);
+void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	, int *pid_child, int count);
 void	handle_pipe(int count, int quantity_cmd, int out_origin);
 void	exec_builtin(t_stacks *stacks, t_token *tokens);

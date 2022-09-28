@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 22:39:02 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 01:55:28 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 }
 
 //constroi a matriz de execução dos comandos no execve
-char	**build_cmd(t_stacks *stack, t_token *tokens, int id)
+char	**build_cmd(t_stacks **stack, t_token **tokens, int id)
 {
 	t_stacks	*temp_stack;
 	char		**arg_cmd;
@@ -95,7 +95,7 @@ char	**build_cmd(t_stacks *stack, t_token *tokens, int id)
 	int			count;
 
 	count = 0;
-	temp_stack = position_cmd(stack, id);
+	temp_stack = position_cmd(stack[0], id);
 	count_tokens = number_tokens(temp_stack);
 	if (is_builtin(temp_stack))
 	{

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 13:20:34 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 01:47:52 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	close_file_child(int *pid_child)
 	free(pid_child);
 }
 
-void	exec_in_pipe(t_stacks *stacks, t_token *tokens
+void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	, int *pid_child, int count)
 {
 	char	**cmd;

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:22 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/22 23:48:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/27 23:35:38 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,12 @@ void	copy_fd(int font, int dest)
 	close(font);
 }
 
-void	parent(int pid)
+void	parent(int pid, t_stacks *stacks)
 {
+	if (stacks->stack_herodoc)
+		signal(SIGQUIT, SIG_IGN);
+	else
+		signal(SIGQUIT, handle_quit);
 	waitpid (pid, &g_core_var->exit_code, 0);
 	if (g_core_var->fd_in != 0)
 		close(g_core_var->fd_in);

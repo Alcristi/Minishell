@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:02 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/23 13:21:12 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 01:49:55 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	validator_redirect_pipe(t_stacks *stacks, t_token *tokens
 	int	code_exit;
 
 	if ((g_core_var->exit_code == INTERRUPT_SIG_INT
-		|| g_core_var->exit_code == EXIT_FAILURE) && pid_child[count] == 0)
+			|| g_core_var->exit_code == EXIT_FAILURE) && pid_child[count] == 0)
 	{
 		code_exit = g_core_var->exit_code;
 		free(pid_child);
 		close(g_core_var->fd_stdin);
 		close(g_core_var->fd_stdout);
-		free_exec(stacks, tokens);
+		free_exec(&stacks, &tokens);
 		exit(code_exit);
 	}
 }
@@ -40,8 +40,10 @@ static void	exit_exec(int *pid_child)
 	free(pid_child);
 }
 
-static void	next_cmd(t_token **cursor)
+static void	next_cmd(t_token **cursor, t_stacks *stacks)
 {
+	if (stacks->stack_herodoc)
+		signal(SIGQUIT, SIG_IGN);
 	while (cursor[0] && !cursor[0]->is_pipe)
 		cursor[0] = cursor[0]->next;
 	if (cursor[0])
@@ -55,7 +57,7 @@ static void	init_exec_pipe(t_token **cursor, t_stacks *stacks)
 	cursor[0] = stacks->stack_cmd;
 }
 
-void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd)
+void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd)
 {
 	int		count;
 	int		*pid_child;
@@ -63,21 +65,21 @@ void	exec_with_pipe(t_stacks *stacks, t_token *tokens, int quantity_cmd)
 
 	count = 0;
 	pid_child = ft_calloc(sizeof(int), quantity_cmd * 2);
-	init_exec_pipe(&cursor, stacks);
+	init_exec_pipe(&cursor, stacks[0]);
+	exec_here_doc(stacks[0], tokens[0], pid_child, count);
 	while (cursor)
 	{
 		handle_pipe(count, quantity_cmd, g_core_var->fd_stdout);
-		exec_here_doc(stacks, tokens, pid_child, count);
-		signal(SIGQUIT,handle_quit);
 		pid_child[count] = fork();
+		handle_redirect_pipe(stacks[0], tokens[0], pid_child, count);
+		validator_redirect_pipe(stacks[0], tokens[0], pid_child, count);
+		signal(SIGQUIT, handle_quit);
 		if (pid_child[count] == -1)
 			exit (EXIT_FAILURE);
-		handle_redirect_pipe(stacks, tokens, pid_child, count);
-		validator_redirect_pipe(stacks, tokens, pid_child, count);
 		if (pid_child[count] == 0)
 			exec_in_pipe(stacks, tokens, pid_child, count);
 		else
-			next_cmd(&cursor);
+			next_cmd(&cursor, stacks[0]);
 		count++;
 	}
 	exit_exec(pid_child);

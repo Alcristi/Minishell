@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stackTokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 22:38:23 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/28 00:21:01 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,5 @@ void	free_stacks(t_stacks **stacks)
 	free_token(&stacks[0]->stack_input);
 	free_token(&stacks[0]->stack_out);
 	free(stacks[0]);
-	stacks = NULL;
+	*stacks = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/23 10:08:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 01:13:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ char	**load_path(void)
 	return (cut_path);
 }
 
-void	free_exec(t_stacks *stacks, t_token *tokens)
+void	free_exec(t_stacks **stacks, t_token **tokens)
 {
-	free_stacks(&stacks);
-	free_token(&tokens);
+	free_stacks(stacks);
+	free_token(tokens);
 	free_core();
+	rl_clear_history();
+	stacks = NULL;
+	tokens = NULL;
 }
 
 void	validate_redirect(t_stacks *stacks, t_token *tokens)
@@ -49,8 +52,21 @@ void	validate_redirect(t_stacks *stacks, t_token *tokens)
 		|| g_core_var->exit_code == EXIT_FAILURE)
 	{
 		code_exit = g_core_var->exit_code;
-		free_exec(stacks, tokens);
+		free_exec(&stacks, &tokens);
 		exit(code_exit);
+	}
+}
+
+void	exec_here_cmd(t_stacks *stacks, t_token *tokens, int pid)
+{
+	int	select;
+
+	select = select_stdin(tokens);
+	if (stacks->stack_herodoc && pid == 0)
+	{
+		g_core_var->exit_code = here_doc(stacks, tokens, select);
+		if (g_core_var->exit_code != 0)
+			g_core_var->exit_code = INTERRUPT_SIG_INT;
 	}
 }
 
@@ -60,43 +76,44 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 	pid_t	pid;
 	int		status;
 
-	signal(SIGQUIT,handle_quit);
 	pid = fork();
+	exec_here_cmd(stacks, tokens, pid);
 	if (pid == -1)
 		exit(EXIT_FAILURE);
-	else if (pid == 0)
+	signal(SIGQUIT, handle_quit);
+	if (pid == 0)
 	{
 		handle_redirect(stacks, tokens, &pid, 0);
 		validate_redirect(stacks, tokens);
-		cmd = build_cmd(stacks, tokens, 0);
+		cmd = build_cmd(&stacks, &tokens, 0);
 		if (g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out, STDOUT_FILENO);
 		if (cmd)
 			execve(cmd[0], cmd, g_core_var->envp);
 		perror(NULL);
-		free_exec(stacks, tokens);
+		free_exec(&stacks, &tokens);
 		exit(CMD_NOT_FOUND);
 	}
 	else
-		parent(pid);
+		parent(pid, stacks);
 }
 
-void	execute(t_stacks *stacks, t_token *tokens)
+void	execute(t_stacks **stacks, t_token **tokens)
 {
 	int	quantity_pipe;
 
-	quantity_pipe = amount_pipe(stacks);
+	quantity_pipe = amount_pipe(stacks[0]);
 	signal(SIGINT, handle);
-	if (stacks->stack_cmd)
+	if (stacks[0]->stack_cmd)
 	{
 		if (quantity_pipe)
 			exec_with_pipe(stacks, tokens, quantity_pipe + 1);
 		else
 		{
-			if (is_builtin(stacks))
-				exec_builtin(stacks, tokens);
+			if (is_builtin(stacks[0]))
+				exec_builtin(stacks[0], tokens[0]);
 			else
-				exec_cmd(stacks, tokens);
+				exec_cmd(stacks[0], tokens[0]);
 		}
 	}
 }
