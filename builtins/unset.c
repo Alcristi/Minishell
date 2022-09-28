@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:30:37 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 20:32:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:27:47 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	remove_env(t_double_list **env)
 	next = NULL;
 	if (env[0]->previus != NULL)
 		previus = env[0]->previus;
-	if (env[0]->next  != NULL)
+	if (env[0]->next != NULL)
 		next = env[0]->next;
 	if (previus != NULL)
 		previus->next = next;

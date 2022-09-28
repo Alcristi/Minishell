@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 00:49:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:35:58 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	exec_echo(char **cmd)
 	return (bt_echo(count_args - 1, NULL));
 }
 
-static int	execute_builtin(char **cmd)
+int	execute_builtin(char **cmd)
 {
 	if (!ft_strncmp(cmd[0], "echo", ft_strlen("echo")))
 		return (exec_echo(cmd));

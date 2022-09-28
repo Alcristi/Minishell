@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 02:39:21 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:36:09 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority,int *pid);
 int		here_doc(t_stacks *stacks, t_token *tokens,int is_priority);
 int		amount_pipe(t_stacks *stacks);
 int is_builtin(t_stacks *cmd);
+int	execute_builtin(char **cmd);
 //void	here_doc(t_stacks *stacks, t_token *tokens);
 //int		number_tokens(t_stacks *stack);
 void	execute(t_stacks **stacks, t_token **tokens);

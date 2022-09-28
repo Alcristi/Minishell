@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 03:10:52 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:05:59 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static void	str_prompt(void)
 
 static void	check_execute(t_token **tokens, t_stacks **stacks)
 {
+	tokens[0] = tokenization_cmd(tokens[0]);
 	g_core_var->exit_code = 0;
 	g_core_var->fd_in = 0;
 	g_core_var->fd_out = 0;
-	tokens[0] = tokenization_cmd(tokens[0]);
 	if (parse_tkn(tokens[0]))
 	{
 		stacks[0] = build_stack(tokens[0]);
@@ -94,10 +94,7 @@ void	prompt(void)
 		convert_space_buff();
 		if (!check_print(g_core_var->buff, g_core_var->env)
 			&& ft_strlen(g_core_var->buff) > 0)
-		{
 			check_execute(&tokens, &stacks);
-			printf("exit %d\n", g_core_var->exit_code);
-		}
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);
 		free(g_core_var->buff);

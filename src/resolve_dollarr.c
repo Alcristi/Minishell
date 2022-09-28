@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_dollarr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/15 19:34:08 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:04:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*cat_name_var(char *str, int pos)
 	count = 0;
 	name_var = ft_calloc(sizeof(char *), ft_strlen(str));
 	while (count < ft_strlen(str))
-	{	
+	{
 		pos++;
 		if (valid_name_char(str[pos]))
 			name_var[count] = str[pos];
@@ -91,6 +91,13 @@ char	*resolve_dollar(char *str)
 	char	*name_var;
 	int		pos;
 
+	if (!ft_strncmp(str,"$?",2))
+	{
+		if (g_core_var->exit_code == 131)
+			return (ft_itoa(g_core_var->exit_code));
+		else
+			return (ft_itoa(WEXITSTATUS(g_core_var->exit_code)));
+	}
 	pos = catch_pos_dollar(str);
 	if (pos < 0)
 		return (NULL);

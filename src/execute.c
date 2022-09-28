@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 02:39:38 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:29:28 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 		parent(pid, stacks);
 }
 
-void	redirect_without_cmd(t_stacks *stacks,t_token *tokens)
+void	redirect_without_cmd(t_stacks *stacks, t_token *tokens)
 {
 	int	select;
 
@@ -124,10 +124,8 @@ void	redirect_without_cmd(t_stacks *stacks,t_token *tokens)
 			file_error(stacks->stack_out->str);
 		else
 			close(g_core_var->fd_out);
-
 	}
 }
-
 
 void	execute(t_stacks **stacks, t_token **tokens)
 {
@@ -148,5 +146,5 @@ void	execute(t_stacks **stacks, t_token **tokens)
 		}
 	}
 	else
-		redirect_without_cmd(stacks[0],tokens[0]);
+		redirect_without_cmd(stacks[0], tokens[0]);
 }

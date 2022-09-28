@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/26 21:46:54 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:28:17 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int	bt_cd(char *path)
 
 	if (path == NULL)
 	{
-		//printf();
 		return (0);
 	}
-		
 	result = 0;
 	result = chdir(path);
 	if (result == -1)

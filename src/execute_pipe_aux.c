@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 01:47:52 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:41:03 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,41 @@ static void	close_file_child(int *pid_child)
 	free(pid_child);
 }
 
+int	is_builtin_cmd(char *cmd)
+{
+	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+		return (1);
+	else if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+		return (1);
+	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+		return (1);
+	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+		return (1);
+	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+		return (1);
+	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+		return (1);
+	else
+		return (0);
+}
 void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	, int *pid_child, int count)
 {
 	char	**cmd;
-
+	int		exit_code;
 	close_file_child(pid_child);
 	cmd = build_cmd(stacks, tokens, count);
 	if (cmd)
 	{
-		execve(cmd[0], cmd, g_core_var->envp);
+		if(is_builtin_cmd(cmd[0]))
+		{
+			exit_code = execute_builtin(cmd);
+			free_double(cmd);
+			free_exec(stacks, tokens);
+			exit (exit_code);
+		}
+		else
+			execve(cmd[0], cmd, g_core_var->envp);
 		free_double(cmd);
 	}
 	free_exec(stacks, tokens);
