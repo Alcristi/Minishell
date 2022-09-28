@@ -6,11 +6,29 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/07 00:30:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:23:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static int	verify_name(char *name)
+{
+	int	count;
+
+	if (name == NULL)
+		return (1);
+	count = 0;
+	if (!ft_isalpha(name[count]))
+		return (1);
+	while (name[count] != '\0')
+	{
+		if (!ft_isalnum(name[count]))
+			return (1);
+		count++;
+	}
+	return (0);
+}
 
 static char	*catch_name(char *arg)
 {
@@ -25,7 +43,9 @@ static char	*catch_name(char *arg)
 		pos_equal++;
 	if (pos_equal >= ft_strlen(arg))
 		return (NULL);
-	name = malloc(sizeof(char) * pos_equal);
+	if (pos_equal == 0)
+		return (NULL);
+	name = malloc(sizeof(char) * pos_equal + 1);
 	while (count < pos_equal)
 	{
 		name[count] = arg[count];
@@ -35,6 +55,7 @@ static char	*catch_name(char *arg)
 	return (name);
 }
 
+/*
 static char	*catch_content(char *arg)
 {
 	char	*content;
@@ -54,7 +75,7 @@ static char	*catch_content(char *arg)
 	}
 	content[count] = '\0';
 	return (content);
-}
+}*/
 
 static void	print_vars(void)
 {
@@ -70,10 +91,30 @@ static void	print_vars(void)
 	}
 }
 
+int	localize_var(char *name_var, char *arg)
+{
+	t_double_list	*aux_env;
+
+	aux_env = g_core_var->env;
+	while (aux_env->previus != NULL)
+		aux_env = aux_env->previus;
+	while (aux_env != NULL)
+	{
+		if (search_var(name_var, aux_env->data))
+		{
+			free(aux_env->data);
+			aux_env->data = ft_strdup(arg);
+			return (1);
+		}
+		else
+			aux_env = aux_env->next;
+	}
+	return (0);
+}
+
 int	bt_export(char *arg)
 {
 	char	*name;
-	char	*content;
 
 	if (arg == NULL)
 	{
@@ -81,16 +122,17 @@ int	bt_export(char *arg)
 		return (0);
 	}
 	name = catch_name(arg);
-	if (name == NULL)
+	if (name == NULL || verify_name(name))
+	{
+		printf("`%s\': not a valid identifier\n", arg);
 		return (1);
-	content = catch_content(arg);
-	if (content == NULL)
+	}
+	if (localize_var(name, arg))
 	{
 		free(name);
-		return (1);
+		return (0);
 	}
 	add_node_last(&g_core_var->env, arg);
 	free(name);
-	free(content);
 	return (0);
 }

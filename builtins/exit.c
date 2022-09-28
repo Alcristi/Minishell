@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 23:30:03 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 22:44:43 by esilva-s         ###   ########.fr       */
+/*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
+/*   Updated: 2022/09/22 19:19:03 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	bt_pwd(void)
+int	bt_exit(char *nb)
 {
-	char	*path_current;
+	int	nb_exit;
 
-	path_current = NULL;
-	path_current = getcwd(NULL, 0);
-	printf("%s\n", path_current);
-	if (path_current != NULL)
-		free(path_current);
-	return (1);
+	nb_exit = 0;
+	rl_clear_history();
+	free_core();
+	if (nb != NULL)
+	{
+		nb_exit = ft_atoi(nb);
+		exit(nb_exit);
+		return (nb_exit);
+	}
+	exit(0);
+	return (0);
 }
