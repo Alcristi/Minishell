@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 00:50:18 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 02:39:21 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # include "./libft.h"
 
+# define INTERRUPT_WITHOUT_CMD 33280
+# define FILE_ERROR_WITHOUT_CMD 256
 # define CMD_NOT_FOUND 127
 # define PERMISSION_DENIED 126
 # define IS_DIRECTORY 126

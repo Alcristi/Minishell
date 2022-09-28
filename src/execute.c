@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 01:13:36 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 02:39:38 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,37 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 		parent(pid, stacks);
 }
 
+void	redirect_without_cmd(t_stacks *stacks,t_token *tokens)
+{
+	int	select;
+
+	select = 3;
+	if (stacks->stack_herodoc)
+	{
+		g_core_var->exit_code = here_doc(stacks, tokens, select);
+		if (g_core_var->exit_code != 0)
+			g_core_var->exit_code = INTERRUPT_WITHOUT_CMD ;
+	}
+	if (stacks->stack_input)
+	{
+		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		if (g_core_var->fd_in < 0)
+			file_error(stacks->stack_input->str);
+		else
+			close(g_core_var->fd_in);
+	}
+	if (stacks->stack_out)
+	{
+		open_out(stacks);
+		if (g_core_var->fd_out < 0)
+			file_error(stacks->stack_out->str);
+		else
+			close(g_core_var->fd_out);
+
+	}
+}
+
+
 void	execute(t_stacks **stacks, t_token **tokens)
 {
 	int	quantity_pipe;
@@ -116,4 +147,6 @@ void	execute(t_stacks **stacks, t_token **tokens)
 				exec_cmd(stacks[0], tokens[0]);
 		}
 	}
+	else
+		redirect_without_cmd(stacks[0],tokens[0]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 21:55:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/28 03:02:14 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int	main(int argc, char *argv[], char *env[])
 	prompt();
 	rl_clear_history();
 	free_core();
-	return (0);
+	exit (0);
 }

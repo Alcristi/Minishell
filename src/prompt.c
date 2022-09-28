@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 01:24:02 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 03:10:52 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static int	check_exit(char *buff)
 		return (1);
 	}
 	else if (!ft_strncmp(buff, "exit", ft_strlen("exit")))
+	{
+		ft_putstr_fd("exit\n", 1);
 		return (1);
+	}
 	return (0);
 }
 
@@ -81,19 +84,19 @@ void	prompt(void)
 
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, sig_handle);
 		str_prompt();
+		signal(SIGINT, sig_handle);
+		signal(SIGQUIT, SIG_IGN);
 		g_core_var->buff = readline(g_core_var->prompt.prompt);
 		add_history(g_core_var->buff);
-		convert_space_buff();
 		if (check_exit(g_core_var->buff))
 			break ;
-		else if (!check_print(g_core_var->buff, g_core_var->env)
+		convert_space_buff();
+		if (!check_print(g_core_var->buff, g_core_var->env)
 			&& ft_strlen(g_core_var->buff) > 0)
 		{
 			check_execute(&tokens, &stacks);
-			printf("exit %d\n", WEXITSTATUS(g_core_var->exit_code));
+			printf("exit %d\n", g_core_var->exit_code);
 		}
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);
