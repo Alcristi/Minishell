@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:50:57 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 02:56:39 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:55:39 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	file_error(char *str)
 	ft_putstr_fd(str, 2);
 	write(2, ": ", 2);
 	perror(NULL);
-	g_core_var->exit_code = FILE_ERROR_WITHOUT_CMD;
+	g_core_var->exit_code = EXIT_FAILURE;
 }
 
 void	open_out(t_stacks *stacks)

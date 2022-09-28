@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 11:23:01 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:50:36 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	*expansion_exit_code(void)
 		return (ft_itoa(g_core_var->exit_code));
 	else if (g_core_var->exit_code == 2)
 		return (ft_itoa(INTERRUPT_SIG_INT));
+	else if (g_core_var->exit_code == 1)
+		return (ft_itoa(EXIT_FAILURE));
 	else
 		return (ft_itoa(WEXITSTATUS(g_core_var->exit_code)));
 }
