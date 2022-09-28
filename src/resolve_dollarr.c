@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 11:04:36 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:23:01 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,16 @@ static char	*subst_dollar(char *str, char *var, int pos, int len_name)
 	return (result);
 }
 
+char	*expansion_exit_code(void)
+{
+	if (g_core_var->exit_code == 131)
+		return (ft_itoa(g_core_var->exit_code));
+	else if (g_core_var->exit_code == 2)
+		return (ft_itoa(INTERRUPT_SIG_INT));
+	else
+		return (ft_itoa(WEXITSTATUS(g_core_var->exit_code)));
+}
+
 char	*resolve_dollar(char *str)
 {
 	char	*result;
@@ -91,13 +101,8 @@ char	*resolve_dollar(char *str)
 	char	*name_var;
 	int		pos;
 
-	if (!ft_strncmp(str,"$?",2))
-	{
-		if (g_core_var->exit_code == 131)
-			return (ft_itoa(g_core_var->exit_code));
-		else
-			return (ft_itoa(WEXITSTATUS(g_core_var->exit_code)));
-	}
+	if (!ft_strncmp(str, "$?", 2))
+		return (expansion_exit_code());
 	pos = catch_pos_dollar(str);
 	if (pos < 0)
 		return (NULL);

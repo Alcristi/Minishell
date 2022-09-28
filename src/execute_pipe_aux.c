@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 10:41:03 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:18:46 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ int	is_builtin_cmd(char *cmd)
 	else
 		return (0);
 }
+
 void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	, int *pid_child, int count)
 {
 	char	**cmd;
 	int		exit_code;
+
 	close_file_child(pid_child);
 	cmd = build_cmd(stacks, tokens, count);
 	if (cmd)
 	{
-		if(is_builtin_cmd(cmd[0]))
+		if (is_builtin_cmd(cmd[0]))
 		{
 			exit_code = execute_builtin(cmd);
 			free_double(cmd);
