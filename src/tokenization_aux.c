@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 21:21:50 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:42:37 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void	classify_token(t_token *token)
 	int	size;
 
 	size = ft_strlen(token->str);
-	if (!ft_strncmp(token->str, "<<", size) && size == 2)
+	if (!ft_strncmp(token->str, "<<", size) && size == 2 && !token->quotes)
 		token->is_heredoc = TRUE;
-	else if (!ft_strncmp(token->str, ">>", size) && size == 2)
+	else if (!ft_strncmp(token->str, ">>", size) && size == 2 && !token->quotes)
 		token->is_out_append = TRUE;
-	else if (!ft_strncmp(token->str, "<", size))
+	else if (!ft_strncmp(token->str, "<", size) && !token->quotes)
 		token->is_input = TRUE;
-	else if (!ft_strncmp(token->str, ">", size))
+	else if (!ft_strncmp(token->str, ">", size) && !token->quotes)
 		token->is_output = TRUE;
-	else if (!ft_strncmp(token->str, "|", size))
+	else if (!ft_strncmp(token->str, "|", size) && !token->quotes)
 		token->is_pipe = TRUE;
 	else
 		classify_string(token, size);
@@ -61,14 +61,14 @@ void	classify_token(t_token *token)
 
 int	is_normalize(t_token *token, int size)
 {
-	if (((ft_strchr(token->str, '|')
-				|| (ft_strchr(token->str, '>')
-					&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
-				|| (ft_strchr(token->str, '<')
-					&& ft_strncmp(token->str, "<<", ft_strlen(token->str))))
-			&& size != 1 && !token->quotes)
-		|| ((ft_strnstr(token->str, "<<", size)
-				|| ft_strnstr(token->str, ">>", size)) && size != 2))
+	if (!token->quotes && (((ft_strchr(token->str, '|')
+					|| (ft_strchr(token->str, '>')
+						&& ft_strncmp(token->str, ">>", ft_strlen(token->str)))
+					|| (ft_strchr(token->str, '<')
+						&& ft_strncmp(token->str, "<<", ft_strlen(token->str))))
+				&& size != 1)
+			|| ((ft_strnstr(token->str, "<<", size)
+					|| ft_strnstr(token->str, ">>", size)) && size != 2)))
 	{
 		return (0);
 	}
