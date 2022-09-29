@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 22:03:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:21:46 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ char	**build_cmd(t_stacks **stack, t_token **tokens, int id)
 	t_stacks	*temp_stack;
 	char		**arg_cmd;
 	int			count_tokens;
-	int			count;
 
-	count = 0;
 	temp_stack = position_cmd(stack[0], id);
 	count_tokens = number_tokens(temp_stack);
 	if (is_builtin(temp_stack))

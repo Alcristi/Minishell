@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:30:37 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 18:53:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:22:28 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static int	search_var_bt(char *name_var, char *data)
 {
-	int	count;
-	int	correct;
+	size_t	count;
 
 	count = 0;
-	correct = 1;
 	if (name_var == NULL || data == NULL)
 		return (0);
 	if (ft_strlen(name_var) > ft_strlen(data))

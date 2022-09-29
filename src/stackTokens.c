@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 00:21:01 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:19:20 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	load_stacks(t_token **dst, t_token *data)
 {
 	t_token	*new_dst;
-	t_token	aux;
 	char	*str;
 
 	str = ft_strdup(data->str);

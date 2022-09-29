@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 18:45:06 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:24:08 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	exist_cmd(char *str, t_stacks **stacks, t_token **tokens)
 
 int	is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens)
 {
-	t_double_list	*aux_env;
 	char			**tmp_path;
 	int				count;
 	char			*tmp;
@@ -131,4 +130,5 @@ int	is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens)
 		if (exist_cmd(cmd->str, stacks, tokens))
 			return (TRUE);
 	}
+	return (TRUE);
 }

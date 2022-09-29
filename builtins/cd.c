@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 10:28:17 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:20:21 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	bt_cd(char *path)
 {
 	int		result;
-	char	*aux;
 
 	if (path == NULL)
 	{

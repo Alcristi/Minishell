@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 22:13:54 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:25:39 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	execute_builtin(char **cmd)
 	}
 	else if (!ft_strncmp(cmd[0], "exit", ft_strlen("exit")))
 		bt_exit(cmd);
+	return (0);
 }
 
 static int	validate_redirect_builtin(void)

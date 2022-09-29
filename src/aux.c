@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:15:03 by alcristi          #+#    #+#             */
-/*   Updated: 2022/07/22 14:13:07 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:18:33 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char	*ft_strnstr_token(char *str, char *to_find, size_t n)
 {
 	size_t	i;
 	size_t	j;
-	char	*s;
 
 	i = 0;
 	j = 0;

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/29 11:56:53 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:24:45 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	free_core(void)
 
 int	main(int argc, char *argv[], char *env[])
 {
+	(void)argc;
+	(void)argv;
 	init_core(env);
 	prompt();
 	rl_clear_history();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 20:23:57 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:23:11 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static int	verify_name(char *name)
 
 static char	*catch_name(char *arg)
 {
-	char	*name;
-	int		pos_equal;
-	int		count;
+	char		*name;
+	size_t		pos_equal;
+	size_t			count;
 
 	pos_equal = 0;
 	count = 0;

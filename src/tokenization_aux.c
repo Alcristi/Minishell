@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 18:00:24 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:19:55 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_cmd(t_token *token)
 	return (1);
 }
 
-static void	classify_string(t_token *token, int size)
+static void	classify_string(t_token *token)
 {
 	t_token	*aux;
 
@@ -56,7 +56,7 @@ void	classify_token(t_token *token)
 	else if (!ft_strncmp(token->str, "|", size) && !token->quotes)
 		token->is_pipe = TRUE;
 	else
-		classify_string(token, size);
+		classify_string(token);
 }
 
 int	is_normalize(t_token *token, int size)

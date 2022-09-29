@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 11:50:36 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:26:30 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int	catch_pos_dollar(char *str)
 
 static char	*cat_name_var(char *str, int pos)
 {
-	int		count;
-	char	*name_var;
+	size_t		count;
+	char		*name_var;
 
 	count = 0;
 	name_var = ft_calloc(sizeof(char *), ft_strlen(str));

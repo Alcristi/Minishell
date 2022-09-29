@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/27 23:40:10 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:26:48 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 {
 	int		fd_pp[2];
 	pid_t	pid_hd;
-	char	*line;
 	int		status;
 
 	if (pipe(fd_pp) == -1)
@@ -94,13 +93,13 @@ int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 		waitpid(pid_hd, &status, 0);
 		return (status);
 	}
+	return (0);
 }
 
 int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority, int *pid)
 {
 	int		fd_pp[2];
 	pid_t	pid_hd;
-	char	*line;
 	int		status;
 
 	if (pipe(fd_pp) == -1)
@@ -121,4 +120,5 @@ int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority, int *pid)
 		waitpid(pid_hd, &status, 0);
 		return (status);
 	}
+	return (0);
 }

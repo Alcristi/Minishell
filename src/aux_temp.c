@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_temp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 03:17:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/15 19:34:35 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:23:33 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	search_var(char *var, char *env)
 {
-	int	count;
-	int	index;
+	size_t		count;
+	size_t		index;
 
 	count = 0;
 	index = 0;
