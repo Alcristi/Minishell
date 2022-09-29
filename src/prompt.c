@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 11:05:59 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:07:51 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 static int	check_exit(char *buff)
 {
 	if (buff == NULL)
-	{
-		ft_putstr_fd("exit\n", 1);
-		return (1);
-	}
-	else if (!ft_strncmp(buff, "exit", ft_strlen("exit")))
 	{
 		ft_putstr_fd("exit\n", 1);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 12:16:43 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 22:13:54 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	execute_builtin(char **cmd)
 		bt_env();
 		return (0);
 	}
+	else if (!ft_strncmp(cmd[0], "exit", ft_strlen("exit")))
+		bt_exit(cmd);
 }
 
 static int	validate_redirect_builtin(void)
@@ -53,7 +55,6 @@ static int	validate_redirect_builtin(void)
 
 static void	close_file_builtin(void)
 {
-
 	close(g_core_var->fd_stdin);
 	if (g_core_var->fd_out != 0)
 	{
@@ -78,7 +79,8 @@ void	exec_here_builtin(t_stacks *stacks, t_token *tokens, int pid)
 	}
 }
 
-void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens, int *pid, int count)
+void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
+		, int *pid, int count)
 {
 	int	select;
 
@@ -107,13 +109,18 @@ void	exec_builtin(t_stacks *stacks, t_token *tokens)
 	pid = 0;
 	g_core_var->fd_stdout = dup(STDOUT_FILENO);
 	g_core_var->fd_stdin = dup(STDIN_FILENO);
-	exec_here_builtin(stacks,tokens,pid);
+	exec_here_builtin(stacks, tokens, pid);
 	handle_redirect_builtin(stacks, tokens, &pid, 0);
 	if (validate_redirect_builtin ())
 		return ;
 	cmd = build_cmd(&stacks, &tokens, 0);
 	if (g_core_var->fd_out != 0)
 		dup2(g_core_var->fd_out, STDOUT_FILENO);
+	else if (!ft_strncmp(cmd[0], "exit", ft_strlen("exit")))
+	{
+		free_token(&tokens);
+		free_stacks(&stacks);
+	}
 	g_core_var->exit_code = execute_builtin(cmd);
 	free_double(cmd);
 	close_file_builtin();

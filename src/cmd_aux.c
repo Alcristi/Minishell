@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 00:05:17 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 01:55:28 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 22:03:20 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ static t_stacks	*position_cmd(t_stacks *stack, int id)
 				break ;
 		}
 		temp_stack->stack_cmd = temp_stack->stack_cmd->next;
+		if (temp_stack->stack_cmd->previus)
+			free_two(&temp_stack->stack_cmd->previus->str,
+				&temp_stack->stack_cmd->previus);
 	}
 	return (temp_stack);
 }
@@ -52,9 +55,10 @@ static int	number_tokens(t_stacks *stack)
 
 //preciso diminuir linhas
 //funcao auxiliar da build_cmd que constroi o arg_cmd
-static void	free_two(char *str, t_token **cmd)
+void	free_two(char **str, t_token **cmd)
 {
-	free(str);
+	free(str[0]);
+	str[0] = NULL;
 	free(cmd[0]);
 	cmd[0] = NULL;
 }
@@ -70,18 +74,19 @@ void	arg_cmd_build(char **arg_cmd, int ct_tokens, t_stacks *stack)
 		count++;
 		if (!stack->stack_cmd->next)
 		{
-			free_two(stack->stack_cmd->str, &stack->stack_cmd);
+			free_two(&stack->stack_cmd->str, &stack->stack_cmd);
 			break ;
 		}
 		stack->stack_cmd = stack->stack_cmd->next;
 		if (stack->stack_cmd)
-			free_two(stack->stack_cmd->previus->str,
+			free_two(&stack->stack_cmd->previus->str,
 				&stack->stack_cmd->previus);
 	}
 	if (stack->stack_cmd && stack->stack_cmd->is_pipe)
 	{
 		stack->stack_cmd = stack->stack_cmd->next;
-		free_two(stack->stack_cmd->previus->str, &stack->stack_cmd->previus);
+		free_two(&stack->stack_cmd->previus->str,
+			&stack->stack_cmd->previus);
 	}
 	arg_cmd[count] = NULL;
 }

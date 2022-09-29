@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:22 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 11:18:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:10:19 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	is_builtin(t_stacks *cmd)
 	else if (!ft_strncmp(cmd->stack_cmd->str, "unset", ft_strlen("unset")))
 		return (1);
 	else if (!ft_strncmp(cmd->stack_cmd->str, "env", ft_strlen("env")))
+		return (1);
+	else if (!ft_strncmp(cmd->stack_cmd->str, "exit", ft_strlen("exit")))
 		return (1);
 	else
 		return (0);

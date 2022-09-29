@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 11:18:46 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 22:26:25 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,16 @@ int	is_builtin_cmd(char *cmd)
 		return (1);
 	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
 		return (1);
+	else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+		return (1);
 	else
 		return (0);
+}
+
+void	free_exit(t_stacks **stacks, t_token **tokens)
+{
+	free_stacks(stacks);
+	free_token(tokens);
 }
 
 void	exec_in_pipe(t_stacks **stacks, t_token **tokens
@@ -51,6 +59,8 @@ void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	{
 		if (is_builtin_cmd(cmd[0]))
 		{
+			if (!ft_strncmp(cmd[0], "exit", ft_strlen("exit")))
+				free_exit(stacks, tokens);
 			exit_code = execute_builtin(cmd);
 			free_double(cmd);
 			free_exec(stacks, tokens);

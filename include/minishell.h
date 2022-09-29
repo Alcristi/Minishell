@@ -6,14 +6,13 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 10:36:09 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 22:01:04 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -92,7 +91,6 @@ typedef struct s_core_var
 	t_prompt		prompt;
 	t_double_list	*env;
 	char			**envp;
-	int				confirm;
 	int				fd_stdin;
 	int				fd_stdout;
 	int				fd_in;
@@ -103,115 +101,87 @@ typedef struct s_core_var
 
 extern t_core_var	*g_core_var;
 
-void	free_core(void);
-
+void			free_two(char **str, t_token **cmd);
+void			free_core(void);
+void			free_list(t_double_list *head);
+void			free_token(t_token **head);
+void			free_stacks(t_stacks **stacks);
+void			free_dir(t_core_var *core);
+void			free_double(char **str);
+void			free_exec(t_stacks **stacks, t_token **tokens);
+void			sig_handle(int signum);
+void			handle(int i);
+void			handle_wait(int *pid);
+void			handle_redirect(t_stacks *stacks, t_token *tokens,
+					int *pid, int count);
+void			handle_redirect_pipe(t_stacks *stacks, t_token *tokens,
+					int *pid, int count);
+void			handle_pipe(int count, int quantity_cmd, int out_origin);
+void			handle_here(int i);
+void			handle_quit(int i);
+int				execute_builtin(char **cmd);
+void			execute(t_stacks **stacks, t_token **tokens);
+void			exec_with_pipe(t_stacks **stacks,
+					t_token **tokens, int quantity_cmd);
+void			exec_in_pipe(t_stacks **stacks, t_token **tokens,
+					int *pid_child, int count);
+void			exec_builtin(t_stacks *stacks, t_token *tokens);
+void			exec_here_doc(t_stacks *stacks, t_token *tokens,
+					int *pid, int count);
+void			exec_here_cmd(t_stacks *stacks, t_token *tokens, int pid);
+int				is_valid_input(t_token *cursor);
+int				is_valid_out(t_token *cursor);
+int				is_valid_heredoc(t_token *cursor);
+int				is_valid_out_append(t_token *cursor);
+int				is_valid_pipe(t_token *cursor);
+int				is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens);
+int				bt_pwd(void);
+int				bt_unset(char *name);
+int				bt_export(char *arg);
+void			bt_env(void);
+int				bt_echo(int nb, char **args);
+int				bt_cd(char *path);
+int				bt_exit(char **nb);
 t_double_list	*new(char *data);
-
-
-int	bt_pwd(void);
-int	bt_unset(char *name);
-int	bt_export(char *arg);
-void	bt_env(void);
-int	bt_echo(int nb, char **args);
-
-void	add_node_front(t_double_list **node, char *data);
-void	add_node_last(t_double_list **node, char *data);
-void	free_list(t_double_list *head);
-void	convert_space_buff(void);
-void	print_linked_list(t_double_list *node);
-
-int		bt_echo(int nb, char **args);
-void	bt_env(void);
-int		bt_export(char *arg);
-int		bt_pwd(void);
-int		bt_cd(char *path);
-int		bt_unset(char *name);
-t_token	*new_token(char *data);
-
-void	load_stacks(t_token **dst, t_token *data);
-void	add_node_last_token(t_token **node, char *data);
-void	add_node_middle_token(t_token **node, char *data);
-void	free_token(t_token **head);
-t_stacks	*build_stack(t_token *tokens);
-
-void	free_stacks(t_stacks **stacks);
-
-char	*clear_quotes(char *str);
-char	*ft_strchr_token(char *s, int c);
-char	*ft_strnstr_token(char *str, char *to_find, size_t n);
-void	classify_token(t_token *token);
-void	normalize_token(t_token *token);
-void	normalize_redirect(t_token *tokens);
-//char	*resolve_dollar(int *position);
-//char	*resolve_single_quotes(int *position);
-//char	*resolve_double_quotes(int *position);
-//void	normalize_quotes(void);
-t_token	*tokenization_cmd(t_token *tokens);
-
-int		is_valid_input(t_token *cursor);
-int		is_valid_out(t_token *cursor);
-int		is_valid_heredoc(t_token *cursor);
-int		is_valid_out_append(t_token *cursor);
-int		is_valid_pipe(t_token *cursor);
-int		parse_tkn(t_token *tokens);
-
-void	sig_handle(int signum);
-void	handle(int i);
-int		ft_get_dir(char *str);
-void	init_dir(t_prompt *prompt);
-void	free_dir(t_core_var *core);
-void	prompt(void);
-
-int		parse_tkn(t_token *tokens);
-int		is_valid_input(t_token *cursor);
-int		is_valid_out(t_token *cursor);
-int		is_valid_heredoc(t_token *cursor);
-int		is_valid_out_append(t_token *cursor);
-int		is_valid_pipe(t_token *cursor);
-
-void	free_double(char **str);
-
-char	*catch_var(char *name_var);
-char	*ft_strjoin_free1(char *s1, char const *s2, size_t size2);
-
-char	*resolve_single_quotes(char *str);
-char	*resolve_dollar(char *str);
-char	*resolve_double_quotes(char *str);
-int		resolve_string(t_token **tokens);
-void free_exec(t_stacks **stacks, t_token **tokens);
-void	open_file(t_stacks *stacks);
-char	**load_path(void);
-int		is_valid(t_token *cmd,t_stacks **stacks, t_token **tokens);
-char	**build_cmd(t_stacks **stack,t_token **tokens, int id);
-int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority,int *pid);
-int		here_doc(t_stacks *stacks, t_token *tokens,int is_priority);
-int		amount_pipe(t_stacks *stacks);
-int is_builtin(t_stacks *cmd);
-int	execute_builtin(char **cmd);
-//void	here_doc(t_stacks *stacks, t_token *tokens);
-//int		number_tokens(t_stacks *stack);
-void	execute(t_stacks **stacks, t_token **tokens);
-
-void	handle_wait(int *pid);
-void	copy_fd(int font, int dest);
-void	parent(int pid, t_stacks *stacks);
-
-int	select_stdin(t_token *tokens);
-void	file_error(char *str);
-void	open_out(t_stacks *stacks);
-void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count);
-void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
-	, int *pid, int count);
-
-void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd);
-void	exec_in_pipe(t_stacks **stacks, t_token **tokens
-	, int *pid_child, int count);
-void	handle_pipe(int count, int quantity_cmd, int out_origin);
-void	exec_builtin(t_stacks *stacks, t_token *tokens);
-void	exec_here_doc(t_stacks *stacks, t_token *tokens, int *pid, int count);
-void	handle_here(int i);
-void 	handle_quit(int i);
-
-char	*cat_var(char *env, int len_name_var);
-int		search_var(char *var, char *env);
+void			add_node_front(t_double_list **node, char *data);
+void			add_node_last(t_double_list **node, char *data);
+void			convert_space_buff(void);
+void			print_linked_list(t_double_list *node);
+t_token			*new_token(char *data);
+void			load_stacks(t_token **dst, t_token *data);
+void			add_node_last_token(t_token **node, char *data);
+void			add_node_middle_token(t_token **node, char *data);
+t_stacks		*build_stack(t_token *tokens);
+char			*clear_quotes(char *str);
+char			*ft_strchr_token(char *s, int c);
+char			*ft_strnstr_token(char *str, char *to_find, size_t n);
+void			classify_token(t_token *token);
+void			normalize_token(t_token *token);
+void			normalize_redirect(t_token *tokens);
+t_token			*tokenization_cmd(t_token *tokens);
+int				ft_get_dir(char *str);
+void			init_dir(t_prompt *prompt);
+void			prompt(void);
+int				parse_tkn(t_token *tokens);
+char			*catch_var(char *name_var);
+char			*ft_strjoin_free1(char *s1, char const *s2, size_t size2);
+char			*resolve_single_quotes(char *str);
+char			*resolve_dollar(char *str);
+char			*resolve_double_quotes(char *str);
+int				resolve_string(t_token **tokens);
+void			open_file(t_stacks *stacks);
+char			**load_path(void);
+char			**build_cmd(t_stacks **stack, t_token **tokens, int id);
+int				here_doc_pipe(t_stacks *stacks, t_token *tokens,
+					int is_priority, int *pid);
+int				here_doc(t_stacks *stacks, t_token *tokens, int is_priority);
+int				amount_pipe(t_stacks *stacks);
+int				is_builtin(t_stacks *cmd);
+void			copy_fd(int font, int dest);
+void			parent(int pid, t_stacks *stacks);
+int				select_stdin(t_token *tokens);
+void			file_error(char *str);
+void			open_out(t_stacks *stacks);
+char			*cat_var(char *env, int len_name_var);
+int				search_var(char *var, char *env);
 #endif /*MINISHELL_H*/

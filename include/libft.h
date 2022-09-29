@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:04:54 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/20 17:54:09 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/28 18:54:56 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
-typedef long unsigned int size_t;
+
 typedef struct s_list
 {
 	void			*content;
