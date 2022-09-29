@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:02 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 01:49:55 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:15:42 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ static void	next_cmd(t_token **cursor, t_stacks *stacks)
 		cursor[0] = cursor[0]->next;
 }
 
-static void	init_exec_pipe(t_token **cursor, t_stacks *stacks)
+static int	*init_exec_pipe(t_token **cursor, t_stacks *stacks,
+				int quantity_cmd, int *count)
 {
 	g_core_var->fd_stdout = dup(STDOUT_FILENO);
 	g_core_var->fd_stdin = dup(STDIN_FILENO);
 	cursor[0] = stacks->stack_cmd;
+	count = 0;
+	return (ft_calloc(sizeof(int), quantity_cmd * 2));
 }
 
 void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd)
@@ -62,22 +65,23 @@ void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd)
 	int		count;
 	int		*pid_child;
 	t_token	*cursor;
+	int		fd_pipe[2];
 
-	count = 0;
-	pid_child = ft_calloc(sizeof(int), quantity_cmd * 2);
-	init_exec_pipe(&cursor, stacks[0]);
+	pid_child = init_exec_pipe(&cursor, stacks[0], quantity_cmd, &count);
 	exec_here_doc(stacks[0], tokens[0], pid_child, count);
 	while (cursor)
 	{
-		handle_pipe(count, quantity_cmd, g_core_var->fd_stdout);
+		handle_pipe(count, quantity_cmd, fd_pipe);
 		pid_child[count] = fork();
+		validate_fork(pid_child[count]);
 		handle_redirect_pipe(stacks[0], tokens[0], pid_child, count);
 		validator_redirect_pipe(stacks[0], tokens[0], pid_child, count);
 		signal(SIGQUIT, handle_quit);
-		if (pid_child[count] == -1)
-			exit (EXIT_FAILURE);
 		if (pid_child[count] == 0)
+		{
+			close(fd_pipe[0]);
 			exec_in_pipe(stacks, tokens, pid_child, count);
+		}
 		else
 			next_cmd(&cursor, stacks[0]);
 		count++;

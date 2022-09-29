@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 22:01:04 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:16:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,16 @@ typedef struct s_core_var
 	char			*buff;
 	t_prompt		prompt;
 	t_double_list	*env;
-	char			**envp;
 	int				fd_stdin;
 	int				fd_stdout;
 	int				fd_in;
 	int				fd_out;
-	int				fd_pipe[2];
 	int				exit_code;
 }t_core_var;
 
 extern t_core_var	*g_core_var;
 
+char			**convert_env_for_string(void);
 void			free_two(char **str, t_token **cmd);
 void			free_core(void);
 void			free_list(t_double_list *head);
@@ -116,7 +115,7 @@ void			handle_redirect(t_stacks *stacks, t_token *tokens,
 					int *pid, int count);
 void			handle_redirect_pipe(t_stacks *stacks, t_token *tokens,
 					int *pid, int count);
-void			handle_pipe(int count, int quantity_cmd, int out_origin);
+void			handle_pipe(int count, int quantity_cmd, int *fd_pipe);
 void			handle_here(int i);
 void			handle_quit(int i);
 int				execute_builtin(char **cmd);
@@ -129,6 +128,9 @@ void			exec_builtin(t_stacks *stacks, t_token *tokens);
 void			exec_here_doc(t_stacks *stacks, t_token *tokens,
 					int *pid, int count);
 void			exec_here_cmd(t_stacks *stacks, t_token *tokens, int pid);
+void			exec_fail(t_stacks **stacks, t_token **tokens,
+					char **cmd, char **envp);
+void			validate_fork(int pid);
 int				is_valid_input(t_token *cursor);
 int				is_valid_out(t_token *cursor);
 int				is_valid_heredoc(t_token *cursor);

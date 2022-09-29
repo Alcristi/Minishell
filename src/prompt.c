@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 19:07:51 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:52:07 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,32 @@ static void	check_execute(t_token **tokens, t_stacks **stacks)
 		execute(stacks, tokens);
 		free_stacks(&stacks[0]);
 	}
+}
+
+char	**convert_env_for_string(void)
+{
+	t_double_list	*cursor;
+	int				count;
+	char			**envp;
+
+	count = 0;
+	cursor = g_core_var->env;
+	while (cursor)
+	{
+		cursor = cursor->next;
+		count++;
+	}
+	cursor = g_core_var->env;
+	envp = ft_calloc(sizeof(char *), count + 1);
+	count = 0;
+	while (cursor)
+	{
+		envp[count] = strdup(cursor->data);
+		cursor = cursor->next;
+		count++;
+	}
+	envp[count] = NULL;
+	return (envp);
 }
 
 void	prompt(void)

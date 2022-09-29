@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 02:16:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:14:53 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ void	system_error(int number_err, char *str)
 		free(error);
 		exit(CMD_NOT_FOUND);
 	}
+}
+
+void	validate_fork(int pid)
+{
+	if (pid == -1)
+		exit(EXIT_FAILURE);
 }
 
 void	error_message(char *str, char *message_error)

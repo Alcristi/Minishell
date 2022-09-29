@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 12:10:00 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:15:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 	char	**cmd;
 	pid_t	pid;
 	int		status;
+	char	**envp;
 
 	pid = fork();
 	exec_here_cmd(stacks, tokens, pid);
-	if (pid == -1)
-		exit(EXIT_FAILURE);
+	validate_fork(pid);
 	signal(SIGQUIT, handle_quit);
 	if (pid == 0)
 	{
@@ -89,10 +89,11 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 		if (g_core_var->fd_out != 0)
 			dup2(g_core_var->fd_out, STDOUT_FILENO);
 		if (cmd)
-			execve(cmd[0], cmd, g_core_var->envp);
-		perror(NULL);
-		free_exec(&stacks, &tokens);
-		exit(CMD_NOT_FOUND);
+		{
+			envp = convert_env_for_string();
+			execve(cmd[0], cmd, envp);
+		}
+		exec_fail(&stacks, &tokens, cmd, envp);
 	}
 	else
 		parent(pid, stacks);

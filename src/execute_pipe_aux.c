@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 22:26:25 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:05:57 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	close_file_child(int *pid_child)
 {
 	close(g_core_var->fd_stdin);
 	close(g_core_var->fd_stdout);
-	close(g_core_var->fd_pipe[0]);
-	close(g_core_var->fd_pipe[1]);
 	free(pid_child);
 }
 
@@ -47,11 +45,29 @@ void	free_exit(t_stacks **stacks, t_token **tokens)
 	free_token(tokens);
 }
 
+void	exit_builtin_in_pipe(char **cmd, t_stacks **stacks,
+			t_token **tokens, int exit_code)
+{
+	free_double(cmd);
+	free_exec(stacks, tokens);
+	exit (exit_code);
+}
+
+void	exec_fail(t_stacks **stacks, t_token **tokens, char **cmd, char **envp)
+{
+	free_double(envp);
+	free_double(cmd);
+	free_exec(stacks, tokens);
+	perror(NULL);
+	exit(CMD_NOT_FOUND);
+}
+
 void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	, int *pid_child, int count)
 {
 	char	**cmd;
 	int		exit_code;
+	char	**envp;
 
 	close_file_child(pid_child);
 	cmd = build_cmd(stacks, tokens, count);
@@ -62,39 +78,32 @@ void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 			if (!ft_strncmp(cmd[0], "exit", ft_strlen("exit")))
 				free_exit(stacks, tokens);
 			exit_code = execute_builtin(cmd);
-			free_double(cmd);
-			free_exec(stacks, tokens);
-			exit (exit_code);
+			exit_builtin_in_pipe(cmd, stacks, tokens, exit_code);
 		}
 		else
-			execve(cmd[0], cmd, g_core_var->envp);
-		free_double(cmd);
+		{
+			envp = convert_env_for_string();
+			execve(cmd[0], cmd, envp);
+		}
+		exec_fail(stacks, tokens, cmd, envp);
 	}
-	free_exec(stacks, tokens);
-	perror(NULL);
-	exit(CMD_NOT_FOUND);
 }
 
-void	handle_pipe(int count, int quantity_cmd, int out_origin)
+void	handle_pipe(int count, int quantity_cmd, int *fd_pipe)
 {
-	int	std_out;
-	int	origin_stdout;
-
-	origin_stdout = dup(out_origin);
 	if (count > 0)
-		copy_fd(g_core_var->fd_pipe[0], STDIN_FILENO);
+		copy_fd(fd_pipe[0], STDIN_FILENO);
 	if (count >= 0 && count != (quantity_cmd - 1))
 	{
-		if (pipe(g_core_var->fd_pipe) == -1)
+		if (pipe(fd_pipe) == -1)
 			exit(EXIT_FAILURE);
-		copy_fd(g_core_var->fd_pipe[1], STDOUT_FILENO);
+		copy_fd(fd_pipe[1], STDOUT_FILENO);
 	}
 	else if (count == quantity_cmd - 1)
 	{
-		close(g_core_var->fd_pipe[0]);
-		dup2(origin_stdout, STDOUT_FILENO);
+		close(fd_pipe[0]);
+		dup2(g_core_var->fd_stdout, STDOUT_FILENO);
 	}
-	close(origin_stdout);
 }
 
 void	exec_here_doc(t_stacks *stacks, t_token *tokens, int *pid, int count)

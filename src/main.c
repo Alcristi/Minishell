@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:55:21 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 20:01:41 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:56:53 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	init_core(char **env)
 	g_core_var->prompt.user = getenv("USER");
 	g_core_var->fd_in = 0;
 	g_core_var->fd_out = 0;
-	g_core_var->envp = env;
 	while (env[count])
 	{
 		if (count == 0)
