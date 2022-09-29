@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 14:14:53 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:45:06 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ int	is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens)
 		return (check_cmd(cmd->str, stacks[0], tokens[0]));
 	else
 	{
+		tmp_path = load_path(cmd->str, stacks, tokens);
 		tmp = ft_strjoin("/", cmd->str);
-		tmp_path = load_path();
 		free(cmd->str);
 		cmd->str = ft_strjoin(tmp_path[0], tmp);
 		while (access(cmd->str, F_OK) && tmp_path[count])

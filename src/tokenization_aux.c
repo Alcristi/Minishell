@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:49:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 11:42:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:00:24 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,34 +101,3 @@ void	normalize_token(t_token *token)
 	if (data)
 		free(data);
 }
-
-// void	normalize_redirect(t_token *tokens)
-// {
-// 	t_token	*cursor;
-// 	t_token	*tmp;
-// 	char	aux;
-
-// 	cursor = tokens;
-// 	while (cursor)
-// 	{
-// 		if ((cursor->str[0] == '<' &&
-// cursor->next && cursor->next->str[0] == '<')
-// 			|| (cursor->str[0] == '>'
-// && cursor->next && cursor->next->str[0] == '>'))
-// 		{
-// 			aux = cursor->str[0];
-// 			free(cursor->str);
-// 			if (aux == '<')
-// 				cursor->str = ft_strdup("<<");
-// 			else
-// 				cursor->str = ft_strdup(">>");
-// 			tmp = cursor->next;
-// 			cursor->next = tmp->next;
-// 			if (cursor->next)
-// 				cursor->next->previus = cursor;
-// 			free(tmp->str);
-// 			free(tmp);
-// 		}
-// 		cursor = cursor->next;
-// 	}
-// }

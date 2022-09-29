@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:30:37 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 10:27:47 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:53:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	remove_env(t_double_list **env)
 		previus->next = next;
 	if (next != NULL)
 		next->previus = previus;
+	free(env[0]->data);
 	free(env[0]);
 	return (0);
 }

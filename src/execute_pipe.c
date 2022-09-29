@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:02 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/29 14:15:42 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:02:59 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ static void	next_cmd(t_token **cursor, t_stacks *stacks)
 static int	*init_exec_pipe(t_token **cursor, t_stacks *stacks,
 				int quantity_cmd, int *count)
 {
+	int	*pid;
+
 	g_core_var->fd_stdout = dup(STDOUT_FILENO);
 	g_core_var->fd_stdin = dup(STDIN_FILENO);
 	cursor[0] = stacks->stack_cmd;
-	count = 0;
-	return (ft_calloc(sizeof(int), quantity_cmd * 2));
+	*count = 0;
+	pid = ft_calloc(sizeof(int), quantity_cmd * 2);
+	return (pid);
 }
 
 void	exec_with_pipe(t_stacks **stacks, t_token **tokens, int quantity_cmd)

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 14:16:31 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:45:58 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ char			*resolve_dollar(char *str);
 char			*resolve_double_quotes(char *str);
 int				resolve_string(t_token **tokens);
 void			open_file(t_stacks *stacks);
-char			**load_path(void);
+char			**load_path(char *cmd, t_stacks **stacks, t_token **tokens);
 char			**build_cmd(t_stacks **stack, t_token **tokens, int id);
 int				here_doc_pipe(t_stacks *stacks, t_token *tokens,
 					int is_priority, int *pid);
@@ -186,4 +186,5 @@ void			file_error(char *str);
 void			open_out(t_stacks *stacks);
 char			*cat_var(char *env, int len_name_var);
 int				search_var(char *var, char *env);
+int				check_cmd(char *str, t_stacks *stacks, t_token *tokens);
 #endif /*MINISHELL_H*/
