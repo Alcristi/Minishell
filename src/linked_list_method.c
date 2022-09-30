@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:04:06 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/02 21:55:04 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/30 02:59:18 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,21 @@ void	add_node_last(t_double_list **node, char *data)
 
 void	print_linked_list(t_double_list *node)
 {
+	t_double_list *aux;
+
+	aux = node;
+	while (aux->previus != NULL)
+		aux = aux->previus;
+	while (aux != NULL)
+	{
+		printf("item:%s\n", aux->data);
+		aux = aux->next;
+	}
+}
+
+/*
+void	print_linked_list(t_double_list *node)
+{
 	node = node->next;
 	while (node)
 	{
@@ -63,16 +78,21 @@ void	print_linked_list(t_double_list *node)
 	}
 	printf("\n");
 }
+*/
 
 void	free_list(t_double_list *head)
 {
 	t_double_list	*aux;
+	t_double_list	*temp;
 
-	while (head)
+	temp = head;
+	while (temp->previus != NULL)
+		temp = temp->previus;
+	while (temp != NULL)
 	{
-		aux = head->next;
-		free(head->data);
-		free(head);
-		head = aux;
+		aux = temp->next;
+		ft_strdel(&temp->data);
+		free(temp);
+		temp = aux;
 	}
 }
