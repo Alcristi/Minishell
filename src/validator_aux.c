@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 14:14:53 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:53:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,5 @@ int	is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens)
 		if (exist_cmd(cmd->str, stacks, tokens))
 			return (TRUE);
 	}
+	return (-1);//adicionei só para compilar
 }

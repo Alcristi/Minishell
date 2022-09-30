@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/27 23:40:10 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:45:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	here_doc(t_stacks *stacks, t_token *tokens, int is_priority)
 		waitpid(pid_hd, &status, 0);
 		return (status);
 	}
+	return (-1);//adicionei para compilar
 }
 
 int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority, int *pid)
@@ -121,4 +122,5 @@ int	here_doc_pipe(t_stacks *stacks, t_token *tokens, int is_priority, int *pid)
 		waitpid(pid_hd, &status, 0);
 		return (status);
 	}
+	return (-1);//adicionei para compilar
 }
