@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resolve_dollarr.c                                  :+:      :+:    :+:   */
+/*   resolve_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 19:26:30 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:23:56 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,6 @@ static char	*subst_dollar(char *str, char *var, int pos, int len_name)
 	if (len > 0)
 		result = ft_strjoin_free1(result, str + end_pos, len);
 	return (result);
-}
-
-char	*expansion_exit_code(void)
-{
-	if (g_core_var->exit_code == 131)
-		return (ft_itoa(g_core_var->exit_code));
-	else if (g_core_var->exit_code == 2)
-		return (ft_itoa(INTERRUPT_SIG_INT));
-	else if (g_core_var->exit_code == 1)
-		return (ft_itoa(EXIT_FAILURE));
-	else
-		return (ft_itoa(WEXITSTATUS(g_core_var->exit_code)));
 }
 
 char	*resolve_dollar(char *str)

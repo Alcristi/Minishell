@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 10:25:24 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:25:00 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 	free_token(&tokens);
 	free_core();
 	exit(0);
-}
-
-char	*mount_message_eof(char *s)
-{
-	char	*str;
-
-	str = ft_strdup("\nminishell: warning: heredoc ");
-	str = ft_strjoin_gnl(str, "delimited by EOF - wanted '");
-	str = ft_strjoin_gnl(str, s);
-	return (ft_strjoin_gnl(str, "'\n"));
 }
 
 static void	heredoc_child(int fd_pp[2], t_stacks *stacks

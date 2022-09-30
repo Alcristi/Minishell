@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 11:12:24 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:34:19 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,17 @@ void			open_out(t_stacks *stacks);
 char			*cat_var(char *env, int len_name_var);
 int				search_var(char *var, char *env);
 int				check_cmd(char *str, t_stacks *stacks, t_token *tokens);
-#endif /*MINISHELL_H*/
+char			*expansion_exit_code(void);
+char			*mount_message_eof(char *s);
+void			exec_here_builtin(t_stacks *stacks,
+					t_token *tokens, int pid);
+void			handle_redirect_builtin(t_stacks *stacks,
+					t_token *tokens, int *pid, int count);
+void			exit_builtin_in_pipe(char **cmd, t_stacks **stacks,
+					t_token **tokens, int exit_code);
+int				is_builtin_cmd(char *cmd);
+void			free_exit(t_stacks **stacks, t_token **tokens);
+void			error_message(char *str, char *message_error);
+void			system_error(int number_err, char *str);
+void			validate_fork(int pid);
+#endif

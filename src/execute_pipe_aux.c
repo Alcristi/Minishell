@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/29 14:05:57 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:31:21 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,6 @@ static void	close_file_child(int *pid_child)
 	close(g_core_var->fd_stdin);
 	close(g_core_var->fd_stdout);
 	free(pid_child);
-}
-
-int	is_builtin_cmd(char *cmd)
-{
-	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-		return (1);
-	else if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
-		return (1);
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
-		return (1);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
-		return (1);
-	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
-		return (1);
-	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
-		return (1);
-	else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
-		return (1);
-	else
-		return (0);
-}
-
-void	free_exit(t_stacks **stacks, t_token **tokens)
-{
-	free_stacks(stacks);
-	free_token(tokens);
-}
-
-void	exit_builtin_in_pipe(char **cmd, t_stacks **stacks,
-			t_token **tokens, int exit_code)
-{
-	free_double(cmd);
-	free_exec(stacks, tokens);
-	exit (exit_code);
 }
 
 void	exec_fail(t_stacks **stacks, t_token **tokens, char **cmd, char **envp)

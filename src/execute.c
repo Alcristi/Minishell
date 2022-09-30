@@ -6,48 +6,11 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 19:01:47 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:23:19 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-char	**load_path(char *cmd, t_stacks **stacks, t_token **tokens)
-{
-	t_double_list	*aux_env;
-	char			*path;
-	char			**cut_path;
-
-	aux_env = g_core_var->env;
-	path = NULL;
-	while (aux_env)
-	{
-		if (search_var("PATH", aux_env->data))
-		{
-			path = cat_var(aux_env->data, 4);
-			break ;
-		}
-		else
-			aux_env = aux_env->next;
-	}
-	if (!path)
-	{
-		check_cmd(cmd, stacks[0], tokens[0]);
-	}
-	cut_path = ft_split(path, ':');
-	free(path);
-	return (cut_path);
-}
-
-void	free_exec(t_stacks **stacks, t_token **tokens)
-{
-	free_stacks(stacks);
-	free_token(tokens);
-	free_core();
-	rl_clear_history();
-	stacks = NULL;
-	tokens = NULL;
-}
 
 void	validate_redirect(t_stacks *stacks, t_token *tokens)
 {

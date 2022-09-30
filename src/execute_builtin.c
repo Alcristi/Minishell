@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 10:24:56 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:21:34 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,6 @@ static void	close_file_builtin(void)
 	}
 	else
 		close(g_core_var->fd_stdout);
-}
-
-void	exec_here_builtin(t_stacks *stacks, t_token *tokens, int pid)
-{
-	int	select;
-
-	select = 0;
-	if (stacks->stack_herodoc && pid == 0)
-	{
-		g_core_var->exit_code = here_doc(stacks, tokens, select);
-		if (g_core_var->exit_code != 0)
-			g_core_var->exit_code = INTERRUPT_SIG_INT;
-	}
-}
-
-void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
-		, int *pid, int count)
-{
-	int	select;
-
-	select = select_stdin(tokens);
-	if (stacks->stack_input && select == 1 && pid[count] == 0)
-	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
-		if (g_core_var->fd_in < 0)
-			file_error(stacks->stack_input->str);
-		else
-			close(g_core_var->fd_in);
-	}
-	if (stacks->stack_out && pid[count] == 0)
-	{
-		open_out(stacks);
-		if (g_core_var->fd_out < 0)
-			file_error(stacks->stack_out->str);
-	}
 }
 
 void	exec_builtin(t_stacks *stacks, t_token *tokens)
