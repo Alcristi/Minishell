@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:13:28 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 15:10:13 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:12:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ static char	*init_vars(char *quotes, size_t *c_temp, size_t *index, size_t size)
 	return (temp);
 }
 
+char normasdddd(char *temp,t_double_list **aux,char *str, int	*ctemp)
+{
+	*c_temp = next_element(&temp, &aux[0], 0);
+	temp[0] = str[index];
+	return ('\'');
+}
+
 static void	cut_quotes(char *str, t_double_list **aux)
 {
 	char			*temp;
@@ -66,6 +73,7 @@ static void	cut_quotes(char *str, t_double_list **aux)
 			quotes = '\'';
 			c_temp = next_element(&temp, &aux[0], 0);
 			temp[0] = str[index];
+			normasdddd(temp,aux,str, &ctemp);
 		}
 		else if (str[index] == '\"' && quotes == '\"')
 		{
