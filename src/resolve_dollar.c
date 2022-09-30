@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 11:23:56 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:29:54 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,28 @@ static char	*cat_name_var(char *str, int pos)
 static char	*subst_dollar(char *str, char *var, int pos, int len_name)
 {
 	char	*result;
+	char	*aux;
 	int		end_pos;
 	int		len;
 
 	result = NULL;
+	if (var == NULL)
+		aux = strdup("");
+	else
+		aux = strdup(var);
 	if (pos != 0)
 	{
-		result = ft_calloc(sizeof(char *), pos + ft_strlen(var) + 1);
+		result = ft_calloc(sizeof(char *), pos + ft_strlen(aux) + 1);
 		ft_strlcpy(result, str, pos + 1);
-		result = ft_strjoin_free1(result, var, ft_strlen(var));
+		result = ft_strjoin_free1(result, aux, ft_strlen(aux));
 	}
 	else
-		result = ft_strdup(var);
+		result = ft_strdup(aux);
 	end_pos = pos + 1 + len_name;
 	len = ft_strlen(str) - end_pos;
 	if (len > 0)
 		result = ft_strjoin_free1(result, str + end_pos, len);
+	ft_strdel(&aux);
 	return (result);
 }
 
@@ -100,13 +106,8 @@ char	*resolve_dollar(char *str)
 	if (name_var == NULL)
 		return (NULL);
 	var = catch_var(name_var);
-	if (var == NULL)
-	{
-		free(name_var);
-		return (NULL);
-	}
 	result = subst_dollar(str, var, pos, ft_strlen(name_var));
-	free(name_var);
-	free(var);
+	ft_strdel(&name_var);
+	ft_strdel(&var);
 	return (result);
 }
