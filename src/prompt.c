@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/29 11:52:07 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:28:01 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@ static int	check_exit(char *buff)
 	if (buff == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);
-		return (1);
-	}
-	return (0);
-}
-
-static int	check_print(char *buff, t_double_list *env)
-{
-	if (!ft_strncmp(buff, "print", ft_strlen("print")))
-	{
-		print_linked_list(env);
 		return (1);
 	}
 	return (0);
@@ -113,8 +103,7 @@ void	prompt(void)
 		if (check_exit(g_core_var->buff))
 			break ;
 		convert_space_buff();
-		if (!check_print(g_core_var->buff, g_core_var->env)
-			&& ft_strlen(g_core_var->buff) > 0)
+		if (ft_strlen(g_core_var->buff) > 0)
 			check_execute(&tokens, &stacks);
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);

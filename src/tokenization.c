@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/14 03:30:50 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:54:31 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	convert_for_linked_list(char **str, t_token **tokens)
 {
 	int	count;
 	int	index;
+	int	size;
 
 	index = -1;
 	while (str[++index])
@@ -27,9 +28,12 @@ static void	convert_for_linked_list(char **str, t_token **tokens)
 				str[index][count] = 32;
 			count++;
 		}
-		if (index == 0)
+		size = ft_strlen(str[index]);
+		if (index == 0 && ft_strncmp(str[index], "''", size)
+			&& ft_strncmp(str[index], "\"\"", size))
 			tokens[0] = new_token(str[index]);
-		else
+		else if (ft_strncmp(str[index], "''", size)
+			&& ft_strncmp(str[index], "\"\"", size))
 			add_node_last_token(tokens, str[index]);
 	}
 }

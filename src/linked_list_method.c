@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_method.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:04:06 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 02:59:18 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:27:34 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	add_node_last(t_double_list **node, char *data)
 
 void	print_linked_list(t_double_list *node)
 {
-	t_double_list *aux;
+	t_double_list	*aux;
 
 	aux = node;
 	while (aux->previus != NULL)
@@ -66,19 +66,6 @@ void	print_linked_list(t_double_list *node)
 		aux = aux->next;
 	}
 }
-
-/*
-void	print_linked_list(t_double_list *node)
-{
-	node = node->next;
-	while (node)
-	{
-		printf("%s", node->data);
-		node = node->next;
-	}
-	printf("\n");
-}
-*/
 
 void	free_list(t_double_list *head)
 {
