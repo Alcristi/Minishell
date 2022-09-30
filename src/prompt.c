@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:05:41 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:12:24 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	str_prompt(void)
 	g_core_var->prompt.prompt = ft_strjoin(aux, BLUE);
 	free(aux);
 	aux = g_core_var->prompt.prompt;
-	g_core_var->prompt.prompt = ft_strjoin(aux, g_core_var->prompt.dir.path_current);
+	g_core_var->prompt.prompt = ft_strjoin(aux, g_core_var->prompt.dir.path);
 	free(aux);
 	aux = g_core_var->prompt.prompt;
 	g_core_var->prompt.prompt = ft_strjoin(aux, END);

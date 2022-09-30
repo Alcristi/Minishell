@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 18:45:58 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:12:24 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_double_list
 typedef struct s_dir
 {
 	char	*current;
-	char	*path_current;
+	char	*path;
 	int		size_path;
 	int		position;
 }	t_dir;
