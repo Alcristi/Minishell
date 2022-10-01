@@ -3,99 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 19:13:28 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 13:12:05 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/01 16:35:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	zerar(char **str, int size)
-{
-	int	count;
-
-	count = 0;
-	while (count < size)
-	{
-		str[0][count] = '\0';
-		count++;
-	}
-}
-
-static int	next_element(char **temp, t_double_list **aux, int nb)
-{
-	if (temp[0][0] != '\0')
-	{
-		add_node_last(&aux[0], temp[0]);
-		zerar(temp, ft_strlen(temp[0]));
-	}
-	return (nb);
-}
-
-static char	*init_vars(char *quotes, size_t *c_temp, size_t *index, size_t size)
-{
-	char	*temp;
-
-	*quotes = 'n';
-	*c_temp = 0;
-	*index = 0;
-	temp = ft_calloc(sizeof(char *), size + 1);
-	return (temp);
-}
-
-char normasdddd(char *temp,t_double_list **aux,char *str, int	*ctemp)
-{
-	*c_temp = next_element(&temp, &aux[0], 0);
-	temp[0] = str[index];
-	return ('\'');
-}
-
-static void	cut_quotes(char *str, t_double_list **aux)
-{
-	char			*temp;
-	size_t			index;
-	size_t			c_temp;
-	char			quotes;
-
-	temp = init_vars(&quotes, &c_temp, &index, ft_strlen(str) + 1);
-	while (index < ft_strlen(str))
-	{
-		if (str[index] == '\'' && quotes == '\'')
-		{
-			quotes = 'n';
-			temp[c_temp] = str[index];
-			c_temp = next_element(&temp, &aux[0], -1);
-		}
-		else if (str[index] == '\'' && quotes == 'n')
-		{
-			quotes = '\'';
-			c_temp = next_element(&temp, &aux[0], 0);
-			temp[0] = str[index];
-			normasdddd(temp,aux,str, &ctemp);
-		}
-		else if (str[index] == '\"' && quotes == '\"')
-		{
-			quotes = 'n';
-			temp[c_temp] = str[index];
-			c_temp = next_element(&temp, &aux[0], -1);
-		}
-		else if (str[index] == '\"' && quotes == 'n')
-		{
-			quotes = '\"';
-			c_temp = next_element(&temp, &aux[0], 0);
-			temp[0] = str[index];
-		}
-		else
-			temp[c_temp] = str[index];
-		c_temp++;
-		index++;
-	}
-	if (c_temp != 0)
-		add_node_last(&aux[0], temp);
-	ft_strdel(&temp);
-}
 
 static char	*resolve_sign(char *str, int size)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 11:34:19 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/01 16:38:59 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,14 @@ typedef struct s_core_var
 	int				exit_code;
 }t_core_var;
 
+typedef struct s_vars
+{
+	char			*temp;
+	char			quotes;
+	size_t			index;
+	size_t			c_temp;
+}	t_vars;
+
 extern t_core_var	*g_core_var;
 
 char			**convert_env_for_string(void);
@@ -148,6 +156,7 @@ t_double_list	*new(char *data);
 void			add_node_front(t_double_list **node, char *data);
 void			add_node_last(t_double_list **node, char *data);
 void			convert_space_buff(void);
+void			cut_quotes(char *str, t_double_list **aux);
 void			print_linked_list(t_double_list *node);
 t_token			*new_token(char *data);
 void			load_stacks(t_token **dst, t_token *data);
