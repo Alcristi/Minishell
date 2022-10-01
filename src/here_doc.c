@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:25:00 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/01 16:53:27 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	heredoc_child(int fd_pp[2], t_stacks *stacks
 			exit_child(stacks, tokens, line);
 		}
 		if (!ft_strncmp(line, stacks->stack_herodoc->str,
-				ft_strlen(stacks->stack_herodoc->str)))
+				ft_strlen(line) - 1))
 		{
 			close(fd_pp[1]);
 			exit_child(stacks, tokens, line);

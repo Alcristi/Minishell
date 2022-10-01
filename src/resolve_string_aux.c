@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_string_aux.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:35:19 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/01 16:39:42 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/01 15:25:22 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static t_vars	*init_and_destroy_vars(char c, int size, t_vars **vars)
 
 	if (c == 'i')
 	{
-		result = ft_calloc(sizeof(t_vars *), 2);
-		result->temp = ft_calloc(sizeof(char *), size + 1);
+		result = ft_calloc(sizeof(t_vars), 2);
+		result->temp = ft_calloc(sizeof(char), size + 1);
 		result->quotes = 'n';
 		result->index = 0;
 		result->c_temp = 0;
