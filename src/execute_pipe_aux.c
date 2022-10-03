@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe_aux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:57:04 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:31:21 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:33:14 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exec_in_pipe(t_stacks **stacks, t_token **tokens
 	int		exit_code;
 	char	**envp;
 
+	init_point(&cmd, &envp);
 	close_file_child(pid_child);
 	cmd = build_cmd(stacks, tokens, count);
 	if (cmd)

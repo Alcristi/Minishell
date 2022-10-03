@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 00:31:23 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 11:20:18 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:36:02 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,10 @@ void	handle_quit(int i)
 	(void)i;
 	ft_putstr_fd("Quit\n", 2);
 	return ;
+}
+
+void	init_point(char ***cmd, char ***envp)
+{
+	cmd[0] = NULL;
+	envp[0] = NULL;
 }

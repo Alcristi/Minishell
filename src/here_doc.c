@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:31:31 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/01 16:53:27 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:14:39 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	exit_child(t_stacks *stacks, t_token *tokens, char *line)
 {
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	free(line);
 	free_stacks(&stacks);
 	free_token(&tokens);

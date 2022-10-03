@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 11:23:19 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:34:35 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 	pid_t	pid;
 	char	**envp;
 
+	init_point(&cmd, &envp);
 	pid = fork();
 	exec_here_cmd(stacks, tokens, pid);
 	validate_fork(pid);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/03 15:29:54 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:33:52 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,4 +210,5 @@ void			error_message(char *str, char *message_error);
 void			system_error(int number_err, char *str);
 void			validate_fork(int pid);
 int				has_quotes(char *str);
+void 			init_point(char ***cmd, char ***envp);
 #endif
