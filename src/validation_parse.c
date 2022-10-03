@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 11:56:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:47:51 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 10:02:37 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ int	is_valid_pipe(t_token *cursor)
 {
 	if (!ft_strncmp("|", cursor->str, ft_strlen("|"))
 		&& (cursor->next == NULL || cursor->previus == NULL
-			|| cursor->next->str[0] == '<'
-			|| cursor->next->str[0] == '>' || cursor->next->str[0] == '|'))
+			|| cursor->next->str[0] == '|'))
 	{
 		printf("bash: syntax error near unexpected token `|'\n");
 		return (0);

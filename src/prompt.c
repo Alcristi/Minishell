@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/03 22:29:40 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:09:17 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ void	prompt(void)
 			break ;
 		quotes = convert_space_buff();
 		if (quotes != 'n')
-			printf("minishell: error, the (%s) must be closed\n", quotes);
+			printf("minishell: error, the (%c) must be closed\n", quotes);
 		if (ft_strlen(g_core_var->buff) > 0 && quotes == 'n')
 			check_execute(&tokens, &stacks);
-		if (ft_strlen(g_core_var->buff) > 0)
+		if (ft_strlen(g_core_var->buff) > 0 && quotes == 'n')
 			free_token(&tokens);
 		free(g_core_var->buff);
 		free(g_core_var->prompt.prompt);

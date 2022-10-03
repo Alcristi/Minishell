@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/03 22:25:36 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:29:54 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,4 +209,5 @@ void			free_exit(t_stacks **stacks, t_token **tokens);
 void			error_message(char *str, char *message_error);
 void			system_error(int number_err, char *str);
 void			validate_fork(int pid);
+int				has_quotes(char *str);
 #endif

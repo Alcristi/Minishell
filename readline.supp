@@ -7,7 +7,7 @@
    ...
 }
 {
-   <AddHistory>
+   <Readline/AddHistory>
    Memcheck:Leak
    match-leak-kinds: reachable
    ...

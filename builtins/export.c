@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/01 16:51:08 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 16:16:41 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,6 @@ static char	*catch_name(char *arg)
 	return (name);
 }
 
-/*
-static char	*catch_content(char *arg)
-{
-	char	*content;
-	int		count;
-	int		pos_equal;
-
-	content = NULL;
-	count = 0;
-	pos_equal = 0;
-	while (pos_equal < ft_strlen(arg) && arg[pos_equal] != '=')
-		pos_equal++;
-	content = malloc(sizeof(char) * ft_strlen(arg) - pos_equal);
-	while (count < ft_strlen(arg) - pos_equal - 1)
-	{
-		content[count] = arg[count + pos_equal + 1];
-		count++;
-	}
-	content[count] = '\0';
-	return (content);
-}*/
-
 static void	print_vars(void)
 {
 	t_double_list	*aux;
@@ -124,6 +102,8 @@ int	bt_export(char *arg)
 	name = catch_name(arg);
 	if (name == NULL || verify_name(name))
 	{
+		if (name)
+			free(name);
 		printf("`%s\': not a valid identifier\n", arg);
 		return (1);
 	}

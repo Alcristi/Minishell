@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 13:05:47 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:29:35 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static t_token	*build_tokens(void)
 	aux = tokens;
 	while (aux != NULL)
 	{
+		aux->quotes = has_quotes(aux->str);
 		resolve_string(&aux);
 		aux = aux->next;
 	}
