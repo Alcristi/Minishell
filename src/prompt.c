@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:22:16 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:12:24 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:29:40 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	prompt(void)
 {
 	t_token		*tokens;
 	t_stacks	*stacks;
+	char		quotes;
 
 	while (1)
 	{
@@ -102,8 +103,10 @@ void	prompt(void)
 		add_history(g_core_var->buff);
 		if (check_exit(g_core_var->buff))
 			break ;
-		convert_space_buff();
-		if (ft_strlen(g_core_var->buff) > 0)
+		quotes = convert_space_buff();
+		if (quotes != 'n')
+			printf("minishell: error, the (%s) must be closed\n", quotes);
+		if (ft_strlen(g_core_var->buff) > 0 && quotes == 'n')
 			check_execute(&tokens, &stacks);
 		if (ft_strlen(g_core_var->buff) > 0)
 			free_token(&tokens);
