@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 19:23:11 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/01 16:51:08 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	verify_name(char *name)
 
 static char	*catch_name(char *arg)
 {
-	char		*name;
-	size_t		pos_equal;
+	char			*name;
+	size_t			pos_equal;
 	size_t			count;
 
 	pos_equal = 0;
