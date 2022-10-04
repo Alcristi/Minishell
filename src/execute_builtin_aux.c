@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:21:40 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:30:11 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:32:55 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	exec_here_builtin(t_stacks *stacks, t_token *tokens, int pid)
 void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
 		, int *pid, int count)
 {
-	int	select;
-
+	int		select;
+	char	*out;
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
 	{
@@ -41,9 +41,9 @@ void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
 	}
 	if (stacks->stack_out && pid[count] == 0)
 	{
-		open_out(stacks);
+		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)
-			file_error(stacks->stack_out->str);
+			file_error(out);
 	}
 }
 

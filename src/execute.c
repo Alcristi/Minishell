@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/03 21:34:35 by coder            ###   ########.fr       */
+/*   Updated: 2022/10/04 19:30:35 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	validate_redirect(t_stacks *stacks, t_token *tokens)
 	int	code_exit;
 
 	if (g_core_var->exit_code == INTERRUPT_SIG_INT
-		|| g_core_var->exit_code == EXIT_FAILURE)
+		|| g_core_var->exit_code == EXIT_FAILURE
+		|| g_core_var->exit_code == PERMISSION_DENIED)
 	{
 		code_exit = g_core_var->exit_code;
 		free_exec(&stacks, &tokens);
@@ -69,7 +70,8 @@ void	exec_cmd(t_stacks *stacks, t_token *tokens)
 
 void	redirect_without_cmd(t_stacks *stacks, t_token *tokens)
 {
-	int	select;
+	int		select;
+	char	*out;
 
 	select = 3;
 	if (stacks->stack_herodoc)
@@ -88,9 +90,9 @@ void	redirect_without_cmd(t_stacks *stacks, t_token *tokens)
 	}
 	if (stacks->stack_out)
 	{
-		open_out(stacks);
+		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)
-			file_error(stacks->stack_out->str);
+			file_error(out);
 		else
 			close(g_core_var->fd_out);
 	}

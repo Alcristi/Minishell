@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/29 19:19:20 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:20:43 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_stacks	*build_stack(t_token *tokens)
 			load_stacks(&new->stack_input, cursor);
 		else if ((cursor->is_output || cursor->is_out_append)
 			&& cursor->str[0] != '>')
-			load_stacks(&new->stack_out, cursor);
+			load_stacks_last(&new->stack_out, cursor);
 		else if (cursor->is_heredoc && cursor->str[0] != '<')
 			load_stacks(&new->stack_herodoc, cursor);
 		else if (cursor->is_cmd || cursor->is_arg || cursor->is_pipe)

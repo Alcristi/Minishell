@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:51:01 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/30 11:33:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:07:18 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_cmd(char *str, t_stacks *stacks, t_token *tokens)
 
 	if (stat(str, &info_stat) != -1 && S_ISDIR(info_stat.st_mode))
 	{
-		error_message(str, ": is a directory\n");
+		error_message(str, ": Is a directory\n");
 		exit_cod(stacks, tokens, IS_DIRECTORY);
 	}
 	if (!access(str, F_OK))
@@ -39,7 +39,7 @@ int	check_cmd(char *str, t_stacks *stacks, t_token *tokens)
 	}
 	else
 	{
-		error_message(str, ": no such file or directory\n");
+		error_message(str, ": No such file or directory\n");
 		exit_cod(stacks, tokens, CMD_NOT_FOUND);
 	}
 	return (1);

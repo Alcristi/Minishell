@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:50:57 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/28 11:55:39 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:36:19 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,47 @@ int	select_stdin(t_token *tokens)
 
 void	file_error(char *str)
 {
-	write(2, "Minishell : ", 13);
-	ft_putstr_fd(str, 2);
-	write(2, ": ", 2);
-	perror(NULL);
-	g_core_var->exit_code = EXIT_FAILURE;
+	if (!access(str, F_OK))
+	{
+		if (access(str, X_OK))
+		{
+			error_message(str, ": Permission denied\n");
+			g_core_var->exit_code = EXIT_FAILURE;
+		}
+	}
+	else
+	{
+		error_message(str, ": No such file or directory\n");
+		g_core_var->exit_code = EXIT_FAILURE;
+	}
 }
 
-void	open_out(t_stacks *stacks)
+char*	open_out(t_stacks *stacks)
 {
-	if (stacks->stack_out->is_output)
-		g_core_var->fd_out = open(stacks->stack_out->str,
+	t_token *cursor;
+
+	cursor = stacks->stack_out;
+	while (cursor)
+	{
+		if (cursor->is_output)
+			g_core_var->fd_out = open(cursor->str,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
-		g_core_var->fd_out = open(stacks->stack_out->str,
+		else
+			g_core_var->fd_out = open(cursor->str,
 				O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (g_core_var->fd_out == -1)
+			return (cursor->str);
+		cursor = cursor->next;
+		if (cursor)
+			close (g_core_var->fd_out);
+	}
+	return (NULL);
 }
 
 void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count)
 {
-	int	select;
+	int		select;
+	char	*out;
 
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
@@ -63,9 +84,9 @@ void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count)
 	}
 	if (stacks->stack_out && pid[count] == 0)
 	{
-		open_out(stacks);
+		out = 	open_out(stacks);
 		if (g_core_var->fd_out < 0)
-			file_error(stacks->stack_out->str);
+			file_error(out);
 	}
 }
 
@@ -73,6 +94,7 @@ void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
 	, int *pid, int count)
 {
 	int	select;
+	char *out;
 
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0 && count == 0)
@@ -84,9 +106,10 @@ void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
 	}
 	if (stacks->stack_out && pid[count] == 0 && count == (amount_pipe(stacks)))
 	{
-		open_out(stacks);
+		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)
-			file_error(stacks->stack_out->str);
-		copy_fd(g_core_var->fd_out, STDOUT_FILENO);
+			file_error(out);
+		else
+			copy_fd(g_core_var->fd_out, STDOUT_FILENO);
 	}
 }

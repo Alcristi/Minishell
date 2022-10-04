@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/03 21:33:52 by coder            ###   ########.fr       */
+/*   Updated: 2022/10/04 19:33:29 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,10 @@ int				is_valid_pipe(t_token *cursor);
 int				is_valid(t_token *cmd, t_stacks **stacks, t_token **tokens);
 int				bt_pwd(void);
 int				bt_unset(char *name);
-int				bt_export(char *arg);
+int				bt_export(char **arg);
 void			bt_env(void);
 int				bt_echo(int nb, char **args);
-int				bt_cd(char *path);
+int				bt_cd(char **path);
 int				bt_exit(char **nb);
 t_double_list	*new(char *data);
 void			add_node_front(t_double_list **node, char *data);
@@ -192,7 +192,7 @@ void			copy_fd(int font, int dest);
 void			parent(int pid, t_stacks *stacks);
 int				select_stdin(t_token *tokens);
 void			file_error(char *str);
-void			open_out(t_stacks *stacks);
+char*			open_out(t_stacks *stacks);
 char			*cat_var(char *env, int len_name_var);
 int				search_var(char *var, char *env);
 int				check_cmd(char *str, t_stacks *stacks, t_token *tokens);
@@ -210,5 +210,6 @@ void			error_message(char *str, char *message_error);
 void			system_error(int number_err, char *str);
 void			validate_fork(int pid);
 int				has_quotes(char *str);
-void 			init_point(char ***cmd, char ***envp);
+void			init_point(char ***cmd, char ***envp);
+int				check_args(char **path);
 #endif

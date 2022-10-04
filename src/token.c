@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:25:47 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/03 15:29:37 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:49:23 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	has_quotes(char *str)
 	int	count;
 
 	count = -1;
+	if (str[0] == '>' || str[0] == '<' || str[0] == '|')
+		return (FALSE);
 	while (str[++count])
 		if (str[count] == '\'' || str[count] == '\"')
 			return (TRUE);

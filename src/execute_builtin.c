@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:01:05 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/30 11:21:34 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:00:51 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	execute_builtin(char **cmd)
 	if (!ft_strncmp(cmd[0], "echo", ft_strlen("echo")))
 		return (exec_echo(cmd));
 	else if (!ft_strncmp(cmd[0], "cd", ft_strlen("cd")))
-		return (bt_cd(cmd[1]));
+		return (bt_cd(cmd));
 	else if (!ft_strncmp(cmd[0], "pwd", ft_strlen("pwd")))
 		return (bt_pwd());
 	else if (!ft_strncmp(cmd[0], "export", ft_strlen("export")))
-		return (bt_export(cmd[1]));
+		return (bt_export(cmd));
 	else if (!ft_strncmp(cmd[0], "unset", ft_strlen("unset")))
 		return (bt_unset(cmd[1]));
 	else if (!ft_strncmp(cmd[0], "env", ft_strlen("env")))
@@ -49,7 +49,8 @@ int	execute_builtin(char **cmd)
 static int	validate_redirect_builtin(void)
 {
 	if (g_core_var->exit_code == INTERRUPT_SIG_INT
-		|| g_core_var->exit_code == EXIT_FAILURE)
+		|| g_core_var->exit_code == EXIT_FAILURE
+		|| g_core_var->exit_code == PERMISSION_DENIED)
 		return (1);
 	return (0);
 }
