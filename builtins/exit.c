@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 22:24:14 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:42:49 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@ int	bt_exit(char **nb)
 	close(g_core_var->fd_stdin);
 	close(g_core_var->fd_stdout);
 	free_core();
+	if (check_args(nb) > 2)
+	{
+		ft_putstr_fd(" too many arguments",2);
+		exit (1);
+	}
 	if (nb[1] != NULL)
 	{
-		while (nb[1][count] && ft_isdigit(nb[1][count]))
+		while (nb[1][count] && (ft_isdigit(nb[1][count]) || nb[1][0] == '+' || nb[1][0] == '-'))
 			count++;
 		if (nb[1][count] != '\0')
 			nb_exit = exit_error(nb[1]);

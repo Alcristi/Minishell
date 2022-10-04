@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 22:38:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/22 22:31:49 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:57:37 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	bt_echo(int nb, char **args)
 		if (!ft_strcmp(args[count], "-n"))
 			break_line = 0;
 		else
-			printf("%s ", args[count]);
+			printf("%s", args[count]);
 		count++;
+		if (count < nb)
+			printf(" ");
 	}
 	if (break_line == 1 || args == NULL)
 		printf("\n");

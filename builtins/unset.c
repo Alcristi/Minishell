@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:30:37 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/29 19:22:28 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:31:05 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	bt_unset(char *name)
 	t_double_list	*temp;
 
 	if (name == NULL)
-		return (1);
+		return (0);
 	temp = g_core_var->env;
 	while (temp->previus != NULL)
 		temp = temp->previus;
@@ -65,7 +65,7 @@ int	bt_unset(char *name)
 		if (search_var_bt(name, temp->data))
 		{
 			remove_env(&temp);
-			return (1);
+			return (0);
 		}
 		else
 			temp = temp->next;
