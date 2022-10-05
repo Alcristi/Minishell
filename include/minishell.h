@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/04 19:33:29 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:07:02 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,4 +212,5 @@ void			validate_fork(int pid);
 int				has_quotes(char *str);
 void			init_point(char ***cmd, char ***envp);
 int				check_args(char **path);
+char			*open_in(t_stacks *stacks);
 #endif

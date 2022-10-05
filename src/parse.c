@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 11:55:30 by alcristi          #+#    #+#             */
-/*   Updated: 2022/08/14 10:12:24 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:42:17 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ int	parse_tkn(t_token *tokens)
 		else
 			return (0);
 	}
-	return (1);
+	if (tokens)
+		return (1);
+	return (0);
 }

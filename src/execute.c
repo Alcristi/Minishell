@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 00:53:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/04 19:30:35 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:35:19 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ void	redirect_without_cmd(t_stacks *stacks, t_token *tokens)
 	}
 	if (stacks->stack_input)
 	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		out = open_in(stacks);
 		if (g_core_var->fd_in < 0)
-			file_error(stacks->stack_input->str);
+			file_error(out);
 		else
 			close(g_core_var->fd_in);
 	}
-	if (stacks->stack_out)
+	if (stacks->stack_out && g_core_var->fd_in >= 0)
 	{
 		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)

@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 10:52:42 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/04 19:20:43 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:08:16 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_stacks	*build_stack(t_token *tokens)
 	while (cursor)
 	{
 		if (cursor->is_input && cursor->str[0] != '<')
-			load_stacks(&new->stack_input, cursor);
+			load_stacks_last(&new->stack_input, cursor);
 		else if ((cursor->is_output || cursor->is_out_append)
 			&& cursor->str[0] != '>')
 			load_stacks_last(&new->stack_out, cursor);

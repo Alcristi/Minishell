@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 23:50:57 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/04 19:36:19 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:34:57 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	file_error(char *str)
 	}
 }
 
-char*	open_out(t_stacks *stacks)
+char	*open_out(t_stacks *stacks)
 {
 	t_token *cursor;
 
@@ -69,6 +69,23 @@ char*	open_out(t_stacks *stacks)
 	return (NULL);
 }
 
+char	*open_in(t_stacks *stacks)
+{
+	t_token *cursor;
+
+	cursor = stacks->stack_input;
+	while (cursor)
+	{
+		g_core_var->fd_in = open(cursor->str, O_RDONLY);
+		if (g_core_var->fd_in == -1)
+			return (cursor->str);
+		cursor = cursor->next;
+		if (cursor)
+			close (g_core_var->fd_in);
+	}
+	return (NULL);
+}
+
 void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count)
 {
 	int		select;
@@ -77,12 +94,13 @@ void	handle_redirect(t_stacks *stacks, t_token *tokens, int *pid, int count)
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
 	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		out = open_in(stacks);
 		if (g_core_var->fd_in < 0)
-			file_error(stacks->stack_input->str);
-		dup2(g_core_var->fd_in, STDIN_FILENO);
+			file_error(out);
+		else
+			dup2(g_core_var->fd_in, STDIN_FILENO);
 	}
-	if (stacks->stack_out && pid[count] == 0)
+	if (stacks->stack_out && pid[count] == 0 && g_core_var->fd_in >= 0)
 	{
 		out = 	open_out(stacks);
 		if (g_core_var->fd_out < 0)
@@ -99,12 +117,13 @@ void	handle_redirect_pipe(t_stacks *stacks, t_token *tokens
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0 && count == 0)
 	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		out = open_in(stacks);
 		if (g_core_var->fd_in < 0)
-			file_error(stacks->stack_input->str);
-		dup2(g_core_var->fd_in, STDIN_FILENO);
+			file_error(out);
+		else
+			dup2(g_core_var->fd_in, STDIN_FILENO);
 	}
-	if (stacks->stack_out && pid[count] == 0 && count == (amount_pipe(stacks)))
+	if (stacks->stack_out && pid[count] == 0 && count == (amount_pipe(stacks)) && g_core_var->fd_in >= 0)
 	{
 		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)

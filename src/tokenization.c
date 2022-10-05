@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/03 15:29:35 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:53:00 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,52 @@ static void	multiplex_fuction(t_token *tokens, int cicle)
 		classify_token(tokens);
 }
 
-void	delete_null_tokens(t_token *tokens)
+int	size_token(t_token *tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens)
+	{
+		count++;
+		tokens = tokens->next;
+	}
+	return (count);
+}
+
+void	delete_null_tokens(t_token **tokens)
 {
 	t_token	*aux_1;
 	t_token	*aux_2;
 
-	aux_1 = tokens;
+	aux_1 = tokens[0];
+	if (tokens[0]->str[0] == '\0' && size_token(tokens[0]) == 1)
+	{
+		free(tokens[0]->str);
+		tokens[0]->str = NULL;
+		free(tokens[0]);
+		tokens[0] = NULL;
+		return ;
+	}
 	while (aux_1)
 	{
 		aux_2 = NULL;
 		if (aux_1->str[0] == '\0')
-		{
-			aux_2 = aux_1->previus;
-			aux_2->next = aux_1->next;
+		{	if (aux_1->previus)
+				aux_2 = aux_1->previus;
+			else
+			{
+				aux_2 = aux_1->next;
+				aux_2->previus = NULL;
+				tokens[0] = aux_2;
+			}
+			if (aux_1->previus && aux_2)
+			{
+				aux_2->next = aux_1->next;
+				aux_2->next->previus = aux_2;
+			}
 			free(aux_1->str);
+			aux_1->str = NULL;
 			free(aux_1);
 			aux_1 = NULL;
 		}
@@ -97,10 +129,12 @@ t_token	*tokenization_cmd(t_token *tokens)
 
 	cicle = 0;
 	tokens = build_tokens();
-	aux = tokens;
 	if (!tokens)
 		return (NULL);
-	delete_null_tokens(tokens);
+	delete_null_tokens(&tokens);
+	if (!tokens)
+		return (NULL);
+	aux = tokens;
 	while (1)
 	{
 		multiplex_fuction(tokens, cicle);

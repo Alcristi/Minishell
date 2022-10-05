@@ -6,7 +6,7 @@
 /*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:21:40 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/04 19:32:55 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:35:38 by alcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
 	{
-		g_core_var->fd_in = open(stacks->stack_input->str, O_RDONLY);
+		out = open_in(stacks);
 		if (g_core_var->fd_in < 0)
-			file_error(stacks->stack_input->str);
+			file_error(out);
 		else
 			close(g_core_var->fd_in);
 	}
-	if (stacks->stack_out && pid[count] == 0)
+	if (stacks->stack_out && pid[count] == 0 && g_core_var->fd_in >= 0)
 	{
 		out = open_out(stacks);
 		if (g_core_var->fd_out < 0)
