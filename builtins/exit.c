@@ -6,13 +6,13 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/06 03:02:43 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:38:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	exit_error(char *nb)
+static int	exit_error(char *nb)
 {
 	char	*str;
 
@@ -32,47 +32,63 @@ static void	clear_aux(void)
 	free_core();
 }
 
-int check_argument(char *str)
+static int	is_zero(char *str)
 {
-	int count;
+	size_t	count;
 
 	count = 0;
-	if (str == NULL)
-		return (1);
+	while (str[count] != '\0' && count < ft_strlen(str))
+	{
+		if (str[count] != '0' && str[count] != '-' && str[count] != '+')
+			return (0);
+		count++;
+	}
+	return (1);
+}
+
+static long	check_argument(char *str)
+{
+	size_t		count;
+	long	exit_code;
+
+	count = 0;
 	while (count < ft_strlen(str))
 	{
 		if (ft_isdigit(str[count])
-			|| str[count] == '+' || str[count] == '-')
+			|| str[count] == '+' || str[count] == '-' || str[count] == '\0')
 			count++;
 		else
-			return (1);
+		{
+			exit_code = exit_error(str);
+			return (exit_code);
+		}
 	}
+	exit_code = ft_long_atoi(str);
+	if (exit_code == 0)
+	{
+		if (!is_zero(str))
+			exit_code = exit_error(str);
+	}
+	return (exit_code);
 }
 
 int	bt_exit(char **nb)
 {
-	int	nb_exit;
-	int	count;
+	long	nb_exit;
+	int		count;
 
 	count = 0;
 	nb_exit = 0;
 	printf("exit\n");
 	if (check_args(nb) > 2)
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		//exit (1);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	clear_aux();
 	if (nb[1] != NULL)
 	{
-		while (nb[1][count] && (ft_isdigit(nb[1][count])
-			|| nb[1][0] == '+' || nb[1][0] == '-'))
-			count++;
-		if (nb[1][count] != '\0')
-			nb_exit = exit_error(nb[1]);
-		else
-			nb_exit = ft_atoi(nb[1]);
+		nb_exit = check_argument(nb[1]);
 		free_double(nb);
 		exit(nb_exit);
 	}

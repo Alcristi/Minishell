@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:04:54 by alcristi          #+#    #+#             */
-/*   Updated: 2022/09/06 23:54:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:58:14 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *to_find, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
+long	ft_long_atoi(const char *str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
