@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 02:24:26 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/06 19:38:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:41:48 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	is_zero(char *str)
 
 static long	check_argument(char *str)
 {
-	size_t		count;
+	size_t	count;
 	long	exit_code;
 
 	count = 0;
