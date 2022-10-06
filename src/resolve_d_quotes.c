@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_d_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 01:13:04 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/09/28 10:02:15 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:08:29 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	valid_name_char(int c)
+int	valid_name_char(int c)
 {
 	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)
-		|| (c >= 48 && c <= 57) || c == 95)
+		|| (c >= 48 && c <= 57) || c == 95 || c == 63)
 		return (1);
 	return (0);
 }

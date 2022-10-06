@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 23:21:27 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/04 20:07:02 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:18:25 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void			exec_here_cmd(t_stacks *stacks, t_token *tokens, int pid);
 void			exec_fail(t_stacks **stacks, t_token **tokens,
 					char **cmd, char **envp);
 void			validate_fork(int pid);
+int				valid_name_char(int c);
 int				is_valid_input(t_token *cursor);
 int				is_valid_out(t_token *cursor);
 int				is_valid_heredoc(t_token *cursor);
@@ -192,7 +193,7 @@ void			copy_fd(int font, int dest);
 void			parent(int pid, t_stacks *stacks);
 int				select_stdin(t_token *tokens);
 void			file_error(char *str);
-char*			open_out(t_stacks *stacks);
+char			*open_out(t_stacks *stacks);
 char			*cat_var(char *env, int len_name_var);
 int				search_var(char *var, char *env);
 int				check_cmd(char *str, t_stacks *stacks, t_token *tokens);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 19:48:41 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/04 18:45:59 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:29:22 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static size_t	count_letters(char const *s, char c)
 		amount_of_letters++;
 	return (amount_of_letters);
 }
-
 
 char	**ft_split_first(char const *s, char c)
 {
@@ -38,7 +37,7 @@ char	**ft_split_first(char const *s, char c)
 	{
 		if (*s != c)
 		{
-			if(i == 0)
+			if (i == 0)
 			{
 				list[i] = ft_substr(s, 0, count_letters(s, c));
 				if (!list[i++])
@@ -52,7 +51,6 @@ char	**ft_split_first(char const *s, char c)
 					return (0);
 				s += count_letters(s, c);
 			}
-
 		}
 		else
 			s++;
@@ -60,7 +58,6 @@ char	**ft_split_first(char const *s, char c)
 	list[2] = NULL;
 	return (list);
 }
-
 
 static int	verify_name(char *name)
 {
@@ -115,8 +112,8 @@ static void	print_vars(void)
 		aux = aux->previus;
 	while (aux != NULL)
 	{
-		str = ft_split_first(aux->data,'=');
-		printf("declare -x %s=\"%s\"\n",str[0],str[1]);
+		str = ft_split_first(aux->data, '=');
+		printf("declare -x %s=\"%s\"\n", str[0], str[1]);
 		free_double(str);
 		str = NULL;
 		aux = aux->next;
@@ -144,8 +141,7 @@ int	localize_var(char *name_var, char *arg)
 	return (0);
 }
 
-
-int	check_names (char **str)
+int	check_names(char **str)
 {
 	int		count;
 	char	*error;
@@ -153,11 +149,13 @@ int	check_names (char **str)
 	count = 0;
 	while (str[count])
 	{
-		if (((!ft_strchr(str[count],'=')  && count == 1) || (ft_strchr(str[count],'=')  && count != 1)) && verify_name(str[count]) )
+		if (((!ft_strchr(str[count], '=') && count == 1)
+				|| (ft_strchr(str[count], '=') && count != 1))
+			&& verify_name(str[count]))
 		{
-			error = ft_strjoin("`",str[count]);
-			error = ft_strjoin_gnl(error,"': not a valid identifier");
-			ft_putstr_fd(error,2);
+			error = ft_strjoin("`", str[count]);
+			error = ft_strjoin_gnl(error, "': not a valid identifier");
+			ft_putstr_fd(error, 2);
 			free(error);
 			return (1);
 		}
@@ -178,16 +176,16 @@ int	bt_export(char **arg)
 	}
 	if (check_names(arg))
 		return (1);
-	if (!ft_strchr(arg[1],'='))
+	if (!ft_strchr(arg[1], '='))
 		return (0);
 	name = catch_name(arg[1]);
 	if (name == NULL || verify_name(name))
 	{
 		if (name)
 			free(name);
-		error = ft_strjoin("`",arg[1]);
-		error = ft_strjoin_gnl(error,"': not a valid identifier");
-		ft_putstr_fd(error,2);
+		error = ft_strjoin("`", arg[1]);
+		error = ft_strjoin_gnl(error, "': not a valid identifier");
+		ft_putstr_fd(error, 2);
 		free(error);
 		return (1);
 	}

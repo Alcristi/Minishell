@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:28:38 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/04 21:53:00 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:12:33 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	delete_null_tokens(t_token **tokens)
 	{
 		aux_2 = NULL;
 		if (aux_1->str[0] == '\0')
-		{	if (aux_1->previus)
+		{
+			if (aux_1->previus)
 				aux_2 = aux_1->previus;
 			else
 			{

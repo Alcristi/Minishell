@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:37:06 by esilva-s          #+#    #+#             */
-/*   Updated: 2022/10/04 17:14:18 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:09:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static int	valid_name_char(int c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)
-		|| (c >= 48 && c <= 57) || c == 95)
-		return (1);
-	return (0);
-}
 
 static int	catch_pos_dollar(char *str)
 {
@@ -42,6 +34,8 @@ static char	*cat_name_var(char *str, int pos)
 	char		*name_var;
 
 	count = 0;
+	if (str[pos + 1] == '?')
+		return (ft_strdup("?"));
 	name_var = ft_calloc(sizeof(char *), ft_strlen(str));
 	while (count < ft_strlen(str))
 	{
@@ -97,15 +91,16 @@ char	*resolve_dollar(char *str)
 	char	*name_var;
 	int		pos;
 
-	if (!ft_strncmp(str, "$?", 2))
-		return (expansion_exit_code());
 	pos = catch_pos_dollar(str);
 	if (pos < 0)
 		return (NULL);
 	name_var = cat_name_var(str, pos);
 	if (name_var == NULL)
 		return (NULL);
-	var = catch_var(name_var);
+	if (!ft_strncmp(name_var, "?", 1))
+		var = expansion_exit_code();
+	else
+		var = catch_var(name_var);
 	result = subst_dollar(str, var, pos, ft_strlen(name_var));
 	ft_strdel(&name_var);
 	ft_strdel(&var);

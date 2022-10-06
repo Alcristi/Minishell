@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin_aux.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcristi <alcrist@student.42sp.org.br>     +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 11:21:40 by alcristi          #+#    #+#             */
-/*   Updated: 2022/10/04 20:35:38 by alcristi         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:13:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	handle_redirect_builtin(t_stacks *stacks, t_token *tokens
 {
 	int		select;
 	char	*out;
+
 	select = select_stdin(tokens);
 	if (stacks->stack_input && select == 1 && pid[count] == 0)
 	{
